@@ -17,7 +17,7 @@
   </div>
 
   <div class="box-entregas">
-    <p class="box-title">Entregas Realizadas</p>
+    <p class="box-title">Entregas</p>
     <p class="box-number">12</p>
   </div>
 </div>
@@ -30,21 +30,21 @@
 .container {
   display: flex;
   flex-direction: column;
-  margin-top: 60px;
+  margin-top: 64px;
   margin-left: 50px;
 }
 
 .boxes {
   display: flex;
-  gap: 40px;
-  margin-top: 20px;
+  gap: 32px;
+  margin-top: 23px;
 }
 
 .box-pedidos-hoje {
   background-color: #F6C98E;
-  width: 160px;
-  height: 90px;
-  padding: 10px;
+  width: 128px;
+  height: 68px;
+  padding: 16px;
   border-radius: 16px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   font-weight: bold;
@@ -52,9 +52,9 @@
 
 .box-estoque-baixo {
   background-color: #8CC3A777;
-  width: 160px;
-  height: 90px;
-  padding: 10px;
+  width: 128px;
+  height: 68px;
+  padding: 16px;
   font-weight: bold;
   border-radius: 16px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -62,9 +62,9 @@
 
 .box-entregas {
   background-color: #EEA5A0;
-  width: 160px;
-  height: 90px;
-  padding: 10px;
+  width: 128px;
+  height: 68px;
+  padding: 16px;
   font-weight: bold;
   border-radius: 16px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -72,7 +72,7 @@
 
 .box-number {
   text-align: center;
-  margin-top: 10px;
+  margin-top: 2px;
   font-size: 20pt;
 }
 
