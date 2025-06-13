@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 
-const API = 'https://back-end-pi-j7rm.onrender.com/api/'
+const API = 'https://back-end-pi-j7rm.onrender.com/'
 
 export function useAuth() {
   const accessToken = ref(localStorage.getItem('access') || '')
