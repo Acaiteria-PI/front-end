@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import CoposProntos from '@/components/CoposProntos.vue';
+</script>
 
 <template>
   <div class="container">
@@ -23,11 +25,49 @@
     </div>
 
     <div class="container-2">
-      <div class="pedidos">pedidos</div>
-      <div class="estoque">estoque</div>
+      <div class="content-pedidos">
+        <p class="section-title">Pedidos Recentes</p>
+        <div class="pedidos">
+
+
+          <div class="list-pedidos">
+            <div class="numero-pedido">#007</div>
+            <div class="nome-pedido">Pedido normal</div>
+            <div class="preco-pedido">R$17,90</div>
+          </div>
+          <div class="list-pedidos">
+            <div class="numero-pedido">#006</div>
+            <div class="nome-pedido">Combo</div>
+            <div class="preco-pedido">R$17,90</div>
+          </div>
+          <div class="list-pedidos">
+            <div class="numero-pedido">#005</div>
+            <div class="nome-pedido">Pedido normal</div>
+            <div class="preco-pedido">R$17,90</div>
+          </div>
+          <div class="list-pedidos">
+            <div class="numero-pedido">#004</div>
+            <div class="nome-pedido">Combo</div>
+            <div class="preco-pedido">R$17,90</div>
+          </div>
+          <div class="list-pedidos">
+            <div class="numero-pedido">#003</div>
+            <div class="nome-pedido">Combo</div>
+            <div class="preco-pedido">R$17,90</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="content-estoque">
+        <p class="section-title">Estoque Baixo</p>
+        <div class="estoque"></div>
+      </div>
     </div>
   </div>
+  <CoposProntos />
 </template>
+
 
 <style scoped>
 .container {
@@ -103,11 +143,55 @@
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   width: 366px;
   height: 314px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  gap: 8px;
 }
 
 .estoque {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   width: 366px;
   height: 314px;
+  border-radius: 16px;
 }
+.list-pedidos {
+  background-color: #FBF3E5;
+  width: 334px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+
+}
+
+.section-title {
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.content-pedidos,
+.content-estoque {
+  display: flex;
+  flex-direction: column;
+}
+
+.numero-pedido {
+  font-weight: bold;
+  margin-left: 16px;
+}
+
+.nome-pedido {
+  margin-left: 14px;
+  width: 110px;
+}
+
+.preco-pedido {
+  margin-left: 32px;
+}
+
+
 </style>

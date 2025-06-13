@@ -31,26 +31,25 @@
   margin-bottom: 200px;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .list-card {
   display: flex;
-  justify-content: center;
+
   gap: 16px;
   margin-top: 25px;
   flex-wrap: wrap;
 }
 
 .title {
-  font-size: 17pt;
-  text-align: center;
+  font-size: 32px;
+
 }
 
 .title-combo {
-  font-size: 19pt;
+  font-size: 32px;
   margin-top: 64px;
-  text-align: center;
+
 }
 
 .card {
