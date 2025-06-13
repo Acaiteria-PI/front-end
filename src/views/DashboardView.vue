@@ -1,8 +1,10 @@
 <script setup>
 import CoposProntos from '@/components/CoposProntos.vue';
+import NavBar from '@/components/NavBar.vue'
 </script>
 
 <template>
+  <NavBar></NavBar>
   <div class="container">
     <div class="title">
       <h1 class="title-dashboard">Dashboard</h1>

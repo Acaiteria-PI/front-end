@@ -15,7 +15,8 @@
 
       <div class="nav-right">
         <i class="fas fa-shopping-bag"></i>
-        <button class="btn-login">LOGIN</button>
+        <RouterLink to="/Cadastro"><button class="btn-login">LOGIN</button></RouterLink>
+
       </div>
     </nav>
   </header>
