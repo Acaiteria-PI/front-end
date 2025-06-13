@@ -9,13 +9,14 @@
 
       <ul class="nav-menu">
         <li class="nav-item">Início</li>
-        <li class="nav-item">Menu de gerenciamento</li>
+        <router-link to="/Cadastro" class="link"> <li class="nav-item">Menu de gerenciamento</li></router-link>
+
         <li class="nav-item">Cardápio</li>
       </ul>
 
       <div class="nav-right">
         <i class="fas fa-shopping-bag"></i>
-        <RouterLink to="/Cadastro"><button class="btn-login">LOGIN</button></RouterLink>
+        <button class="btn-login">LOGIN</button>
 
       </div>
     </nav>
@@ -98,4 +99,11 @@ nav {
   font-size: 20px;
   cursor: pointer;
 }
+
+.link {
+  list-style: none;
+  text-decoration: none;
+  color: #000;
+}
+
 </style>
