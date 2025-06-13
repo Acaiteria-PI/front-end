@@ -1,4 +1,5 @@
 <script setup>
+import NavBar from '@/components/NavBar.vue'
 import CoposProntos from '@/components/CoposProntos.vue'
 import DashboardCard from '@/components/DashboardCard.vue'
 import RecentOrders from '@/components/RecentOrders.vue'
@@ -6,6 +7,7 @@ import StockGraph from '@/components/StockGraph.vue'
 </script>
 
 <template>
+  <NavBar></NavBar>
   <div class="container">
     <div class="title">
       <h1 class="title-dashboard">Dashboard</h1>
