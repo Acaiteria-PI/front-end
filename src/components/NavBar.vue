@@ -4,7 +4,7 @@
   <header>
     <nav>
       <div class="nav-left">
-        <img class="logo" src="/src/assets/img/Logo.png" alt="" />
+        <img class="logo" src="/src/assets/img/logo.png" alt="" />
       </div>
 
       <ul class="nav-menu">
