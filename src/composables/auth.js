@@ -1,15 +1,15 @@
 import { ref } from 'vue'
 import axios from 'axios'
 
-const API = 'https://back-end-pi-j7rm.onrender.com/api/'
+const API = 'https://back-end-pi-j7rm.onrender.com/'
 
 export function useAuth() {
   const accessToken = ref(localStorage.getItem('access') || '')
   const refreshToken = ref(localStorage.getItem('refresh') || '')
   const user = ref(null)
 
-  const login = async (username, password) => {
-    const res = await axios.post(`${API}token/`, { username, password })
+  const login = async (email, password) => {
+    const res = await axios.post(`${API}token/`, { email, password })
     accessToken.value = res.data.access
     refreshToken.value = res.data.refresh
 
