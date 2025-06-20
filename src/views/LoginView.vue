@@ -30,37 +30,5 @@ const handleLogin = async () => {
   </div>
 </template>
 <style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  height: 90vh;
-}
 
-.img {
-  width: 4rem;
-  height: 3.5rem;
-}
-
-input {
-  width: 20rem;
-  height: 3.75rem;
-  border-radius: 0.75rem;
-  border: 1px solid black;
-}
-
-input::placeholder {
-  padding: 0 1rem;
-}
-
-button {
-  width: 20rem;
-  height: 3.75rem;
-  border-radius: 0.75rem;
-  background-color: #682c48;
-  border: none;
-  color: white;
-}
 </style>
