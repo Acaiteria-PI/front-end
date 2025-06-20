@@ -26,6 +26,7 @@ const handleLogin = async () => {
       <input v-model="password" type="password" placeholder="Senha" />
       <button type="submit">Logar</button>
     </form>
+    <div class="w-100 bg-red-50">AAAA</div>
   </div>
 </template>
 <style scoped>
