@@ -1,62 +1,53 @@
-<script setup></script>
+<script setup>
+const finalCups = [
+  {
+    id: 1,
+  },
+  {
+    id: 2,
+  },
+  {
+    id: 3,
+  },
+  {
+    id: 4,
+  },
+  {
+    id: 5,
+  },
+]
+
+const combos = [
+  {
+    id: 1,
+  },
+  {
+    id: 2,
+  },
+  {
+    id: 3,
+  },
+  {
+    id: 4,
+  },
+  {
+    id: 5,
+  },
+]
+</script>
 
 <template>
-  <div class="container">
-    <div class="title">
-      <h1 class="title">Copos pronto</h1>
+  <div class="mt-16 flex flex-col">
+    <h1 class="text-3xl">Copos prontos</h1>
+    <div class="flex flex-wrap justify-between mt-6">
+      <div class="bg-neutral-300 w-50 h-60 rounded-2xl" v-for="cup in finalCups" :key="cup.id"></div>
     </div>
-    <div class="list-card">
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-    </div>
-        <div class="title">
-      <h1 class="title-combo">Combos</h1>
-    </div>
-    <div class="list-card">
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
+    <h1 class="text-3xl mt-16">Combos</h1>
+    <div class="flex flex-wrap justify-between mt-6">
+      <div class="bg-neutral-300 w-50 h-60 rounded-2xl" v-for="combo in combos" :key="combo.id"></div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.container {
-  margin-top: 64px;
-  margin-bottom: 200px;
-  display: flex;
-  flex-direction: column;
-}
-
-.list-card {
-  display: flex;
-
-  gap: 16px;
-  margin-top: 25px;
-  flex-wrap: wrap;
-}
-
-.title {
-  font-size: 32px;
-
-}
-
-.title-combo {
-  font-size: 32px;
-  margin-top: 64px;
-
-}
-
-.card {
-  background-color: #d9d9d9;
-  width: 200px;
-  height: 250px;
-  border-radius: 16px;
-}
-
 </style>

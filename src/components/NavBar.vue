@@ -3,7 +3,7 @@ import { ShoppingBag } from 'lucide-vue-next'
 </script>
 
 <template>
-  <main class="w-full h-20 flex items-center justify-between px-12 bg-amber-50">
+  <main class="w-full h-18 flex items-center justify-between px-12 bg-amber-50 border-b-1 border-neutral-200">
     <div class="image-container w-16 cursor-pointer">
       <img src="../assets/img/logo.png" alt="" />
     </div>

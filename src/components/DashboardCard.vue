@@ -3,25 +3,13 @@ defineProps(['title', 'quantity', 'colorClass'])
 </script>
 
 <template>
-  <div class="card" :class="colorClass">
-    <p class="card-title">{{ title }}</p>
-    <p class="card-number">24</p>
+  <div class="w-40 h-25 flex flex-col justify-start items-center font-bold rounded-2xl shadow-sm" :class="colorClass">
+    <p class="pt-4">{{ title }}</p>
+    <p class="text-center mt-1 text-3xl">24</p>
   </div>
 </template>
 
 <style scoped>
-.card {
-  background-color: #f6c98e;
-  width: 160px;
-  height: 100px;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
-  font-weight: bold;
-  border-radius: 1rem;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
 .orange {
   background-color: #f6c98e;
 }
@@ -30,13 +18,5 @@ defineProps(['title', 'quantity', 'colorClass'])
 }
 .red {
   background-color: #EEA5A0;
-}
-.card-title {
-  padding-top: 1rem;
-}
-.card-number {
-  text-align: center;
-  margin-top: 2px;
-  font-size: 20pt;
 }
 </style>
