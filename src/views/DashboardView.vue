@@ -7,7 +7,6 @@ import StockGraph from '@/components/StockGraph.vue'
 </script>
 
 <template>
-  <NavBar></NavBar>
   <div class="flex flex-col mx-auto my-16 px-40 w-full h-fit">
     <div class="title">
       <h1 class="text-3xl font-semibold">Dashboard</h1>
