@@ -1,9 +1,9 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
-import CoposProntos from '@/components/CoposProntos.vue'
-import DashboardCard from '@/components/DashboardCard.vue'
-import RecentOrders from '@/components/RecentOrders.vue'
-import StockGraph from '@/components/StockGraph.vue'
+import CoposProntos from '@/components/dashboard/CoposProntos.vue'
+import DashboardCard from '@/components/dashboard/DashboardCard.vue'
+import RecentOrders from '@/components/dashboard/RecentOrders.vue'
+import StockGraph from '@/components/dashboard/StockGraph.vue'
 </script>
 
 <template>
