@@ -16,7 +16,14 @@ const router = createRouter({
     {
       path: '/management-menu',
       name: 'management-menu',
-      component: () => import('@/views/ManagementMenu.vue')
+      component: () => import('@/views/ManagementMenu.vue'),
+      children: [
+        {
+          path: 'stock',
+          name: 'stock',
+          component: () => import('@/views/Stock.vue'),
+        },
+      ],
     },
   ],
 })
