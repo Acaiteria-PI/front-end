@@ -1,6 +1,7 @@
 <script setup>
-defineProps(['headers', 'products'])
 import { PencilLine, Trash } from 'lucide-vue-next'
+
+defineProps(['headers', 'products'])
 </script>
 
 <template>

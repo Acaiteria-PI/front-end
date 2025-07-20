@@ -1,8 +1,16 @@
 <script setup>
+import { onMounted } from 'vue'
 import ProductsTable from '@/components/management-menu/ProductsTable.vue'
 import SearchBar from '@/components/management-menu/SearchBar.vue'
 import SectionTitle from '@/components/management-menu/SectionTitle.vue'
 import NewProductBtn from '@/components/management-menu/NewProductBtn.vue'
+import { useIngredient } from '@/composables/useIngredient'
+
+const { fetchIngredients } = useIngredient()
+
+onMounted(() => {
+  fetchIngredients()
+})
 
 const headers = [
   { name: 'Nome do produto', value: 'name' },
@@ -10,33 +18,6 @@ const headers = [
   { name: 'Unidade', value: 'unit' },
   { name: 'Lote', value: 'batch' },
   { name: 'Validade', value: 'expiryDate' },
-]
-
-const products = [
-  {
-    id: 1,
-    name: 'Produto A',
-    quantity: 100,
-    unit: 'Unidade 1',
-    batch: 'Lote 123',
-    expiryDate: '2025-12-31',
-  },
-  {
-    id: 2,
-    name: 'Produto B',
-    quantity: 50,
-    unit: 'Unidade 2',
-    batch: 'Lote 456',
-    expiryDate: '2026-01-15',
-  },
-  {
-    id: 3,
-    name: 'Produto C',
-    quantity: 200,
-    unit: 'Unidade 3',
-    batch: 'Lote 789',
-    expiryDate: '2024-11-30',
-  },
 ]
 </script>
 
