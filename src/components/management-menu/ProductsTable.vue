@@ -20,7 +20,6 @@ import { PencilLine, Trash } from 'lucide-vue-next'
     <tbody>
       <tr v-for="product in products" :key="product.id" class="border-t border-neutral-300">
         <td class="p-2 border-t border-neutral-300">{{ product.name }}</td>
-        <td class="p-2 border-t border-neutral-300">{{ product.category }}</td>
         <td class="p-2 border-t border-neutral-300">{{ product.quantity }}</td>
         <td class="p-2 border-t border-neutral-300">{{ product.unit }}</td>
         <td class="p-2 border-t border-neutral-300">{{ product.batch }}</td>

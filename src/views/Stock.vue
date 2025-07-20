@@ -6,7 +6,6 @@ import NewProductBtn from '@/components/management-menu/NewProductBtn.vue'
 
 const headers = [
   { name: 'Nome do produto', value: 'name' },
-  { name: 'Categoria', value: 'category' },
   { name: 'Quantidade', value: 'quantity' },
   { name: 'Unidade', value: 'unit' },
   { name: 'Lote', value: 'batch' },
@@ -17,7 +16,6 @@ const products = [
   {
     id: 1,
     name: 'Produto A',
-    category: 'Categoria 1',
     quantity: 100,
     unit: 'Unidade 1',
     batch: 'Lote 123',
@@ -26,7 +24,6 @@ const products = [
   {
     id: 2,
     name: 'Produto B',
-    category: 'Categoria 2',
     quantity: 50,
     unit: 'Unidade 2',
     batch: 'Lote 456',
@@ -35,7 +32,6 @@ const products = [
   {
     id: 3,
     name: 'Produto C',
-    category: 'Categoria 3',
     quantity: 200,
     unit: 'Unidade 3',
     batch: 'Lote 789',
