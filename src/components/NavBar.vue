@@ -10,7 +10,7 @@ import { ShoppingBag } from 'lucide-vue-next'
     <ul class="nav flex gap-10">
       <li class="hover:underline"><router-link to="/">Início</router-link></li>
       <li class="hover:underline">
-        <router-link to="management-menu">Menu de gerenciamento</router-link>
+        <router-link to="/management-menu">Menu de gerenciamento</router-link>
       </li>
       <li class="hover:underline"><router-link to="">Cardápio</router-link></li>
     </ul>

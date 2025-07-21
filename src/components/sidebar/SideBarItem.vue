@@ -12,7 +12,7 @@ defineEmits(['enterTab'])
   >
     <div v-if="route == currentTab" class="identifier w-1.5 h-8 bg-pink-900 rounded-lg"></div>
     <component :is="icon" :size="20" />
-    <router-link to="">{{ name }}</router-link>
+    <a>{{ name }}</a>
   </li>
 </template>
 
