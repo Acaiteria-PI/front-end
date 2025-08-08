@@ -10,9 +10,9 @@ import { ShoppingBag } from 'lucide-vue-next'
     <ul class="nav flex gap-10">
       <li class="hover:underline"><router-link to="/">Início</router-link></li>
       <li class="hover:underline">
-        <router-link to="menu-de-gerenciamento">Menu de gerenciamento</router-link>
+        <router-link to="/management-menu">Menu de gerenciamento</router-link>
       </li>
-      <li class="hover:underline"><router-link to="cardapio">Cardápio</router-link></li>
+      <li class="hover:underline"><router-link to="">Cardápio</router-link></li>
     </ul>
     <div class="login-bag-wrapper flex items-center gap-8">
       <div class="cursor-pointer rounded-full hover:bg-zinc-200 transition delay-150ms ease-in-out">
