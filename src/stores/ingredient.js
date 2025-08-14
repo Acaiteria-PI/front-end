@@ -9,7 +9,7 @@ export const useIngredientStore = defineStore('ingredient', () => {
 
   const fetchIngredients = async () => {
     const data = await ingredientApi.fetchIngredients()
-    ingredients.value = data.results
+    ingredients.value = data.results ?? data
   }
 
   return {
