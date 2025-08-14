@@ -10,7 +10,7 @@ const handleLogin = async () => {
   try {
     await login(email.value, password.value)
     alert('Login successful!')
-  } catch (error) {
+  } catch (err) {
     alert('Login failed: ')
   }
 }

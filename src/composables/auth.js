@@ -7,16 +7,25 @@ export function useAuth() {
   const accessToken = ref(localStorage.getItem('access') || '')
   const refreshToken = ref(localStorage.getItem('refresh') || '')
   const user = ref(null)
+  const firstLetter = ref(null)
+
+  const findFirstLetter = (user) => {
+    firstLetter.value = user.name.substr(0,1)
+  }
 
   const login = async (email, password) => {
-    const res = await axios.post(`${API}token/`, { email, password })
-    accessToken.value = res.data.access
-    refreshToken.value = res.data.refresh
+    try {
+      const res = await axios.post(`${API}token/`, { email, password })
+      accessToken.value = res.data.access
+      refreshToken.value = res.data.refresh
 
-    localStorage.setItem('access', accessToken.value)
-    localStorage.setItem('refresh', refreshToken.value)
-
-    await fetchUser()
+      localStorage.setItem('access', accessToken.value)
+      localStorage.setItem('refresh', refreshToken.value)
+      await fetchUser()
+    } catch (err) {
+      console.log('Login error: ', err.response?.data || err.message)
+      throw err
+    }
   }
 
   const fetchUser = async () => {
@@ -27,6 +36,7 @@ export function useAuth() {
     })
 
     user.value = res.data[0]
+    findFirstLetter()
   }
 
   const logout = () => {
