@@ -13,8 +13,14 @@ import CardsProduct from '@/components/management-menu/products-section/CardsPro
       <SearchBar /> <NewProductBtn />
     </section>
 
-    <CardsProduct />
-
+    <div class="flex flex-row gap-[24px] mt-4">
+      <CardsProduct />
+      <CardsProduct />
+    </div>
+    <div class="flex flex-row gap-[24px]">
+      <CardsProduct />
+      <CardsProduct />
+    </div>
   </div>
 </template>
 
