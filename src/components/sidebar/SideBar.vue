@@ -37,10 +37,10 @@ const enterTab = (tab) => {
     <div
       @click="enterTab('employees')"
       class="flex flex-row items-center w-[calc(15rem-24px)] h-10 ml-4 py-4 px-2 gap-2 rounded-lg hover:bg-neutral-300 transition-all cursor-pointer"
-      :class="currentTab == 'employees' ? 'text-gray-950 font-semibold' : 'text-neutral-500'"
+      :class="currentTab === 'employees' ? 'text-gray-950 font-semibold' : 'text-neutral-500'"
     >
       <div
-        v-if="currentTab == 'employees'"
+        v-if="currentTab === 'employees'"
         class="identifier w-1.5 h-8 bg-pink-900 rounded-lg"
       ></div>
       <Users :size="20" />
