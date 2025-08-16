@@ -1,6 +1,12 @@
 <script setup>
 import { ref } from 'vue'
 import { useAuth } from '@/composables/auth'
+import { useLoading } from '@/stores/loading.js'
+
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
+
+const loadingStore = useLoading()
 
 const email = ref('')
 const password = ref('')
@@ -16,6 +22,8 @@ const handleLogin = async () => {
 }
 </script>
 <template>
+  <loading v-model:active="loadingStore.isLoading"
+           :is-full-page="loadingStore.fullPage"/>
   <main class="w-80 h-fit absolute m-auto top-0 bottom-0 left-0 right-0 flex flex-col gap-8">
     <div class="logo-container w-16 mx-auto">
       <img src="/src/assets/img/logo.png" />
