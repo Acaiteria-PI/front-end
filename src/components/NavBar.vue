@@ -1,8 +1,8 @@
 <script setup>
+import { useAuth } from '@/stores/auth.js'
 import { ShoppingBag } from 'lucide-vue-next'
-import { useAuth } from '@/composables/auth.js'
 
-const { user, firstLetter } = useAuth()
+const authStore = useAuth()
 </script>
 
 <template>
@@ -26,14 +26,14 @@ const { user, firstLetter } = useAuth()
       <div class="cursor-pointer rounded-full hover:bg-zinc-200 transition delay-150ms ease-in-out">
         <ShoppingBag />
       </div>
+      <div v-if="authStore.isLoggedIn" class="bg-rose-900 w-10 h-10 rounded-full flex items-center justify-center">
+        <p class="text-white">{{ authStore.firstLetter }}</p>
+      </div>
       <div
-        v-if="!user"
+        v-else
         class="w-25 h-10 rounded-full flex items-center justify-center cursor-pointer bg-rose-900 hover:bg-rose-950 transition delay-150ms ease-in-out"
       >
         <router-link to="/login" class="text-white">Login</router-link>
-      </div>
-      <div v-if="user" class="bg-rose-900 w-10 h-10 rounded-full flex items-center justify-center">
-        <p class="text-white">{{ firstLetter }}</p>
       </div>
     </div>
   </main>
