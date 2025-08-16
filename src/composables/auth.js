@@ -1,7 +1,8 @@
 import { ref } from 'vue'
 import axios from 'axios'
 
-const API = 'https://back-end-pi-j7rm.onrender.com/'
+// const API = 'https://back-end-pi-j7rm.onrender.com/'
+const API = 'http://127.0.0.1:8000/'
 
 export function useAuth() {
   const accessToken = ref(localStorage.getItem('access') || '')
@@ -9,8 +10,18 @@ export function useAuth() {
   const user = ref(null)
   const firstLetter = ref(null)
 
-  const findFirstLetter = (user) => {
-    firstLetter.value = user.name.substr(0,1)
+  const findFirstLetter = (name) => {
+    firstLetter.value = name.substr(0, 1)
+  }
+
+  const fetchCurrentUser = async () => {
+    const res = await axios.get(`${API}api/users/me/`, {
+      headers: {
+        Authorization: `Bearer ${accessToken.value}`
+      }
+    })
+    user.value = res.data
+    findFirstLetter(res.data.name)
   }
 
   const login = async (email, password) => {
@@ -21,22 +32,12 @@ export function useAuth() {
 
       localStorage.setItem('access', accessToken.value)
       localStorage.setItem('refresh', refreshToken.value)
-      await fetchUser()
+
+      await fetchCurrentUser()
     } catch (err) {
       console.log('Login error: ', err.response?.data || err.message)
       throw err
     }
-  }
-
-  const fetchUser = async () => {
-    const res = await axios.get(`${API}api/users/`, {
-      headers: {
-        Authorization: `Bearer ${accessToken.value}`,
-      },
-    })
-
-    user.value = res.data[0]
-    findFirstLetter()
   }
 
   const logout = () => {
@@ -47,5 +48,5 @@ export function useAuth() {
     user.value = null
   }
 
-  return { login, fetchUser, logout, user, accessToken }
+  return { login, fetchCurrentUser, logout, user, accessToken }
 }
