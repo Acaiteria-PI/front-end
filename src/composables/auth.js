@@ -43,7 +43,7 @@ export function useAuth() {
       loadingStore.isLoading = false
 
       await fetchCurrentUser()
-      router.push('/')
+      await router.push('/')
     } catch (err) {
       console.log('Login error: ', err.response?.data || err.message)
       throw err
