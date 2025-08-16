@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { useAuth } from '@/composables/auth'
+import { useAuth } from '@/stores/auth'
 import { useLoading } from '@/stores/loading.js'
 import { OctagonX } from 'lucide-vue-next'
 
@@ -8,15 +8,15 @@ import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
 
 const loadingStore = useLoading()
+const authStore = useAuth()
 
 const email = ref('')
 const password = ref('')
-const { login } = useAuth()
 const errorMessage = ref('')
 
 const handleLogin = async () => {
   try {
-    await login(email.value, password.value)
+    await authStore.login(email.value, password.value)
   } catch (err) {
     errorMessage.value = err.response?.data.detail
   }
