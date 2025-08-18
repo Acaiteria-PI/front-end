@@ -3,12 +3,9 @@ import { ref, computed } from 'vue'
 import axios from 'axios'
 import { useLoading } from '@/stores/loading.js'
 import { useRouter } from 'vue-router'
+import API from '@/services/axios.js'
 
 export const useAuth = defineStore('auth', () => {
-
-const API = 'https://back-end-pi-j7rm.onrender.com/'
-  // const API = 'http://127.0.0.1:8000/'
-
   const loadingStore = useLoading()
   const router = useRouter()
 
@@ -25,7 +22,7 @@ const API = 'https://back-end-pi-j7rm.onrender.com/'
   })
 
   const fetchCurrentUser = async () => {
-    const res = await axios.get(`${API}api/users/me/`, {
+    const res = await API.get('api/users/me/', {
       headers: {
         Authorization: `Bearer ${accessToken.value}`
       }
@@ -36,7 +33,7 @@ const API = 'https://back-end-pi-j7rm.onrender.com/'
   const login = async (email, password) => {
     try {
       loadingStore.isLoading = true
-      const res = await axios.post(`${API}token/`, { email, password })
+      const res = await API.post('token/', { email, password })
       accessToken.value = res.data.access
       refreshToken.value = res.data.refresh
 
