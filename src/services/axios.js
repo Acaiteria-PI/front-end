@@ -1,10 +1,11 @@
 import axios from 'axios'
 
-const api = axios.create({
-  baseURL: 'https://back-end-pi-j7rm.onrender.com/api/',
+const API = axios.create({
+  // baseURL: 'https://back-end-pi-j7rm.onrender.com/',
+  baseURL: 'http://localhost:8080/'
 })
 
-api.interceptors.request.use(config => {
+API.interceptors.request.use(config => {
   const token = localStorage.getItem('access')
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
@@ -12,4 +13,4 @@ api.interceptors.request.use(config => {
   return config
 })
 
-export default api
+export default API
