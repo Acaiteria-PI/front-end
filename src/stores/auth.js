@@ -3,12 +3,9 @@ import { ref, computed } from 'vue'
 import axios from 'axios'
 import { useLoading } from '@/stores/loading.js'
 import { useRouter } from 'vue-router'
+import API from '@/services/axios.js'
 
 export const useAuth = defineStore('auth', () => {
-
-const API = 'https://back-end-pi-j7rm.onrender.com/'
-  // const API = 'http://127.0.0.1:8000/'
-
   const loadingStore = useLoading()
   const router = useRouter()
 
