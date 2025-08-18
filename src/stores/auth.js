@@ -22,7 +22,7 @@ export const useAuth = defineStore('auth', () => {
   })
 
   const fetchCurrentUser = async () => {
-    const res = await axios.get(`${API}api/users/me/`, {
+    const res = await API.get('api/users/me/', {
       headers: {
         Authorization: `Bearer ${accessToken.value}`
       }
@@ -33,7 +33,7 @@ export const useAuth = defineStore('auth', () => {
   const login = async (email, password) => {
     try {
       loadingStore.isLoading = true
-      const res = await axios.post(`${API}token/`, { email, password })
+      const res = await API.post('token/', { email, password })
       accessToken.value = res.data.access
       refreshToken.value = res.data.refresh
 
