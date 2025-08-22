@@ -6,20 +6,14 @@ import CardsProduct from '@/components/management-menu/products-section/CardsPro
 </script>
 
 <template>
-  <div class="w-full p-8">
+  <div class="w-full min-h-screen p-8">
     <SectionTitle title="Produtos" class="mt-8" />
     <section class="flex flex-row items-start justify-between">
       <SearchBar />
       <NewProductBtn />
     </section>
-    <section class="w-full h-100 flex flex-wrap gap-6">
-      <CardsProduct />
-      <CardsProduct />
-      <CardsProduct />
-      <CardsProduct />
-      <CardsProduct />
-      <CardsProduct />
-
+    <section class="w-full flex flex-wrap gap-6">
+      <CardsProduct v-for="i in 10" :key="i" />
     </section>
   </div>
 </template>

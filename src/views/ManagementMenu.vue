@@ -3,12 +3,12 @@ import SideBar from '@/components/sidebar/SideBar.vue'
 </script>
 
 <template>
-  <div class="w-screen flex flex-row">
+  <div class="w-full h-full flex flex-row">
     <aside>
       <SideBar />
     </aside>
 
-    <main class="w-full">
+    <main class="w-full h-full">
       <router-view />
     </main>
   </div>

@@ -19,7 +19,7 @@ const enterTab = (tab) => {
 </script>
 
 <template>
-  <nav class="sidebar w-60 h-[calc(100vh-4.5rem)] flex flex-col gap-6 bg-neutral-100 pt-10">
+  <nav class="sidebar w-60 h-screen flex flex-col gap-6 bg-neutral-100 pt-10 sticky top-0">
     <p class="text-sm text-neutral-500 ml-6">Produtos</p>
     <ul class="flex flex-col gap-4 mb- ml-4">
       <SideBarItem
