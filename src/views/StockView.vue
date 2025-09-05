@@ -6,7 +6,7 @@ import SectionTitle from '@/components/management-menu/SectionTitle.vue'
 import NewProductBtn from '@/components/management-menu/NewProductBtn.vue'
 import { useIngredient } from '@/composables/useIngredient'
 
-const { fetchIngredients } = useIngredient()
+const { fetchIngredients, ingredients } = useIngredient()
 
 onMounted(() => {
   fetchIngredients()
@@ -28,7 +28,7 @@ const headers = [
       <SearchBar />
       <NewProductBtn />
     </section>
-    <ProductsTable class="w-full mt-8" :headers="headers" :products="products" />
+    <ProductsTable class="w-full mt-8" :headers="headers" :products="ingredients" />
   </div>
 </template>
 
