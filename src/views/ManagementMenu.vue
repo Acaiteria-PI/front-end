@@ -1,5 +1,13 @@
 <script setup>
+import { useRoute } from 'vue-router'
 import SideBar from '@/components/sidebar/SideBar.vue'
+import { onMounted } from 'vue'
+
+const route = useRoute()
+
+onMounted(() => {
+  console.log(route.name)
+})
 </script>
 
 <template>
@@ -9,7 +17,8 @@ import SideBar from '@/components/sidebar/SideBar.vue'
     </aside>
 
     <main class="w-full h-full">
-      <router-view />
+      <router-view v-if="route.name !== 'management-menu'" />
+      <h1 v-else class="text-5xl font-medium">Management Menu</h1>
     </main>
   </div>
 </template>
