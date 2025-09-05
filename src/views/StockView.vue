@@ -5,6 +5,7 @@ import SearchBar from '@/components/management-menu/SearchBar.vue'
 import SectionTitle from '@/components/management-menu/SectionTitle.vue'
 import NewProductBtn from '@/components/management-menu/NewProductBtn.vue'
 import { useIngredientStore } from '@/stores/ingredient'
+import CreateIngredientModal from '@/components/management-menu/CreateIngredientModal.vue'
 
 const ingredientStore = useIngredientStore()
 
@@ -26,9 +27,10 @@ const headers = [
     <SectionTitle title="Stock Management" class="mt-8" />
     <section class="flex flex-row items-start justify-between">
       <SearchBar />
-      <NewProductBtn />
+      <NewProductBtn @click="ingredientStore.openModal" />
     </section>
     <ProductsTable class="w-full mt-8" :headers="headers" :products="ingredientStore.ingredients" />
+      <CreateIngredientModal />
   </div>
 </template>
 
