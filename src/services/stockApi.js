@@ -6,10 +6,10 @@ export default class StockApi {
     return data
   }
   async createStockItem(stockItem) {
-    const { data } = await API.post('api/stock/stockItem/', stockItem)
+    const { data } = await API.post('api/stock/', stockItem)
     return data
   }
-  async updataStockItem(stockItem){
+  async updateStockItem(stockItem){
     const { data } = await API.put(`api/stock/${stockItem.id}/`, stockItem)
     return data.results
   }
