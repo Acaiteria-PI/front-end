@@ -6,7 +6,7 @@ import SectionTitle from '@/components/management-menu/SectionTitle.vue'
 import NewProductBtn from '@/components/management-menu/NewProductBtn.vue'
 import { useStockStore } from '@/stores/stock'
 import { useIngredientStore } from '@/stores/ingredient.js'
-import CreateIngredientModal from '@/components/management-menu/CreateIngredientModal.vue'
+import RegisterStockModal from '@/components/management-menu/RegisterStockModal.vue'
 
 const stockStore = useStockStore()
 const ingredientStore = useIngredientStore()
@@ -34,8 +34,8 @@ const headers = [
       <NewProductBtn @click="ingredientStore.openModal" />
     </section>
     <ProductsTable class="w-full mt-8" :headers="headers" :products="stockStore.stockItems" />
-    <div v-if="ingredientStore.isModalOpen">
-      <CreateIngredientModal class="absolute inset-0 m-auto z-50" />
+    <div v-if="ingredientStore.isModalOpen" class="fixed inset-0 flex items-center justify-center">
+      <RegisterStockModal class="absolute inset-0 m-auto z-50" />
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
   </div>
