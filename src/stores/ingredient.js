@@ -18,7 +18,11 @@ export const useIngredientStore = defineStore('ingredient', () => {
     isModalOpen.value = true
   })
 
+  const closeModal = (() => {
+    isModalOpen.value = false
+  })
+
   return {
-    ingredients, fetchIngredients, isModalOpen, openModal
+    ingredients, fetchIngredients, isModalOpen, openModal, closeModal
   }
 })
