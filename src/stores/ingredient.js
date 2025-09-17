@@ -7,22 +7,13 @@ const ingredientApi = new IngredientApi()
 export const useIngredientStore = defineStore('ingredient', () => {
 
   const ingredients = ref([])
-  const isModalOpen = ref(false)
 
   const fetchIngredients = async () => {
     const data = await ingredientApi.fetchIngredients()
     ingredients.value = data.results ?? data
   }
 
-  const openModal = (() => {
-    isModalOpen.value = true
-  })
-
-  const closeModal = (() => {
-    isModalOpen.value = false
-  })
-
   return {
-    ingredients, fetchIngredients, isModalOpen, openModal, closeModal
+    ingredients, fetchIngredients
   }
 })

@@ -1,7 +1,16 @@
 <script setup>
 import { PencilLine, Trash } from 'lucide-vue-next'
+import { useStockStore } from '@/stores/stock.js'
 
 defineProps(['headers', 'products'])
+
+const stockStore = useStockStore()
+
+const formatDateToBR = (dateString) => {
+  if (!dateString) return ''
+  const [year, month, day] = dateString.split('-')
+  return `${day}/${month}/${year}`
+}
 </script>
 
 <template>
@@ -26,11 +35,11 @@ defineProps(['headers', 'products'])
         <td class="p-2 border-t border-neutral-300">{{ product.supplier }}</td>
         <td class="p-2 border-t border-neutral-300">{{ product.unit_of_measure }}</td>
         <td class="p-2 border-t border-neutral-300">{{ product.batch_price }}</td>
-        <td class="p-2 border-t border-neutral-300">{{ product.expiration_date }}</td>
+        <td class="p-2 border-t border-neutral-300">{{ formatDateToBR(product.expiration_date) }}</td>
         <td class="p-2 border-t border-neutral-300">
           <div class="flex flex-row items-center justify-start gap-2">
-            <PencilLine class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all" />
-            <Trash class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all" />
+<!--            <PencilLine class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all" />-->
+            <Trash @click="stockStore.openConfirmDeleteModal(product.id)" class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all" />
           </div>
         </td>
       </tr>

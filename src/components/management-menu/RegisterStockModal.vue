@@ -63,7 +63,7 @@ onMounted(() => {
     <h1 class="text-3xl font-bold mb-2 text-center">Registrar estoque</h1>
     <div
       class="h-8 w-8 rounded-full hover:bg-neutral-200 flex items-center justify-center absolute top-4 right-4 cursor-pointer"
-      @click="ingredientStore.closeModal">
+      @click="stockStore.closeCreateModal">
       <X />
     </div>
 

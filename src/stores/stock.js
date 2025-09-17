@@ -6,6 +6,9 @@ const stockApi = new StockApi()
 
 export const useStockStore = defineStore('stock', () => {
 
+    const createModal = ref(false)
+    const confirmDeleteModal = ref(false)
+    const itemToDelete = ref()
     const stockItems = ref([])
     const newItem = ref({
       id: null,
@@ -20,7 +23,7 @@ export const useStockStore = defineStore('stock', () => {
 
     const fetchStock = async () => {
       const data = await stockApi.fetchStock()
-      stockItems.value = data.results ?? data
+      stockItems.value = Array.isArray(data.results) ? [...data.results] : [...data]
     }
 
     const createStockItem = async (item) => {
@@ -40,14 +43,54 @@ export const useStockStore = defineStore('stock', () => {
           unit_of_measure: ''
         }
 
+        closeCreateModal(createModal.value)
         await fetchStock()
       } catch (error) {
         console.error('Error creating stock item:', error)
       }
     }
 
+    const deleteStockItem = async (id) => {
+      try {
+        await stockApi.deleteStockItem(id)
+        stockItems.value = stockItems.value.filter(item => item.id !== id)
+        closeConfirmDeleteModal()
+      } catch (error) {
+        console.error('Error while deleting stock item', id)
+      }
+    }
+
+    const openCreateModal = () => {
+      createModal.value = true
+    }
+
+    const closeCreateModal = () => {
+      createModal.value = false
+    }
+
+    const openConfirmDeleteModal = (id) => {
+      itemToDelete.value = id
+      confirmDeleteModal.value = true
+    }
+
+    const closeConfirmDeleteModal = () => {
+      confirmDeleteModal.value = false
+    }
+
+
     return {
-      stockItems, fetchStock, createStockItem, newItem
+      stockItems,
+      fetchStock,
+      createStockItem,
+      newItem,
+      deleteStockItem,
+      createModal,
+      confirmDeleteModal,
+      openCreateModal,
+      closeCreateModal,
+      openConfirmDeleteModal,
+      closeConfirmDeleteModal,
+      itemToDelete,
     }
   }
 )
