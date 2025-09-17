@@ -1,24 +1,24 @@
 <script setup>
-import { useRoute } from 'vue-router'
 import SideBar from '@/components/sidebar/SideBar.vue'
-import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-
-onMounted(() => {
-  console.log(route.name)
-})
 </script>
 
 <template>
-  <div class="w-full h-full flex flex-row">
+  <div class="w-screen h-full flex flex-row">
     <aside>
       <SideBar />
     </aside>
 
     <main class="w-full h-full">
-      <router-view v-if="route.name !== 'management-menu'" />
-      <h1 v-else class="text-5xl font-medium">Management Menu</h1>
+      <router-view />
+        <div v-if="route.path === '/management-menu'" class="w-full h-full relative flex flex-col align-start justify-center gap-8">
+        <h1 class="text-4xl font-bold mt-8 text-center">Menu de
+          gerenciamento</h1>
+        <h2 class="text-3xl font-semibold text-center">Selecione a
+          seção ao lado</h2>
+      </div>
     </main>
   </div>
 </template>
