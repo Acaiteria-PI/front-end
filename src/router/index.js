@@ -35,5 +35,18 @@ router.beforeEach((to, from, next) => {
   if (to.name !== 'login' && !authStore.isLoggedIn) next({ name: 'login' })
   else next()
 })
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuth()
+
+  if (!authStore.user && authStore.accessToken) {
+    try {
+      await authStore.fetchCurrentUser()
+    } catch (error) {
+      console.error('Erro ao buscar usuário:', error)
+    }
+  }
+  if (to.name !== 'login' && !authStore.isLoggedIn) next({ name: 'login' })
+  else next()
+})
 
 export default router
