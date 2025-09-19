@@ -39,7 +39,7 @@ const headers = [
 
     <div v-if="stockStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
-      <RegisterStockModal class="absolute inset-0 m-auto z-50" />
+      <RegisterStockModal @submit="stockStore.createStockItem(stockStore.newItem)" title="Registrar estoque" btn-name="Cadastrar" class="absolute inset-0 m-auto z-50" />
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
 
