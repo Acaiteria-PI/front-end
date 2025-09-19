@@ -30,7 +30,10 @@ const headers = [
     <SectionTitle title="Gerenciamento de estoque" class="mt-8" />
     <section class="flex flex-row items-start justify-between">
       <SearchBar />
-      <NewProductBtn @click="stockStore.openCreateModal()" />
+      <div class="flex flex-row gap-4">
+        <NewProductBtn title="Registrar estoque" @click="stockStore.openCreateModal()" />
+        <NewProductBtn title="+ Novo ingrediente" />
+      </div>
     </section>
     <ProductsTable class="w-full mt-8" :headers="headers" :products="stockStore.stockItems" />
 
@@ -42,7 +45,9 @@ const headers = [
 
     <div v-if="stockStore.confirmDeleteModal === true"
          class="fixed inset-0 flex items-center justify-center">
-      <ConfirmDeleteModal @confirm="stockStore.deleteStockItem(stockStore.itemToDelete)" @cancel="stockStore.closeConfirmDeleteModal" class="absolute inset-0 m-auto z-50" />
+      <ConfirmDeleteModal @confirm="stockStore.deleteStockItem(stockStore.itemToDelete)"
+                          @cancel="stockStore.closeConfirmDeleteModal"
+                          class="absolute inset-0 m-auto z-50" />
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
   </div>
