@@ -7,6 +7,15 @@ import { useStockStore } from '@/stores/stock.js'
 const ingredientStore = useIngredientStore()
 const stockStore = useStockStore()
 
+defineProps({
+  title: { type: String, required: true },
+  btnName: { type: String, required: true },
+  mode: { type: String, required: true },
+  model: { type: String, required: true }
+})
+
+defineEmits(['createStock', 'editStock'])
+
 const fields = reactive([
   {
     id: 'quantity',
@@ -60,18 +69,19 @@ onMounted(() => {
 <template>
   <main
     class="w-100 h-fit bg-white rounded-3xl shadow-xl p-6 pt-8 flex flex-col items-center gap-6">
-    <h1 class="text-3xl font-bold mb-2 text-center">Registrar estoque</h1>
+    <h1 class="text-3xl font-bold mb-2 text-center">{{ title }}</h1>
     <div
       class="h-8 w-8 rounded-full hover:bg-neutral-200 flex items-center justify-center absolute top-4 right-4 cursor-pointer"
       @click="stockStore.closeCreateModal">
       <X />
     </div>
 
-    <form @submit.prevent="stockStore.createStockItem(stockStore.newItem)" class="w-full flex flex-col gap-6">
+    <form @submit.prevent="$emit(mode === 'create' ? 'createStock' : 'editStock')"
+          class="w-full flex flex-col gap-6">
       <section class="w-full grid grid-cols-2 gap-4">
         <div class="flex flex-col gap-1 col-span-2">
           <label for="ingredient">Ingrediente</label>
-          <select v-model="stockStore.newItem.ingredient" name="ingredient" id="ingredient"
+          <select v-model="model.ingredient" name="ingredient" id="ingredient"
                   class="border border-neutral-300 rounded-xl p-2 w-full h-12">
             <option v-for="ingredient in ingredientStore.ingredients" :key="ingredient.id"
                     :value="ingredient.id">{{ ingredient.name }}
@@ -87,14 +97,14 @@ onMounted(() => {
             :id="field.id"
             :type="field.type"
             :placeholder="field.placeholder"
-            v-model="stockStore.newItem[field.id]"
+            v-model="model[field.id]"
             class="border border-neutral-300 rounded-xl p-2 w-full h-12"
           />
         </div>
       </section>
       <button type="submit"
               class="w-full h-15 rounded-xl bg-rose-900 font-medium text-white hover:bg-rose-950 cursor-pointer duration-200 ease-in-out">
-        Cadastrar
+        {{ btnName }}
       </button>
     </form>
   </main>
