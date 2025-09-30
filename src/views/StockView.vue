@@ -31,7 +31,7 @@ const headers = [
     <section class="flex flex-row items-start justify-between">
       <SearchBar />
       <div class="flex flex-row gap-4">
-        <NewProductBtn title="Registrar estoque" @click="stockStore.openCreateModal()" />
+        <NewProductBtn title="Registrar estoque" @click="stockStore.openCreateModal('create')" />
         <NewProductBtn title="+ Novo ingrediente" />
       </div>
     </section>
@@ -39,7 +39,13 @@ const headers = [
 
     <div v-if="stockStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
-      <RegisterStockModal @submit="stockStore.createStockItem(stockStore.newItem)" title="Registrar estoque" btn-name="Cadastrar" class="absolute inset-0 m-auto z-50" />
+      <RegisterStockModal @create-stock="stockStore.createStockItem(stockStore.newItem)"
+                          @edit-stock="stockStore.updateStockItem(stockStore.editingItem.id)"
+                          :mode="stockStore.modalMode"
+                          :model="stockStore.modalMode === 'create' ? stockStore.newItem : stockStore.editingItem"
+                          :title="stockStore.modalMode === 'create' ? 'Registrar estoque' : 'Editar item'"
+                          :btn-name="stockStore.modalMode === 'create' ? 'Cadastrar' : 'Salvar'"
+                          class="absolute inset-0 m-auto z-50" />
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
 

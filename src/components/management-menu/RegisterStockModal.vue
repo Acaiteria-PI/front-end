@@ -10,9 +10,11 @@ const stockStore = useStockStore()
 defineProps({
   title: { type: String, required: true },
   btnName: { type: String, required: true },
+  mode: { type: String, required: true },
+  model: { type: String, required: true }
 })
 
-defineEmits(['submit'])
+defineEmits(['createStock', 'editStock'])
 
 const fields = reactive([
   {
@@ -74,12 +76,12 @@ onMounted(() => {
       <X />
     </div>
 
-    <form @submit.prevent="$emit('submit')"
+    <form @submit.prevent="$emit(mode === 'create' ? 'createStock' : 'editStock')"
           class="w-full flex flex-col gap-6">
       <section class="w-full grid grid-cols-2 gap-4">
         <div class="flex flex-col gap-1 col-span-2">
           <label for="ingredient">Ingrediente</label>
-          <select v-model="stockStore.newItem.ingredient" name="ingredient" id="ingredient"
+          <select v-model="model.ingredient" name="ingredient" id="ingredient"
                   class="border border-neutral-300 rounded-xl p-2 w-full h-12">
             <option v-for="ingredient in ingredientStore.ingredients" :key="ingredient.id"
                     :value="ingredient.id">{{ ingredient.name }}
@@ -95,7 +97,7 @@ onMounted(() => {
             :id="field.id"
             :type="field.type"
             :placeholder="field.placeholder"
-            v-model="stockStore.newItem[field.id]"
+            v-model="model[field.id]"
             class="border border-neutral-300 rounded-xl p-2 w-full h-12"
           />
         </div>

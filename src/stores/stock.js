@@ -9,10 +9,12 @@ export const useStockStore = defineStore('stock', () => {
     const createModal = ref(false)
     const confirmDeleteModal = ref(false)
     const itemToDelete = ref()
+    const editingItem = ref()
+    const modalMode = ref()
     const stockItems = ref([])
     const newItem = ref({
       id: null,
-      ingredient: '',
+      ingredient: null,
       quantity: 0,
       batch: '',
       expiration_date: '',
@@ -27,14 +29,14 @@ export const useStockStore = defineStore('stock', () => {
     }
 
     const createStockItem = async (item) => {
-      console.log('Creating stock item:', item)
       try {
-        newItem.value = await stockApi.createStockItem(item)
-        stockItems.value.push(newItem.value)
+        const created = await stockApi.createStockItem(item)
+        await console.log('Creating stock item:', created, 'api response:', await stockApi.fetchStock())
+        stockItems.value.push(created)
 
         newItem.value = {
           id: null,
-          ingredient: '',
+          ingredient: null,
           quantity: 0,
           batch: '',
           expiration_date: '',
@@ -50,6 +52,24 @@ export const useStockStore = defineStore('stock', () => {
       }
     }
 
+    const updateStockItem = async (itemId) => {
+      try {
+        console.log('Updating item', itemId)
+
+        const currentEditing = stockItems.value.find((item) => item.id === itemId)
+        console.log(currentEditing)
+
+        await stockApi.updateStockItem(currentEditing)
+
+        await fetchStock()
+
+        closeCreateModal()
+
+      } catch (error) {
+        console.error('Error updating stock item:', error)
+      }
+    }
+
     const deleteStockItem = async (id) => {
       try {
         await stockApi.deleteStockItem(id)
@@ -60,7 +80,9 @@ export const useStockStore = defineStore('stock', () => {
       }
     }
 
-    const openCreateModal = () => {
+    const openCreateModal = (mode, item) => {
+      modalMode.value = mode || 'create'
+      if (modalMode.value === 'edit') editingItem.value = item
       createModal.value = true
     }
 
@@ -91,6 +113,9 @@ export const useStockStore = defineStore('stock', () => {
       openConfirmDeleteModal,
       closeConfirmDeleteModal,
       itemToDelete,
+      updateStockItem,
+      editingItem,
+      modalMode
     }
   }
 )

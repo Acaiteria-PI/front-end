@@ -40,10 +40,10 @@ const formatDateToBR = (dateString) => {
       <td class="p-2 border-t border-neutral-300">
         <div class="flex flex-row items-center justify-start gap-2">
           <div class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
-            <PencilLine :size="24" />
+            <PencilLine @click="stockStore.openCreateModal('edit', product)" :size="20" />
           </div>
           <div class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
-            <Trash :size="24" @click="stockStore.openConfirmDeleteModal(product.id)" />
+            <Trash :size="20" @click="stockStore.openConfirmDeleteModal(product.id)" />
           </div>
         </div>
       </td>
