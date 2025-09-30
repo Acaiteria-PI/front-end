@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import axios from 'axios'
 import { useLoading } from '@/stores/loading.js'
 import { useRouter } from 'vue-router'
 import API from '@/services/axios.js'
@@ -22,6 +21,10 @@ export const useAuth = defineStore('auth', () => {
   })
 
   const fetchCurrentUser = async () => {
+    if (!accessToken.value) {
+      user.value = null
+      return
+    }
     const res = await API.get('api/users/me/', {
       headers: {
         Authorization: `Bearer ${accessToken.value}`
@@ -29,6 +32,7 @@ export const useAuth = defineStore('auth', () => {
     })
     user.value = res.data
   }
+
 
   const login = async (email, password) => {
     try {

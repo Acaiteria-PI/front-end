@@ -11,7 +11,7 @@ export default class StockApi {
   }
   async updateStockItem(stockItem){
     const { data } = await API.put(`api/stock/${stockItem.id}/`, stockItem)
-    return data.results
+    return data
   }
   async deleteStockItem(id) {
     const { data } = API.delete(`api/stock/${id}/`)
