@@ -30,7 +30,7 @@ const formatDateToBR = (dateString) => {
     </thead>
     <tbody>
     <tr v-for="product in products" :key="product.id" class="border-t border-neutral-300">
-      <td class="p-2 border-t border-neutral-300">{{ product.ingredient }}</td>
+      <td class="p-2 border-t border-neutral-300">{{ product.ingredient_data.name }}</td>
       <td class="p-2 border-t border-neutral-300">{{ product.quantity }}</td>
       <td class="p-2 border-t border-neutral-300">{{ product.batch }}</td>
       <td class="p-2 border-t border-neutral-300">{{ product.supplier }}</td>
