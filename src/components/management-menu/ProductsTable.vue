@@ -6,10 +6,12 @@ defineProps(['headers', 'products'])
 
 const stockStore = useStockStore()
 
-const formatDateToBR = (dateString) => {
-  if (!dateString) return ''
-  const [year, month, day] = dateString.split('-')
-  return `${day}/${month}/${year}`
+const formatField = (product, value) => {
+  if (value === 'ingredient_data') return product.ingredient_data?.name || '-'
+  else if (value === 'expiration_date') return new Date(product.expiration_date).toLocaleDateString('pt-BR')
+  else if (value === 'price') return `R$ ${product.price.replace('.', ',')}`
+  else if (value === 'quantity') return product.quantity.replace('.',',')
+  return product[value]
 }
 </script>
 
@@ -30,13 +32,10 @@ const formatDateToBR = (dateString) => {
     </thead>
     <tbody>
     <tr v-for="product in products" :key="product.id" class="border-t border-neutral-300">
-      <td class="p-2 border-t border-neutral-300">{{ product.ingredient }}</td>
-      <td class="p-2 border-t border-neutral-300">{{ product.quantity }}</td>
-      <td class="p-2 border-t border-neutral-300">{{ product.batch }}</td>
-      <td class="p-2 border-t border-neutral-300">{{ product.supplier }}</td>
-      <td class="p-2 border-t border-neutral-300">{{ product.unit_of_measure }}</td>
-      <td class="p-2 border-t border-neutral-300">{{ product.batch_price }}</td>
-      <td class="p-2 border-t border-neutral-300">{{ formatDateToBR(product.expiration_date) }}</td>
+      <td class="p-2 border-t border-neutral-300" v-for="header in headers" :key="header.value">
+        {{ formatField(product, header.value)
+        }}
+      </td>
       <td class="p-2 border-t border-neutral-300">
         <div class="flex flex-row items-center justify-start gap-2">
           <div class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
