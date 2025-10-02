@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from 'vue'
-import { LogOut, Package, Tag, GlassWater, Gift, Users } from 'lucide-vue-next'
+import { LogOut, Package, ChefHat, Tag, GlassWater, Gift, Users } from 'lucide-vue-next'
 import SideBarItem from './SideBarItem.vue'
 import router from '@/router'
 
 const tabs = [
+  { name: 'Ingredientes', icon: ChefHat, route: '/management-menu/ingredients' },
   { name: 'Estoque', icon: Package, route: '/management-menu/stock' },
   { name: 'Produtos', icon: Tag, route: '/management-menu/products' },
   { name: 'Recipientes', icon: GlassWater, route: '/management-menu/recipients' },
