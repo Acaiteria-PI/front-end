@@ -44,6 +44,7 @@ router.beforeEach(async (to, from, next) => {
     }
   }
   if (to.name !== 'login' && !authStore.isLoggedIn) next({ name: 'login' })
+  if (to.name === 'management-menu') next({ name: 'ingredients' })
   else next()
 })
 

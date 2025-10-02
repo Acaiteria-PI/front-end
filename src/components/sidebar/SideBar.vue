@@ -1,8 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { LogOut, Package, ChefHat, Tag, GlassWater, Gift, Users } from 'lucide-vue-next'
 import SideBarItem from './SideBarItem.vue'
-import router from '@/router'
+import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
 
 const tabs = [
   { name: 'Ingredientes', icon: ChefHat, route: '/management-menu/ingredients' },
@@ -11,7 +15,9 @@ const tabs = [
   { name: 'Recipientes', icon: GlassWater, route: '/management-menu/recipients' },
   { name: 'Combos', icon: Gift, route: '/management-menu/combos' },
 ]
-const currentTab = ref('stock')
+const currentTab = computed(() => {
+  return route.path
+})
 
 const enterTab = (tab) => {
   currentTab.value = tab
