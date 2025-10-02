@@ -20,6 +20,11 @@ const router = createRouter({
       component: () => import('@/views/ManagementMenu.vue'),
       children: [
         {
+          path: 'ingredients',
+          name: 'ingredients',
+          component: () => import('@/views/IngredientView.vue')
+        },
+        {
           path: 'stock',
           name: 'stock',
           component: () => import('@/views/StockView.vue'),
