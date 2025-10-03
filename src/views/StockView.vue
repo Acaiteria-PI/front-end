@@ -4,15 +4,17 @@ import ProductsTable from '@/components/management-menu/ProductsTable.vue'
 import SearchBar from '@/components/management-menu/SearchBar.vue'
 import SectionTitle from '@/components/management-menu/SectionTitle.vue'
 import NewProductBtn from '@/components/management-menu/NewProductBtn.vue'
-import { useStockStore } from '@/stores/stock'
-import { useLoading } from '@/stores/loading.js'
 import RegisterStockModal from '@/components/management-menu/RegisterStockModal.vue'
 import ConfirmDeleteModal from '@/components/management-menu/ConfirmDeleteModal.vue'
-import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
+import Loading from 'vue-loading-overlay'
+import { useStockStore } from '@/stores/stock'
+import { useLoading } from '@/stores/loading.js'
+import { useModalStore } from '@/stores/modal.js'
 
 const stockStore = useStockStore()
 const loadingStore = useLoading()
+const modalStore = useModalStore()
 
 onMounted(() => {
   stockStore.fetchStock()
@@ -37,27 +39,27 @@ const headers = [
     <section class="flex flex-row items-start justify-between">
       <SearchBar />
       <div class="flex flex-row gap-4">
-        <NewProductBtn title="Registrar estoque" @click="stockStore.openCreateModal('create')" />
+        <NewProductBtn title="Registrar estoque" @click="modalStore.openCreateModal('create')" />
       </div>
     </section>
     <ProductsTable class="w-full mt-8" :headers="headers" :products="stockStore.stockItems" />
 
-    <div v-if="stockStore.createModal === true"
+    <div v-if="modalStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
       <RegisterStockModal @create-stock="stockStore.createStockItem(stockStore.newItem)"
-                          @edit-stock="stockStore.updateStockItem(stockStore.editingItem.id)"
-                          :mode="stockStore.modalMode"
-                          :model="stockStore.modalMode === 'create' ? stockStore.newItem : stockStore.editingItem"
-                          :title="stockStore.modalMode === 'create' ? 'Registrar estoque' : 'Editar item'"
-                          :btn-name="stockStore.modalMode === 'create' ? 'Cadastrar' : 'Salvar'"
+                          @edit-stock="stockStore.updateStockItem(modalStore.editingItem.id)"
+                          :mode="modalStore.modalMode"
+                          :model="modalStore.modalMode === 'create' ? stockStore.newItem : modalStore.editingItem"
+                          :title="modalStore.modalMode === 'create' ? 'Registrar estoque' : 'Editar item'"
+                          :btn-name="modalStore.modalMode === 'create' ? 'Cadastrar' : 'Salvar'"
                           class="absolute inset-0 m-auto z-50" />
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
 
-    <div v-if="stockStore.confirmDeleteModal === true"
+    <div v-if="modalStore.confirmDeleteModal === true"
          class="fixed inset-0 flex items-center justify-center">
-      <ConfirmDeleteModal @confirm="stockStore.deleteStockItem(stockStore.itemToDelete)"
-                          @cancel="stockStore.closeConfirmDeleteModal"
+      <ConfirmDeleteModal @confirm="stockStore.deleteStockItem(modalStore.itemToDelete)"
+                          @cancel="modalStore.closeConfirmDeleteModal"
                           class="absolute inset-0 m-auto z-50" />
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>

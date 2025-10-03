@@ -14,7 +14,6 @@ const ingredientStore = useIngredientStore()
 
 onMounted(() => {
   ingredientStore.fetchIngredients()
-  stockStore.fetchStock()
 })
 
 const headers = [
