@@ -1,10 +1,12 @@
 <script setup>
 import { PencilLine, Trash } from 'lucide-vue-next'
 import { useStockStore } from '@/stores/stock.js'
+import { useModalStore } from '@/stores/modal.js'
 
 defineProps(['headers', 'products'])
 
 const stockStore = useStockStore()
+const modalStore = useModalStore()
 
 const formatField = (product, value) => {
   if (value === 'ingredient_data') return product.ingredient_data?.name || '-'
@@ -39,10 +41,10 @@ const formatField = (product, value) => {
       <td class="p-2 border-t border-neutral-300">
         <div class="flex flex-row items-center justify-start gap-2">
           <div class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
-            <PencilLine @click="stockStore.openCreateModal('edit', product)" :size="20" />
+            <PencilLine @click="modalStore.openCreateModal('edit', product)" :size="20" />
           </div>
           <div class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
-            <Trash :size="20" @click="stockStore.openConfirmDeleteModal(product.id)" />
+            <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id)" />
           </div>
         </div>
       </td>
