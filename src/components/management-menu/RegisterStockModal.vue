@@ -11,7 +11,7 @@ defineProps({
   title: { type: String, required: true },
   btnName: { type: String, required: true },
   mode: { type: String, required: true },
-  model: { type: String, required: true }
+  model: { type: Object, required: true }
 })
 
 defineEmits(['createStock', 'editStock'])
