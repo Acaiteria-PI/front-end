@@ -5,10 +5,14 @@ import SearchBar from '@/components/management-menu/SearchBar.vue'
 import SectionTitle from '@/components/management-menu/SectionTitle.vue'
 import NewProductBtn from '@/components/management-menu/NewProductBtn.vue'
 import { useStockStore } from '@/stores/stock'
+import { useLoading } from '@/stores/loading.js'
 import RegisterStockModal from '@/components/management-menu/RegisterStockModal.vue'
 import ConfirmDeleteModal from '@/components/management-menu/ConfirmDeleteModal.vue'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/css/index.css'
 
 const stockStore = useStockStore()
+const loadingStore = useLoading()
 
 onMounted(() => {
   stockStore.fetchStock()
@@ -26,13 +30,14 @@ const headers = [
 </script>
 
 <template>
+  <loading v-model:active="loadingStore.isLoading"
+           :is-full-page="loadingStore.fullPage" />
   <div class="w-full p-8">
     <SectionTitle title="Gerenciamento de estoque" class="mt-8" />
     <section class="flex flex-row items-start justify-between">
       <SearchBar />
       <div class="flex flex-row gap-4">
         <NewProductBtn title="Registrar estoque" @click="stockStore.openCreateModal('create')" />
-        <NewProductBtn title="+ Novo ingrediente" />
       </div>
     </section>
     <ProductsTable class="w-full mt-8" :headers="headers" :products="stockStore.stockItems" />
