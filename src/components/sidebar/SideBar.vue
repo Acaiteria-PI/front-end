@@ -20,7 +20,6 @@ const currentTab = computed(() => {
 })
 
 const enterTab = (tab) => {
-  currentTab.value = tab
   router.push({ path: tab })
 }
 </script>
