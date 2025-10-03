@@ -47,7 +47,7 @@ const headers = [
     <div v-if="modalStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
       <RegisterStockModal @create-stock="stockStore.createStockItem(stockStore.newItem)"
-                          @edit-stock="stockStore.updateStockItem(modalStore.editingItem.id)"
+                          @edit-stock="stockStore.updateStockItem()"
                           :mode="modalStore.modalMode"
                           :model="modalStore.modalMode === 'create' ? stockStore.newItem : modalStore.editingItem"
                           :title="modalStore.modalMode === 'create' ? 'Registrar estoque' : 'Editar item'"

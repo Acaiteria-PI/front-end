@@ -47,6 +47,22 @@ export const useIngredientStore = defineStore('ingredient', () => {
     }
   }
 
+  const updateIngredient = async () => {
+    try {
+      loadingStore.isLoading = true
+
+      await ingredientApi.updateIngredient(modalStore.editingItem)
+
+      await fetchIngredients()
+      modalStore.closeCreateModal()
+      loadingStore.isLoading = false
+
+    } catch (err) {
+      console.error('Error updating ingredient: ', err)
+      loadingStore.isLoading = false
+    }
+  }
+
   const deleteIngredient = async (id) => {
     try {
       loadingStore.isLoading = true
@@ -63,6 +79,6 @@ export const useIngredientStore = defineStore('ingredient', () => {
   }
 
   return {
-    ingredients, newIngredient, fetchIngredients, createIngredient, deleteIngredient
+    ingredients, newIngredient, fetchIngredients, createIngredient, updateIngredient, deleteIngredient
   }
 })
