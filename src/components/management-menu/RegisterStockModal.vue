@@ -2,10 +2,10 @@
 import { reactive, onMounted } from 'vue'
 import { X } from 'lucide-vue-next'
 import { useIngredientStore } from '@/stores/ingredient.js'
-import { useStockStore } from '@/stores/stock.js'
+import { useModalStore } from '@/stores/modal.js'
 
 const ingredientStore = useIngredientStore()
-const stockStore = useStockStore()
+const modalStore = useModalStore()
 
 defineProps({
   title: { type: String, required: true },
@@ -72,7 +72,7 @@ onMounted(() => {
     <h1 class="text-3xl font-bold mb-2 text-center">{{ title }}</h1>
     <div
       class="h-8 w-8 rounded-full hover:bg-neutral-200 flex items-center justify-center absolute top-4 right-4 cursor-pointer"
-      @click="stockStore.closeCreateModal">
+      @click="modalStore.closeCreateModal">
       <X />
     </div>
 
