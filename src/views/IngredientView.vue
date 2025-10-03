@@ -45,10 +45,10 @@ const headers = [
          class="fixed inset-0 flex items-center justify-center">
       <RegisterIngredientModal
         @create-ingredient="ingredientStore.createIngredient(ingredientStore.newIngredient)"
-        @edit-ingredient="ingredientStore.updateIngredient(modalStore.editingItem.id)"
+        @edit-ingredient="ingredientStore.updateIngredient()"
         :mode="modalStore.modalMode"
         :model="modalStore.modalMode === 'create' ? ingredientStore.newIngredient : modalStore.editingItem"
-        :title="modalStore.modalMode === 'create' ? 'Registrar estoque' : 'Editar item'"
+        :title="modalStore.modalMode === 'create' ? 'Cadastrar ingrediente' : 'Editar ingrediente'"
         :btn-name="modalStore.modalMode === 'create' ? 'Cadastrar' : 'Salvar'"
         class="absolute inset-0 m-auto z-50" />
       <div class="fixed inset-0 bg-black/50 z-40"></div>
