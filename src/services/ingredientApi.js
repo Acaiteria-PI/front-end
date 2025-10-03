@@ -11,7 +11,7 @@ export default class IngredientApi {
     }
     async updateIngredient(ingredient) {
         const { data } = await API.put(`api/ingredients/${ingredient.id}/`, ingredient)
-        return data.results
+        return data
     }
     async deleteIngredient(id) {
         await API.delete(`api/ingredients/${id}/`)
