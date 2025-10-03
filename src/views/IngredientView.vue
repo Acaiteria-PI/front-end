@@ -1,16 +1,20 @@
 <script setup>
+import { onMounted } from 'vue'
 import ProductsTable from '@/components/management-menu/ProductsTable.vue'
 import SectionTitle from '@/components/management-menu/SectionTitle.vue'
 import SearchBar from '@/components/management-menu/SearchBar.vue'
-import RegisterStockModal from '@/components/management-menu/RegisterStockModal.vue'
+import RegisterIngredientModal from '@/components/management-menu/ReisterIngredientModal.vue'
 import ConfirmDeleteModal from '@/components/management-menu/ConfirmDeleteModal.vue'
 import NewProductBtn from '@/components/management-menu/NewProductBtn.vue'
 import { useIngredientStore } from '@/stores/ingredient.js'
-import { useStockStore } from '@/stores/stock.js'
-import { onMounted } from 'vue'
+import { useModalStore } from '@/stores/modal.js'
+import { useLoading } from '@/stores/loading.js'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/css/index.css'
 
-const stockStore = useStockStore()
 const ingredientStore = useIngredientStore()
+const modalStore = useModalStore()
+const loadingStore = useLoading()
 
 onMounted(() => {
   ingredientStore.fetchIngredients()
@@ -20,37 +24,40 @@ const headers = [
   { name: 'Nome', value: 'name' },
   { name: 'Porção', value: 'portion' },
   { name: 'Preço', value: 'price' },
-  { name: 'Un. de medida (porção)', value: 'unit_of_measure' },
+  { name: 'Un. de medida (porção)', value: 'unit_of_measure' }
 ]
 </script>
 
 <template>
+  <loading v-model:active="loadingStore.isLoading"
+           :is-full-page="loadingStore.fullPage" />
   <div class="w-full p-8">
     <SectionTitle title="Gerenciamento de ingredientes" class="mt-8" />
     <section class="flex flex-row items-start justify-between">
       <SearchBar />
       <div class="flex flex-row gap-4">
-        <NewProductBtn title="+ Novo ingrediente" />
+        <NewProductBtn title="+ Novo ingrediente" @click="modalStore.openCreateModal('create')" />
       </div>
     </section>
     <ProductsTable class="w-full mt-8" :headers="headers" :products="ingredientStore.ingredients" />
 
-    <div v-if="stockStore.createModal === true"
+    <div v-if="modalStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
-      <RegisterStockModal @create-stock="stockStore.createStockItem(stockStore.newItem)"
-                          @edit-stock="stockStore.updateStockItem(stockStore.editingItem.id)"
-                          :mode="stockStore.modalMode"
-                          :model="stockStore.modalMode === 'create' ? stockStore.newItem : stockStore.editingItem"
-                          :title="stockStore.modalMode === 'create' ? 'Registrar estoque' : 'Editar item'"
-                          :btn-name="stockStore.modalMode === 'create' ? 'Cadastrar' : 'Salvar'"
-                          class="absolute inset-0 m-auto z-50" />
+      <RegisterIngredientModal
+        @create-ingredient="ingredientStore.createIngredient(ingredientStore.newIngredient)"
+        @edit-ingredient="ingredientStore.updateIngredient(modalStore.editingItem.id)"
+        :mode="modalStore.modalMode"
+        :model="modalStore.modalMode === 'create' ? ingredientStore.newIngredient : modalStore.editingItem"
+        :title="modalStore.modalMode === 'create' ? 'Registrar estoque' : 'Editar item'"
+        :btn-name="modalStore.modalMode === 'create' ? 'Cadastrar' : 'Salvar'"
+        class="absolute inset-0 m-auto z-50" />
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
 
-    <div v-if="stockStore.confirmDeleteModal === true"
+    <div v-if="modalStore.confirmDeleteModal === true"
          class="fixed inset-0 flex items-center justify-center">
-      <ConfirmDeleteModal @confirm="stockStore.deleteStockItem(stockStore.itemToDelete)"
-                          @cancel="stockStore.closeConfirmDeleteModal"
+      <ConfirmDeleteModal @confirm="ingredientStore.deleteIngredient(modalStore.itemToDelete)"
+                          @cancel="modalStore.closeConfirmDeleteModal"
                           class="absolute inset-0 m-auto z-50" />
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
