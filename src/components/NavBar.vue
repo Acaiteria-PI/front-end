@@ -33,7 +33,7 @@ const authStore = useAuth()
           </li>
           <li>
             <router-link
-              to="/menu"
+              to=""
               class="text-neutral-700 font-medium hover:text-rose-900 transition-colors relative group pb-1"
             >
               Cardápio
