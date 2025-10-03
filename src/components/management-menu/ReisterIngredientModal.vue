@@ -14,48 +14,34 @@ defineProps({
   model: { type: String, required: true }
 })
 
-defineEmits(['createStock', 'editStock'])
+defineEmits(['createIngredient', 'editIngredient'])
 
 const fields = reactive([
   {
-    id: 'quantity',
-    name: 'Quantidade no lote',
-    placeholder: '2000',
-    type: 'number',
-    cols: '2'
-  },
-  {
-    id: 'batch',
-    name: 'Lote',
-    placeholder: 'Lote A1',
+    id: 'name',
+    name: 'Nome',
+    placeholder: 'Ex: Banana',
     type: 'text',
     cols: '1'
   },
   {
-    id: 'expiration_date',
-    name: 'Validade',
-    placeholder: '05/02/2027',
-    type: 'date',
+    id: 'portion',
+    name: 'Porção',
+    placeholder: 'Porção para o produto final',
+    type: 'text',
     cols: '1'
   },
   {
-    id: 'supplier',
-    name: 'Fornecedor',
-    placeholder: 'Fornecedor X',
-    type: 'text',
-    cols: '2'
-  },
-  {
-    id: 'batch_price',
+    id: 'price',
     name: 'Preço',
     placeholder: 'R$5,00',
-    type: 'number',
+    type: 'text',
     cols: '1'
   },
   {
     id: 'unit_of_measure',
     name: 'Unidade de medida',
-    placeholder: 'Un. do lote',
+    placeholder: 'Un. da porção',
     type: 'text',
     cols: '1'
   }
@@ -76,19 +62,9 @@ onMounted(() => {
       <X />
     </div>
 
-    <form @submit.prevent="$emit(mode === 'create' ? 'createStock' : 'editStock')"
+    <form @submit.prevent="$emit(mode === 'create' ? 'createIngredient' : 'editIngredient')"
           class="w-full flex flex-col gap-6">
-      <section class="w-full grid grid-cols-2 gap-4">
-        <div class="flex flex-col gap-1 col-span-2">
-          <label for="ingredient">Ingrediente</label>
-          <select v-model="model.ingredient" name="ingredient" id="ingredient"
-                  class="border border-neutral-300 rounded-xl p-2 w-full h-12">
-            <option v-for="ingredient in ingredientStore.ingredients" :key="ingredient.id"
-                    :value="ingredient.id">{{ ingredient.name }}
-            </option>
-          </select>
-        </div>
-
+      <section class="w-full grid grid-cols-1 gap-4">
         <div v-for="field in fields" :key="field.id"
              class="flex flex-col gap-1 align-center w-full"
              :class="{ 'col-span-2' : field.cols === '2', 'col-span-1': field.cols === '1' }">
