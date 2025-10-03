@@ -13,11 +13,11 @@ export const useStockStore = defineStore('stock', () => {
     const newItem = ref({
       id: null,
       ingredient: null,
-      quantity: 0,
+      quantity: null,
       batch: '',
-      expiration_date: '',
+      expiration_date: new Date().toISOString().split('T')[0],
       supplier: '',
-      batch_price: 0,
+      batch_price: null,
       unit_of_measure: ''
     })
 
@@ -73,8 +73,10 @@ export const useStockStore = defineStore('stock', () => {
     const deleteStockItem = async (id) => {
       try {
         loadingStore.isLoading = true
+
         await stockApi.deleteStockItem(id)
         stockItems.value = stockItems.value.filter(item => item.id !== id)
+
         modalStore.closeConfirmDeleteModal()
         loadingStore.isLoading = false
       } catch (error) {
