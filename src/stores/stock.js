@@ -53,12 +53,11 @@ export const useStockStore = defineStore('stock', () => {
       }
     }
 
-    const updateStockItem = async (itemId) => {
+    const updateStockItem = async () => {
       try {
         loadingStore.isLoading = true
-        const currentEditing = stockItems.value.find((item) => item.id === itemId)
 
-        await stockApi.updateStockItem(currentEditing)
+        await stockApi.updateStockItem(modalStore.editingItem)
 
         await fetchStock()
         modalStore.closeCreateModal()
