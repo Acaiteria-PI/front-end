@@ -1,7 +1,4 @@
 <script setup>
-import { useStockStore } from '@/stores/stock.js'
-
-const stockStore = useStockStore()
 const emit = defineEmits(['confirm', 'cancel'])
 </script>
 

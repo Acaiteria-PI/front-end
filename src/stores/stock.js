@@ -1,37 +1,45 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import StockApi from '@/services/stockApi.js'
+import { useLoading } from '@/stores/loading.js'
+import { useModalStore } from '@/stores/modal.js'
 
+const loadingStore = useLoading()
+const modalStore = useModalStore()
 const stockApi = new StockApi()
 
 export const useStockStore = defineStore('stock', () => {
-
-    const createModal = ref(false)
-    const confirmDeleteModal = ref(false)
-    const itemToDelete = ref()
-    const editingItem = ref()
-    const modalMode = ref()
     const stockItems = ref([])
+    const lowStockItems = ref([])
     const newItem = ref({
       id: null,
       ingredient: null,
-      quantity: 0,
+      quantity: null,
       batch: '',
-      expiration_date: '',
+      expiration_date: new Date().toISOString().split('T')[0],
       supplier: '',
-      batch_price: 0,
+      batch_price: null,
       unit_of_measure: ''
     })
 
     const fetchStock = async () => {
+      loadingStore.isLoading = true
       const data = await stockApi.fetchStock()
-      stockItems.value = Array.isArray(data.results) ? [...data.results] : [...data]
+      stockItems.value = Array.isArray(data.results) ? [...data.results] : [...data] //Verifica se há data.results ou só data no json e força a ciação de um novo array na memória para forçar a reatividade (stockItems.value = data.results tava dando problema na atualização da ui)
+      loadingStore.isLoading = false
+    }
+
+    const fetchLowStock = async () => {
+      loadingStore.isLoading = true
+      const data = await stockApi.fetchLowStock()
+      lowStockItems.value = Array.isArray(data.results) ? [...data.results] : [...data]
+      loadingStore.isLoading = false
     }
 
     const createStockItem = async (item) => {
       try {
+        loadingStore.isLoading = true
         const created = await stockApi.createStockItem(item)
-        await console.log('Creating stock item:', created, 'api response:', await stockApi.fetchStock())
         stockItems.value.push(created)
 
         newItem.value = {
@@ -44,78 +52,56 @@ export const useStockStore = defineStore('stock', () => {
           batch_price: 0,
           unit_of_measure: ''
         }
-
-        closeCreateModal(createModal.value)
+        modalStore.closeCreateModal()
         await fetchStock()
+        loadingStore.isLoading = false
       } catch (error) {
         console.error('Error creating stock item:', error)
+        loadingStore.isLoading = false
       }
     }
 
-    const updateStockItem = async (itemId) => {
+    const updateStockItem = async () => {
       try {
-        console.log('Updating item', itemId)
+        loadingStore.isLoading = true
 
-        const currentEditing = stockItems.value.find((item) => item.id === itemId)
-        console.log(currentEditing)
-
-        await stockApi.updateStockItem(currentEditing)
+        await stockApi.updateStockItem(modalStore.editingItem)
 
         await fetchStock()
-
-        closeCreateModal()
+        modalStore.closeCreateModal()
+        loadingStore.isLoading = false
 
       } catch (error) {
         console.error('Error updating stock item:', error)
+        loadingStore.isLoading = false
       }
     }
 
     const deleteStockItem = async (id) => {
       try {
+        loadingStore.isLoading = true
+
         await stockApi.deleteStockItem(id)
         stockItems.value = stockItems.value.filter(item => item.id !== id)
-        closeConfirmDeleteModal()
+
+        modalStore.closeConfirmDeleteModal()
+        loadingStore.isLoading = false
       } catch (error) {
         console.error('Error while deleting stock item', id)
+        loadingStore.isLoading = false
       }
-    }
-
-    const openCreateModal = (mode, item) => {
-      modalMode.value = mode || 'create'
-      if (modalMode.value === 'edit') editingItem.value = item
-      createModal.value = true
-    }
-
-    const closeCreateModal = () => {
-      createModal.value = false
-    }
-
-    const openConfirmDeleteModal = (id) => {
-      itemToDelete.value = id
-      confirmDeleteModal.value = true
-    }
-
-    const closeConfirmDeleteModal = () => {
-      confirmDeleteModal.value = false
     }
 
 
     return {
       stockItems,
+      lowStockItems,
       fetchStock,
+      fetchLowStock,
       createStockItem,
       newItem,
       deleteStockItem,
-      createModal,
-      confirmDeleteModal,
-      openCreateModal,
-      closeCreateModal,
-      openConfirmDeleteModal,
-      closeConfirmDeleteModal,
-      itemToDelete,
       updateStockItem,
-      editingItem,
-      modalMode
     }
   }
 )

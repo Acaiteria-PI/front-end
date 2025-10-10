@@ -16,4 +16,9 @@ export default class StockApi {
   async deleteStockItem(id) {
     const { data } = API.delete(`api/stock/${id}/`)
   }
+
+  async fetchLowStock() {
+    const { data } = await API.get('api/stock/low_stock/')
+    return data
+  }
 }

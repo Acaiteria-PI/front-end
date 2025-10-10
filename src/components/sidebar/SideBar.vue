@@ -1,25 +1,33 @@
 <script setup>
-import { ref } from 'vue'
-import { LogOut, Package, Tag, GlassWater, Gift, Users } from 'lucide-vue-next'
+import { computed } from 'vue'
+import { LogOut, Package, ChefHat, Tag, GlassWater, Gift, Users } from 'lucide-vue-next'
 import SideBarItem from './SideBarItem.vue'
-import router from '@/router'
+import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
 
 const tabs = [
+  { name: 'Ingredientes', icon: ChefHat, route: '/management-menu/ingredients' },
   { name: 'Estoque', icon: Package, route: '/management-menu/stock' },
   { name: 'Produtos', icon: Tag, route: '/management-menu/products' },
   { name: 'Recipientes', icon: GlassWater, route: '/management-menu/recipients' },
-  { name: 'Combos', icon: Gift, route: '/management-menu/combos' },
+  { name: 'Combos', icon: Gift, route: '/management-menu/combos' }
 ]
-const currentTab = ref('stock')
+const currentTab = computed(() => {
+  return route.path
+})
 
 const enterTab = (tab) => {
-  currentTab.value = tab
   router.push({ path: tab })
 }
 </script>
 
 <template>
-  <nav class="sidebar w-60 h-[calc(100vh-4.5rem)] flex flex-col gap-6 bg-neutral-100 pt-10">
+  <nav
+    class="sidebar w-60 h-[calc(100vh-5.5rem)] flex flex-col rounded-2xl gap-6 bg-neutral-100 pt-10">
+    <!--    5.5rem é o resultado do tamanho da navbar + seu padding (h-18 + pt-4)-->
     <p class="text-sm text-neutral-500 ml-6">Produtos</p>
     <ul class="flex flex-col gap-4 mb- ml-4">
       <SideBarItem

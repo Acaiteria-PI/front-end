@@ -43,10 +43,10 @@ export const useAuth = defineStore('auth', () => {
 
       localStorage.setItem('access', accessToken.value)
       localStorage.setItem('refresh', refreshToken.value)
-      loadingStore.isLoading = false
 
       await fetchCurrentUser()
       await router.push('/')
+      loadingStore.isLoading = false
 
     } catch (err) {
       console.log('Login error: ', err.response?.data || err.message)

@@ -20,6 +20,11 @@ const router = createRouter({
       component: () => import('@/views/ManagementMenu.vue'),
       children: [
         {
+          path: 'ingredients',
+          name: 'ingredients',
+          component: () => import('@/views/IngredientView.vue')
+        },
+        {
           path: 'stock',
           name: 'stock',
           component: () => import('@/views/StockView.vue'),
@@ -39,6 +44,7 @@ router.beforeEach(async (to, from, next) => {
     }
   }
   if (to.name !== 'login' && !authStore.isLoggedIn) next({ name: 'login' })
+  if (to.name === 'management-menu') next({ name: 'ingredients' })
   else next()
 })
 

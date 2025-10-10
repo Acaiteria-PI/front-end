@@ -6,40 +6,69 @@ const authStore = useAuth()
 </script>
 
 <template>
-  <main
-    class="w-full h-18 flex items-center justify-between px-12 bg-amber-50 border-b-1 border-neutral-200">
-    <router-link to="/" class="image-container w-16 cursor-pointer">
-      <img src="../assets/img/logo.png" alt="" />
-    </router-link>
-    <ul class="nav flex gap-10">
-      <li class="hover:underline">
-        <router-link to="/">Início</router-link>
-      </li>
-      <li class="hover:underline">
-        <router-link to="/management-menu">Menu de gerenciamento</router-link>
-      </li>
-      <li class="hover:underline">
-        <router-link to="">Cardápio</router-link>
-      </li>
-    </ul>
-    <div class="login-bag-wrapper flex items-center gap-8">
-      <div class="cursor-pointer rounded-full hover:bg-zinc-200 transition delay-150ms ease-in-out">
-        <ShoppingBag />
-      </div>
-
-      <div v-if="authStore.isLoggedIn"
-           class="bg-rose-900 w-10 h-10 rounded-full flex items-center justify-center">
-        <p class="text-white">{{ authStore.firstLetter }}</p>
-      </div>
-      <router-link v-else to="/login" class="text-white">
-        <div
-          class="w-25 h-10 rounded-full flex items-center justify-center cursor-pointer bg-rose-900 hover:bg-rose-950 transition delay-150ms ease-in-out"
-        >
-          <p>Login</p>
-        </div>
+  <div class="w-full px-4 pt-4 relative top-0">
+    <main class="w-full h-18 flex items-center justify-between px-12 bg-white shadow-md rounded-2xl">
+      <router-link to="/" class="image-container w-18 cursor-pointer hover:opacity-80 transition-opacity">
+        <img src="../assets/img/logo.png" alt="Logo Pé de Açaí" class="w-full h-full object-contain" />
       </router-link>
-    </div>
-  </main>
+      <nav>
+        <ul class="flex gap-12 items-center">
+          <li>
+            <router-link
+              to="/"
+              class="text-neutral-700 font-medium hover:text-rose-900 transition-colors relative group pb-1"
+            >
+              Início
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-rose-900 transition-all group-hover:w-full"></span>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/management-menu"
+              class="text-neutral-700 font-medium hover:text-rose-900 transition-colors relative group pb-1"
+            >
+              Menu de gerenciamento
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-rose-900 transition-all group-hover:w-full"></span>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to=""
+              class="text-neutral-700 font-medium hover:text-rose-900 transition-colors relative group pb-1"
+            >
+              Cardápio
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-rose-900 transition-all group-hover:w-full"></span>
+            </router-link>
+          </li>
+        </ul>
+      </nav>
+      <div class="flex items-center gap-6">
+        <div
+          class="cursor-pointer p-2.5 rounded-full hover:bg-rose-50 transition-colors group"
+          title="Carrinho"
+        >
+          <ShoppingBag class="text-neutral-700 group-hover:text-rose-900 transition-colors" :size="22" />
+        </div>
+        <div v-if="authStore.isLoggedIn"
+             class="bg-rose-900 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer hover:bg-rose-950 transition-colors shadow-md"
+             title="Perfil"
+        >
+          <p class="text-white font-semibold text-lg">{{ authStore.firstLetter }}</p>
+        </div>
+        <router-link v-else to="/login">
+          <div
+            class="px-6 h-11 rounded-full flex items-center justify-center cursor-pointer bg-rose-900 hover:bg-rose-950 transition-all shadow-md hover:shadow-lg"
+          >
+            <p class="text-white font-medium">Login</p>
+          </div>
+        </router-link>
+      </div>
+    </main>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.router-link-active span {
+  width: 100%;
+}
+</style>
