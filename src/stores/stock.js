@@ -10,6 +10,7 @@ const stockApi = new StockApi()
 
 export const useStockStore = defineStore('stock', () => {
     const stockItems = ref([])
+    const lowStockItems = ref([])
     const newItem = ref({
       id: null,
       ingredient: null,
@@ -24,7 +25,14 @@ export const useStockStore = defineStore('stock', () => {
     const fetchStock = async () => {
       loadingStore.isLoading = true
       const data = await stockApi.fetchStock()
-      stockItems.value = Array.isArray(data.results) ? [...data.results] : [...data]
+      stockItems.value = Array.isArray(data.results) ? [...data.results] : [...data] //Verifica se há data.results ou só data no json e força a ciação de um novo array na memória para forçar a reatividade (stockItems.value = data.results tava dando problema na atualização da ui)
+      loadingStore.isLoading = false
+    }
+
+    const fetchLowStock = async () => {
+      loadingStore.isLoading = true
+      const data = await stockApi.fetchLowStock()
+      lowStockItems.value = Array.isArray(data.results) ? [...data.results] : [...data]
       loadingStore.isLoading = false
     }
 
@@ -87,11 +95,13 @@ export const useStockStore = defineStore('stock', () => {
 
     return {
       stockItems,
+      lowStockItems,
       fetchStock,
+      fetchLowStock,
       createStockItem,
       newItem,
       deleteStockItem,
-      updateStockItem
+      updateStockItem,
     }
   }
 )
