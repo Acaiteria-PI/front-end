@@ -26,8 +26,8 @@ const enterTab = (tab) => {
 
 <template>
   <nav
-    class="sidebar w-60 h-[calc(100vh-5.5rem)] flex flex-col rounded-2xl gap-6 bg-neutral-100 pt-10">
-    <!--    5.5rem é o resultado do tamanho da navbar + seu padding (h-18 + pt-4)-->
+    class="sidebar w-60 h-[calc(100vh-6rem)] flex flex-col rounded-2xl gap-6 bg-neutral-100 pt-10">
+    <!--    6rem é o resultado do tamanho da navbar + seu padding e margin (h-18 + pt-2 + mt-4)-->
     <p class="text-sm text-neutral-500 ml-6">Produtos</p>
     <ul class="flex flex-col gap-4 mb- ml-4">
       <SideBarItem

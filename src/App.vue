@@ -1,15 +1,20 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import NavBar from './components/NavBar.vue';
+import NavBar from './components/NavBar.vue'
 
 const route = useRoute()
 </script>
 
 <template>
-  <header>
-    <NavBar />
-  </header>
-  <router-view />
+  <div>
+    <header class="sticky top-0 z-50">
+      <NavBar />
+    </header>
+
+    <main>
+      <router-view />
+    </main>
+  </div>
 </template>
 
 <style scoped>
