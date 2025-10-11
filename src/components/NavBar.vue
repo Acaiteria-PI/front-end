@@ -6,7 +6,7 @@ const authStore = useAuth()
 </script>
 
 <template>
-  <div class="w-full px-4 pt-4 relative top-0">
+  <div class="px-4 pt-2 mt-4">
     <main class="w-full h-18 flex items-center justify-between px-12 bg-white shadow-md rounded-2xl">
       <router-link to="/" class="image-container w-18 cursor-pointer hover:opacity-80 transition-opacity">
         <img src="../assets/img/logo.png" alt="Logo Pé de Açaí" class="w-full h-full object-contain" />
