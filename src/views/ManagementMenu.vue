@@ -6,7 +6,7 @@ const route = useRoute()
 </script>
 
 <template>
-  <div class="w-screen h-full flex flex-row">
+  <div class="flex flex-row">
     <aside>
       <SideBar />
     </aside>
