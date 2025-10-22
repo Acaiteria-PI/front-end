@@ -2,7 +2,7 @@
 import SectionTitle from '@/components/management-menu/SectionTitle.vue'
 import SearchBar from '@/components/management-menu/SearchBar.vue'
 import NewProductBtn from '@/components/management-menu/NewProductBtn.vue'
-import CardsProduct from '@/components/management-menu/products-section/CardsProduct.vue'
+import FinalCupCard from '@/components/management-menu/products-section/FinalCupCard.vue'
 import Loading from 'vue-loading-overlay'
 import { useLoading } from '@/stores/loading.js'
 import 'vue-loading-overlay/dist/css/index.css'
@@ -19,8 +19,8 @@ const loadingStore = useLoading()
       <SearchBar />
       <NewProductBtn title="+ Novo produto" />
     </section>
-    <section class="w-full flex flex-wrap gap-6">
-      <CardsProduct v-for="i in 10" :key="i" />
+    <section class="w-full flex flex-wrap gap-6 mt-8">
+      <FinalCupCard v-for="i in 10" :key="i" />
     </section>
   </main>
 </template>
