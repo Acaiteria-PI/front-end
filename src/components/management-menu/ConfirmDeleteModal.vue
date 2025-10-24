@@ -4,7 +4,7 @@ const emit = defineEmits(['confirm', 'cancel'])
 
 <template>
   <div
-    class="w-66 h-42 bg-white rounded-ld flex flex-col items-center justify-center shadow-xl p-6 gap-4 rounded-2xl"
+    class="w-66 z-999 h-42 bg-white rounded-ld flex flex-col items-center justify-center shadow-xl p-6 gap-4 rounded-2xl"
   >
     <section class="w-full flex flex-col justify-center items-center">
       <h1 class="text-lg font-bold">Tem certeza?</h1>

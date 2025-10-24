@@ -7,7 +7,7 @@ const route = useRoute()
 
 <template>
   <div>
-    <header class="sticky top-0 z-50">
+    <header class="sticky top-0">
       <NavBar />
     </header>
 
