@@ -35,7 +35,7 @@ const modalStore = useModalStore()
 
       <div class="flex gap-3 justify-end">
         <div class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
-          <PencilLine :size="20" />
+          <PencilLine :size="20" @click="modalStore.openCreateModal('edit', product)" />
         </div>
         <div class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
           <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id)" />
