@@ -1,10 +1,12 @@
 <script setup>
 import { PencilLine, Trash } from 'lucide-vue-next'
 import { useFinalCupStore } from '@/stores/finalCup.js'
+import { useModalStore } from '@/stores/modal.js'
 
 defineProps(['product'])
 
 const finalCupStore = useFinalCupStore()
+const modalStore = useModalStore()
 </script>
 
 <template>
@@ -36,7 +38,7 @@ const finalCupStore = useFinalCupStore()
           <PencilLine :size="20" />
         </div>
         <div class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
-          <Trash :size="20" />
+          <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id)" />
         </div>
       </div>
     </div>
