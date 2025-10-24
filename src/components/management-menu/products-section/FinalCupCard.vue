@@ -1,9 +1,14 @@
 <script setup>
-import { Trash, PencilLine } from 'lucide-vue-next'
+import { PencilLine, Trash } from 'lucide-vue-next'
+import { useFinalCupStore } from '@/stores/finalCup.js'
+
+defineProps(['product'])
+
+const finalCupStore = useFinalCupStore()
 </script>
 
 <template>
-  <div class="bg-white rounded-2xl border border-gray-300 p-4 flex gap-4 relative">
+  <div class="bg-white min-w-85 max-w-100 rounded-2xl border border-gray-300 p-4 flex gap-4 relative">
     <div class="flex flex-col items-center gap-2">
       <div class="w-28 h-36 bg-amber-100 rounded-xl flex items-center justify-center">
         <img
@@ -20,10 +25,10 @@ import { Trash, PencilLine } from 'lucide-vue-next'
 
     <div class="flex flex-col justify-between flex-grow">
       <div>
-        <h2 class="text-lg font-semibold mb-2">Açaí 400ml + Açaí 300ml</h2>
-        <p class="text-gray-600 text-sm mb-1">400ml, 300ml</p>
-        <p class="text-lg font-medium mb-1">R$30,00</p>
-        <p class="text-gray-600 text-md">Açaí</p>
+        <h2 class="text-lg font-semibold mb-2">{{ product.name }}</h2>
+        <p class="text-gray-600 text-sm mb-1">{{ product.recipient_data.quantity_ml }}ml</p>
+        <p class="text-lg font-medium mb-1">R${{ product.price.replace('.', ',') }}</p>
+        <p class="text-gray-600 text-md">{{ finalCupStore.getIngredientsNames(product) }}</p>
       </div>
 
       <div class="flex gap-3 justify-end">
