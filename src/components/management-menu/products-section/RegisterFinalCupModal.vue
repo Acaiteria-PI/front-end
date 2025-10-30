@@ -4,7 +4,9 @@ import { X } from 'lucide-vue-next'
 import { useFinalCupStore } from '@/stores/finalCup.js'
 import { useModalStore } from '@/stores/modal.js'
 import { useIngredientStore } from '@/stores/ingredient.js'
+import { useRecipientStore } from '@/stores/recipient.js'
 
+const recipientStore = useRecipientStore()
 const ingredientStore = useIngredientStore()
 const finalCupStore = useFinalCupStore()
 const modalStore = useModalStore()
@@ -24,19 +26,12 @@ const fields = reactive([
     name: 'Nome',
     placeholder: 'Ex: Açai c/ banana',
     type: 'text',
-    cols: '1'
+    cols: '2'
   },
   {
     id: 'price',
     name: 'Preço',
     placeholder: 'R$25,00',
-    type: 'text',
-    cols: '1'
-  },
-  {
-    id: 'recipient',
-    name: 'Recipiente',
-    placeholder: 'Ex: Copo 500ml',
     type: 'text',
     cols: '1'
   }
@@ -45,6 +40,7 @@ const fields = reactive([
 onMounted(() => {
   finalCupStore.fetchFinalCups()
   ingredientStore.fetchIngredients()
+  recipientStore.fetchRecipients()
 })
 </script>
 
@@ -61,7 +57,6 @@ onMounted(() => {
     <form @submit.prevent="$emit(mode === 'create' ? 'createFinalCup' : 'editFinalCup')"
           class="w-full flex flex-col gap-6">
       <section class="w-full grid grid-cols-1 gap-4">
-
         <div v-for="field in fields" :key="field.id"
              class="flex flex-col gap-1 align-center w-full"
              :class="{ 'col-span-2' : field.cols === '2', 'col-span-1': field.cols === '1' }">
@@ -74,14 +69,24 @@ onMounted(() => {
             class="border border-neutral-300 rounded-xl p-2 w-full h-12"
           />
         </div>
+        <div class="flex flex-col gap-1 col-span-2">
+          <label for="recipient">Recipiente</label>
+          <select v-model="model.recipient" name="recipient" id="recipient"
+                  class="border border-neutral-300 rounded-xl p-2 w-full h-12">
+            <option v-for="recipient in recipientStore.recipients" :key="recipient.id"
+                    :value="recipient.id">{{ recipient.title }}
+            </option>
+          </select>
+        </div>
 
-        <section class="gap-1 flex flex-col">
+        <section class="gap-1 flex flex-col col-span-2">
           <label for="ingredient">Ingredientes</label>
           <div class="max-h-40 overflow-y-scroll border border-neutral-300 rounded-xl">
             <div v-for="ingredient in ingredientStore.ingredients" :key="ingredient.id">
               <div class="flex justify-between align-center p-4">
                 <label :for="ingredient.id">{{ ingredient.name }}</label>
-                <input class="w-4 cursor-pointer" v-model="model.ingredient" :value="ingredient.id" type="checkbox" />
+                <input class="w-4 cursor-pointer" v-model="model.ingredient" :value="ingredient.id"
+                       type="checkbox" />
               </div>
               <div class="px-4">
                 <hr class="border-neutral-300" />
@@ -90,17 +95,6 @@ onMounted(() => {
           </div>
 
         </section>
-        <!--        Precisa dos services e store do recipient -->
-
-        <!--        <div class="flex flex-col gap-1 col-span-2">-->
-        <!--          <label for="recipient">Recipiente</label>-->
-        <!--          <select v-model="model.recipient" name="recipient" id="recipient"-->
-        <!--                  class="border border-neutral-300 rounded-xl p-2 w-full h-12">-->
-        <!--            <option v-for="recipient in recipientStore.recipients" :key="recipient.id"-->
-        <!--                    :value="recipient.id">{{ recipient.name }}-->
-        <!--            </option>-->
-        <!--          </select>-->
-        <!--        </div>-->
       </section>
       <button type="submit"
               class="w-full h-15 rounded-xl bg-rose-900 font-medium text-white hover:bg-rose-950 cursor-pointer duration-200 ease-in-out">
