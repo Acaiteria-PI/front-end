@@ -52,20 +52,9 @@ router.beforeEach(async (to, from, next) => {
       await authStore.fetchCurrentUser()
     } catch (error) {
       console.error('Erro ao buscar usuário:', error)
-    }
-  }
-  if (to.name !== 'login' && !authStore.isLoggedIn) next({ name: 'login' })
-  if (to.name === 'management-menu') next({ name: 'ingredients' })
-  else next()
-})
-router.beforeEach(async (to, from, next) => {
-  const authStore = useAuth()
-
-  if (!authStore.user && authStore.accessToken) {
-    try {
-      await authStore.fetchCurrentUser()
-    } catch (error) {
-      console.error('Erro ao buscar usuário:', error)
+      authStore.accessToken.value = null
+      authStore.refreshToken.value = null
+      next({ name: 'login' })
     }
   }
   if (to.name !== 'login' && !authStore.isLoggedIn) next({ name: 'login' })
