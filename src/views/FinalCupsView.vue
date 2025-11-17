@@ -29,7 +29,7 @@ onMounted(() => {
   <loading v-model:active="loadingStore.isLoading"
            :is-full-page="loadingStore.fullPage" />
   <main class="w-full p-8">
-    <SectionTitle title="Produtos" class="mt-8" />
+    <SectionTitle title="Produtos" />
     <section class="flex flex-row items-start justify-between">
       <SearchBar />
       <NewProductBtn title="+ Novo produto" @click="modalStore.openCreateModal('create')" />

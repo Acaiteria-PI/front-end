@@ -33,7 +33,7 @@ const headers = [
   <loading v-model:active="loadingStore.isLoading"
            :is-full-page="loadingStore.fullPage" />
   <div class="w-full p-8">
-    <SectionTitle title="Gerenciamento de recipientes" class="mt-8" />
+    <SectionTitle title="Gerenciamento de recipientes" />
     <section class="flex flex-row items-start justify-between">
       <SearchBar />
       <div class="flex flex-row gap-4">
