@@ -1,14 +1,12 @@
 <script setup>
 import { onMounted, reactive } from 'vue'
 import { X } from 'lucide-vue-next'
-import { useFinalCupStore } from '@/stores/finalCup.js'
 import { useModalStore } from '@/stores/modal.js'
 import { useIngredientStore } from '@/stores/ingredient.js'
 import { useRecipientStore } from '@/stores/recipient.js'
 
 const recipientStore = useRecipientStore()
 const ingredientStore = useIngredientStore()
-const finalCupStore = useFinalCupStore()
 const modalStore = useModalStore()
 
 defineProps({
@@ -38,7 +36,6 @@ const fields = reactive([
 ])
 
 onMounted(() => {
-  finalCupStore.fetchFinalCups()
   ingredientStore.fetchIngredients()
   recipientStore.fetchRecipients()
 })
