@@ -38,6 +38,11 @@ const router = createRouter({
           path: 'recipients',
           name: 'recipients',
           component: () => import('@/views/RecipientsView.vue')
+        },
+        {
+          path: 'combos',
+          name: 'combos',
+          component: () => import('@/views/CombosView.vue')
         }
       ]
     }
