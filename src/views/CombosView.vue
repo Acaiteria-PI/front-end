@@ -2,16 +2,15 @@
 import SectionTitle from '@/components/management-menu/SectionTitle.vue'
 import SearchBar from '@/components/management-menu/SearchBar.vue'
 import NewProductBtn from '@/components/management-menu/NewProductBtn.vue'
-import ComboCard from '@/components/management-menu/products-section/ComboCard.vue'
+import ComboCard from '@/components/management-menu/combos-section/ComboCard.vue'
 import Loading from 'vue-loading-overlay'
 import { useLoading } from '@/stores/loading.js'
 import 'vue-loading-overlay/dist/css/index.css'
 import { onMounted } from 'vue'
 import { useComboStore } from '@/stores/combo.js'
 import { useModalStore } from '@/stores/modal.js'
-import RegisterFinalCupModal
-  from '@/components/management-menu/products-section/RegisterFinalCupModal.vue'
 import ConfirmDeleteModal from '@/components/management-menu/ConfirmDeleteModal.vue'
+import RegisterComboModal from '@/components/management-menu/combos-section/RegisterComboModal.vue'
 
 const comboStore = useComboStore()
 
@@ -21,7 +20,6 @@ const modalStore = useModalStore()
 onMounted( async() => {
   loadingStore.isLoading = true
   await comboStore.fetchCombos()
-  console.log(comboStore.combos)
   loadingStore.isLoading = false
 })
 </script>
@@ -42,9 +40,9 @@ onMounted( async() => {
 
     <div v-if="modalStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
-      <RegisterFinalCupModal
-        @create-final-cup="comboStore.createCombo(comboStore.newCombo)"
-        @edit-final-cup="comboStore.updateCombo()"
+      <RegisterComboModal
+        @create-combo="comboStore.createCombo(comboStore.newCombo)"
+        @edit-combo="comboStore.updateCombo()"
         :mode="modalStore.modalMode"
         :model="modalStore.modalMode === 'create' ? comboStore.newCombo : modalStore.editingItem"
         :title="modalStore.modalMode === 'create' ? 'Cadastrar combo' : 'Editar combo'"
