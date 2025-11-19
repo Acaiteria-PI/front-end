@@ -57,8 +57,8 @@ router.beforeEach(async (to, from, next) => {
       await authStore.fetchCurrentUser()
     } catch (error) {
       console.error('Erro ao buscar usuário:', error)
-      localStorage.setItem('access', '')
-      localStorage.setItem('refresh', '')
+      localStorage.removeItem('access')
+      localStorage.removeItem('refresh')
       return next({ name: 'login' })
     }
   }
