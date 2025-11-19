@@ -38,6 +38,11 @@ const router = createRouter({
           path: 'recipients',
           name: 'recipients',
           component: () => import('@/views/RecipientsView.vue')
+        },
+        {
+          path: 'combos',
+          name: 'combos',
+          component: () => import('@/views/CombosView.vue')
         }
       ]
     }
@@ -52,14 +57,14 @@ router.beforeEach(async (to, from, next) => {
       await authStore.fetchCurrentUser()
     } catch (error) {
       console.error('Erro ao buscar usuário:', error)
-      authStore.accessToken.value = null
-      authStore.refreshToken.value = null
-      next({ name: 'login' })
+      localStorage.setItem('access', '')
+      localStorage.setItem('refresh', '')
+      return next({ name: 'login' })
     }
   }
-  if (to.name !== 'login' && !authStore.isLoggedIn) next({ name: 'login' })
-  if (to.name === 'management-menu') next({ name: 'ingredients' })
-  else next()
+  if (to.name !== 'login' && !authStore.isLoggedIn) return next({ name: 'login' })
+  if (to.name === 'management-menu') return next({ name: 'ingredients' })
+  else return next()
 })
 
 export default router
