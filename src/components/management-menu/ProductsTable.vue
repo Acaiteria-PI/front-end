@@ -12,6 +12,7 @@ const formatField = (product, value) => {
   if (value === 'ingredient_data') return product.ingredient_data?.name || '-'
   else if (value === 'expiration_date') return new Date(product.expiration_date).toLocaleDateString('pt-BR')
   else if (value === 'price') return `R$ ${product.price.replace('.', ',')}`
+  else if (value === 'batch_price') return `R$ ${product.batch_price.replace('.', ',')}`
   else if (value === 'quantity') return product.quantity.replace('.',',')
   return product[value]
 }

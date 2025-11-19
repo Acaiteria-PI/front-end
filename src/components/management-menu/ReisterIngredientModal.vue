@@ -3,6 +3,7 @@ import { reactive, onMounted } from 'vue'
 import { X } from 'lucide-vue-next'
 import { useIngredientStore } from '@/stores/ingredient.js'
 import { useModalStore } from '@/stores/modal.js'
+import MoneyInput from '@/components/MoneyInput.vue'
 
 const ingredientStore = useIngredientStore()
 const modalStore = useModalStore()
@@ -28,14 +29,7 @@ const fields = reactive([
     id: 'portion',
     name: 'Porção',
     placeholder: 'Porção para o produto final',
-    type: 'text',
-    cols: '1'
-  },
-  {
-    id: 'price',
-    name: 'Preço',
-    placeholder: 'R$5,00',
-    type: 'text',
+    type: 'number',
     cols: '1'
   },
   {
@@ -76,6 +70,11 @@ onMounted(() => {
             v-model="model[field.id]"
             class="border border-neutral-300 rounded-xl p-2 w-full h-12"
           />
+        </div>
+
+        <div class="flex flex-col gap-1 align-center w-full col-span-1">
+          <label for="price">Preço</label>
+          <MoneyInput v-model="model.price" />
         </div>
       </section>
       <button type="submit"

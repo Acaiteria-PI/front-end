@@ -49,7 +49,7 @@ onMounted(() => {
 
         <div class="flex flex-col gap-1 align-center w-full col-span-2">
           <label for="price">Preço</label>
-          <MoneyInput v-model="model.price" @click="console.log(typeof(model.price))" />
+          <MoneyInput v-model="model.price" />
         </div>
 
         <section class="gap-1 flex flex-col col-span-2">
