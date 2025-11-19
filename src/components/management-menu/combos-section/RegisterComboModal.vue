@@ -3,6 +3,7 @@ import { onMounted, reactive } from 'vue'
 import { X } from 'lucide-vue-next'
 import { useFinalCupStore } from '@/stores/finalCup.js'
 import { useModalStore } from '@/stores/modal.js'
+import MoneyInput from '@/components/MoneyInput.vue'
 
 const finalCupStore = useFinalCupStore()
 const modalStore = useModalStore()
@@ -15,23 +16,6 @@ defineProps({
 })
 
 defineEmits(['createCombo', 'editCombo'])
-
-const fields = reactive([
-  {
-    id: 'name',
-    name: 'Nome',
-    placeholder: 'Ex: Açai c/ banana e Açaí c/ morango',
-    type: 'text',
-    cols: '2'
-  },
-  {
-    id: 'price',
-    name: 'Preço',
-    placeholder: 'R$32,90',
-    type: 'text',
-    cols: '1'
-  }
-])
 
 onMounted(() => {
   finalCupStore.fetchFinalCups()
@@ -51,17 +35,21 @@ onMounted(() => {
     <form @submit.prevent="$emit(mode === 'create' ? 'createCombo' : 'editCombo')"
           class="w-full flex flex-col gap-6">
       <section class="w-full grid grid-cols-1 gap-4">
-        <div v-for="field in fields" :key="field.id"
-             class="flex flex-col gap-1 align-center w-full"
-             :class="{ 'col-span-2' : field.cols === '2', 'col-span-1': field.cols === '1' }">
-          <label :for="field.id">{{ field.name }}</label>
+        <div
+          class="flex flex-col gap-1 align-center w-full col-span-2">
+          <label for="name">Nome</label>
           <input
-            :id="field.id"
-            :type="field.type"
-            :placeholder="field.placeholder"
-            v-model="model[field.id]"
+            id="name"
+            type="text"
+            placeholder="Ex: Açai c/ banana e Açaí c/ morango"
+            v-model="model['name']"
             class="border border-neutral-300 rounded-xl p-2 w-full h-12"
           />
+        </div>
+
+        <div class="flex flex-col gap-1 align-center w-full col-span-2">
+          <label for="price">Preço</label>
+          <MoneyInput v-model="model.price" @click="console.log(typeof(model.price))" />
         </div>
 
         <section class="gap-1 flex flex-col col-span-2">
