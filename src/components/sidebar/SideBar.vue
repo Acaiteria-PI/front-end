@@ -1,9 +1,8 @@
 <script setup>
-import { computed } from 'vue'
-import { LogOut, Package, ChefHat, Tag, GlassWater, Gift, Users } from 'lucide-vue-next'
+import { computed, onMounted } from 'vue'
+import { ChefHat, Gift, GlassWater, LogOut, Package, Tag, Users } from 'lucide-vue-next'
 import SideBarItem from './SideBarItem.vue'
-import { useRouter } from 'vue-router'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
@@ -22,6 +21,10 @@ const currentTab = computed(() => {
 const enterTab = (tab) => {
   router.push({ path: tab })
 }
+
+onMounted(() => {
+  console.log(currentTab.value, route.path)
+})
 </script>
 
 <template>
@@ -29,7 +32,7 @@ const enterTab = (tab) => {
     class="sidebar w-60 h-[calc(100vh-6rem)] flex flex-col rounded-2xl gap-6 bg-neutral-100 pt-10">
     <!--    6rem é o resultado do tamanho da navbar + seu padding e margin (h-18 + pt-2 + mt-4)-->
     <p class="text-sm text-neutral-500 ml-6">Produtos</p>
-    <ul class="flex flex-col gap-4 mb- ml-4">
+    <ul class="flex flex-col gap-4 ml-4">
       <SideBarItem
         v-for="tab in tabs"
         :key="tab.route"
@@ -42,17 +45,9 @@ const enterTab = (tab) => {
     </ul>
 
     <p class="text-sm text-neutral-500 ml-6">Equipe</p>
-    <div
-      @click="enterTab('employees')"
-      class="flex flex-row items-center w-[calc(15rem-24px)] h-10 ml-4 py-4 px-2 gap-2 rounded-lg hover:bg-neutral-300 transition-all cursor-pointer"
-      :class="currentTab === 'employees' ? 'text-gray-950 font-semibold' : 'text-neutral-500'"
-    >
-      <div
-        v-if="currentTab === 'employees'"
-        class="identifier w-1.5 h-8 bg-pink-900 rounded-lg"
-      ></div>
-      <Users :size="20" />
-      <router-link to="">Funcionários</router-link>
+    <div class="ml-4">
+      <SideBarItem name="Funcionários" :icon="Users" route="/management-menu/employees"
+                   @click="enterTab('/management-menu/employees')" :currentTab="currentTab" />
     </div>
 
     <div

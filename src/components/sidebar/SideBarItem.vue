@@ -1,7 +1,5 @@
 <script setup>
 defineProps(['name', 'icon', 'route', 'currentTab'])
-
-defineEmits(['enterTab'])
 </script>
 
 <template>
