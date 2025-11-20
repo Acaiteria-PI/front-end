@@ -1,13 +1,11 @@
 <script setup>
 import { onMounted, reactive } from 'vue'
 import { X } from 'lucide-vue-next'
+import { useFinalCupStore } from '@/stores/finalCup.js'
 import { useModalStore } from '@/stores/modal.js'
-import { useIngredientStore } from '@/stores/ingredient.js'
-import { useRecipientStore } from '@/stores/recipient.js'
 import MoneyInput from '@/components/MoneyInput.vue'
 
-const recipientStore = useRecipientStore()
-const ingredientStore = useIngredientStore()
+const finalCupStore = useFinalCupStore()
 const modalStore = useModalStore()
 
 defineProps({
@@ -17,21 +15,10 @@ defineProps({
   model: { type: Object, required: true }
 })
 
-defineEmits(['createFinalCup', 'editFinalCup'])
-
-const fields = reactive([
-  {
-    id: 'name',
-    name: 'Nome',
-    placeholder: 'Ex: Açai c/ banana',
-    type: 'text',
-    cols: '2'
-  }
-])
+defineEmits(['createCombo', 'editCombo'])
 
 onMounted(() => {
-  ingredientStore.fetchIngredients()
-  recipientStore.fetchRecipients()
+  finalCupStore.fetchFinalCups()
 })
 </script>
 
@@ -45,18 +32,17 @@ onMounted(() => {
       <X />
     </div>
 
-    <form @submit.prevent="$emit(mode === 'create' ? 'createFinalCup' : 'editFinalCup')"
+    <form @submit.prevent="$emit(mode === 'create' ? 'createCombo' : 'editCombo')"
           class="w-full flex flex-col gap-6">
       <section class="w-full grid grid-cols-1 gap-4">
-        <div v-for="field in fields" :key="field.id"
-             class="flex flex-col gap-1 align-center w-full"
-             :class="{ 'col-span-2' : field.cols === '2', 'col-span-1': field.cols === '1' }">
-          <label :for="field.id">{{ field.name }}</label>
+        <div
+          class="flex flex-col gap-1 align-center w-full col-span-2">
+          <label for="name">Nome</label>
           <input
-            :id="field.id"
-            :type="field.type"
-            :placeholder="field.placeholder"
-            v-model="model[field.id]"
+            id="name"
+            type="text"
+            placeholder="Ex: Açai c/ banana e Açaí c/ morango"
+            v-model="model['name']"
             class="border border-neutral-300 rounded-xl p-2 w-full h-12"
           />
         </div>
@@ -66,23 +52,13 @@ onMounted(() => {
           <MoneyInput v-model="model.price" />
         </div>
 
-        <div class="flex flex-col gap-1 col-span-2">
-          <label for="recipient">Recipiente</label>
-          <select v-model="model.recipient" name="recipient" id="recipient"
-                  class="border border-neutral-300 rounded-xl p-2 w-full h-12">
-            <option v-for="recipient in recipientStore.recipients" :key="recipient.id"
-                    :value="recipient.id">{{ recipient.title }}
-            </option>
-          </select>
-        </div>
-
         <section class="gap-1 flex flex-col col-span-2">
-          <label for="ingredient">Ingredientes</label>
+          <label for="finalCup">Produtos</label>
           <div class="max-h-40 overflow-y-scroll border border-neutral-300 rounded-xl">
-            <div v-for="ingredient in ingredientStore.ingredients" :key="ingredient.id">
+            <div v-for="finalCup in finalCupStore.finalCups" :key="finalCup.id">
               <div class="flex justify-between align-center p-4">
-                <label :for="ingredient.id">{{ ingredient.name }}</label>
-                <input class="w-4 cursor-pointer" v-model="model.ingredient" :value="ingredient.id"
+                <label :for="finalCup.id">{{ finalCup.name }}</label>
+                <input class="w-4 cursor-pointer" v-model="model.final_cup" :value="finalCup.id"
                        type="checkbox" />
               </div>
               <div class="px-4">
@@ -90,7 +66,6 @@ onMounted(() => {
               </div>
             </div>
           </div>
-
         </section>
       </section>
       <button type="submit"

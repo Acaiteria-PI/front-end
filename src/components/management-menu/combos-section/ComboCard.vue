@@ -1,11 +1,11 @@
 <script setup>
 import { PencilLine, Trash } from 'lucide-vue-next'
-import { useFinalCupStore } from '@/stores/finalCup.js'
+import { useComboStore } from '@/stores/combo.js'
 import { useModalStore } from '@/stores/modal.js'
 
 defineProps(['product'])
 
-const finalCupStore = useFinalCupStore()
+const comboStore = useComboStore()
 const modalStore = useModalStore()
 </script>
 
@@ -22,7 +22,7 @@ const modalStore = useModalStore()
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-4 text-sm text-gray-600">
         <span class="font-medium text-gray-900 text-base">R${{ product.price.replace('.', ',') }}</span>
-        <span>{{ finalCupStore.getIngredientsNames(product) }}</span>
+        <span>{{ comboStore.getFinalCupsNames(product) }}</span>
       </div>
 
       <div class="flex gap-3">
