@@ -43,6 +43,11 @@ const router = createRouter({
           path: 'combos',
           name: 'combos',
           component: () => import('@/views/CombosView.vue')
+        },
+        {
+          path: 'employees',
+          name: 'employees',
+          component: () => import('@/views/EmployeeView.vue')
         }
       ]
     }
@@ -57,8 +62,7 @@ router.beforeEach(async (to, from, next) => {
       await authStore.fetchCurrentUser()
     } catch (error) {
       console.error('Erro ao buscar usuário:', error)
-      localStorage.removeItem('access')
-      localStorage.removeItem('refresh')
+      authStore.logout()
       return next({ name: 'login' })
     }
   }
