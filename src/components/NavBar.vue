@@ -32,15 +32,6 @@ const authStore = useAuth()
               <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-rose-900 transition-all group-hover:w-full"></span>
             </router-link>
           </li>
-          <li>
-            <router-link
-              to=""
-              class="text-neutral-700 font-medium hover:text-rose-900 transition-colors relative group pb-1"
-            >
-              Cardápio
-              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-rose-900 transition-all group-hover:w-full"></span>
-            </router-link>
-          </li>
         </ul>
       </nav>
       <div class="flex items-center gap-6">
