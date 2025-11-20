@@ -10,12 +10,14 @@ const { isDesktop } = useBreakpoint(768)
 
 <template>
   <div>
-    <header v-if="isDesktop" class="sticky top-0">
-      <NavBar />
-    </header>
+    <div v-if="route.name !== 'login'">
+      <header v-if="isDesktop" class="sticky top-0">
+        <NavBar />
+      </header>
 
-    <div v-else class="bottom-0 fixed w-full px-4 pb-2 z-999">
-      <MobileNavBar />
+      <div v-else class="bottom-0 fixed w-full px-4 pb-2 z-999">
+        <MobileNavBar />
+      </div>
     </div>
 
     <main>
