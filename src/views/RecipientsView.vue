@@ -34,7 +34,7 @@ const headers = [
            :is-full-page="loadingStore.fullPage" />
   <div class="w-full p-8">
     <SectionTitle title="Gerenciamento de recipientes" class="mt-8" />
-    <section class="flex flex-row items-start justify-between">
+    <section class="flex flex-row items-start justify-between gap-4 md:gap-0">
       <SearchBar />
       <div class="flex flex-row gap-4">
         <NewProductBtn title="+ Novo recipiente" @click="modalStore.openCreateModal('create')" />

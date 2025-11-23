@@ -4,7 +4,7 @@ import { Search } from 'lucide-vue-next'
 
 <template>
   <div
-    class="w-52 sm:w-64 md:w-80 lg:w-96 h-10 px-3 flex flex-row items-center gap-3 border rounded-xl border-neutral-400"
+    class="lg:w-96 h-10 px-3 flex flex-row items-center gap-3 border rounded-xl border-neutral-400"
   >
     <Search :color="'#737373'" class="w-4 h-4" />
     <input
