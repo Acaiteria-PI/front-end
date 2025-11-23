@@ -21,26 +21,73 @@ const formatField = (product, value) => {
 </script>
 
 <template>
-  <table
-    class="border border-neutral-300 rounded-xl border-separate border-spacing-0 table-fixed w-full">
-    <thead>
-    <tr>
-      <th
-        v-for="header in headers"
-        :key="header.name"
-        class="p-2 text-start font-medium text-neutral-500"
-      >
-        {{ header.name }}
-      </th>
-      <th class="p-2 text-start text-neutral-500 font-medium">Ações</th>
-    </tr>
-    </thead>
-    <tbody>
+
+  <div class="mt-6">
+
+
+
+
+  <div class="md:hidden space-y-4">
+    <div
+      v-for="product in products"
+      :key="product.id"
+      class="border border-neutral-300 rounded-lg p-4 shadow-sm"
+    >
+  <div
+    v-for="header in headers"
+    :key="header.value"
+    class="flex justify-between py-1"
+  >
+    <span class="font-medium text-neutral-600 text-sm">{{ header.name }}</span>
+    <span class="text-sm text-neutral-800">
+      {{ formatField(product, header.value) }}
+    </span>
+  </div>
+
+  <div class="flex flex-row items-center gap-3 pt-3">
+    <div class="cursor-pointer hover:bg-gray-200 rounded-lg p-1 transition-all">
+      <PencilLine @click="modalStore.openCreateModal('edit', product)" :size="20" />
+    </div>
+    <div class="cursor-pointer hover:bg-gray-200 rounded-lg p-1 transition-all">
+      <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id)" />
+    </div>
+  </div>
+</div>
+
+  </div>
+
+
+
+  <div class="w-full overflow-x-auto hidden md:block">
+    <table
+      class="border border-neutral-300 rounded-xl border-separate border-spacing-0 table-fixed w-full min-w-[600px]">
+      <thead>
+        <tr>
+          <th
+            v-for="header in headers"
+            :key="header.name"
+            class="p-2 text-start font-medium text-neutral-500 break-words whitespace-normal"
+          >
+            {{ header.name }}
+          </th>
+          <th class="p-2 text-start text-neutral-500 font-medium break-words whitespace-normal">
+            Ações
+          </th>
+        </tr>
+      </thead>
+
+
+  <tbody>
     <tr v-for="product in products" :key="product.id" class="border-t border-neutral-300">
-      <td class="p-2 border-t border-neutral-300" v-for="header in headers" :key="header.value">
-        {{ formatField(product, header.value)
-        }}
+
+      <td
+        v-for="header in headers"
+        :key="header.value"
+        class="p-2 border-t border-neutral-300 break-words whitespace-normal"
+      >
+        {{ formatField(product, header.value) }}
       </td>
+
       <td class="p-2 border-t border-neutral-300">
         <div class="flex flex-row items-center justify-start gap-2">
           <div class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
@@ -51,9 +98,15 @@ const formatField = (product, value) => {
           </div>
         </div>
       </td>
+
     </tr>
-    </tbody>
-  </table>
+  </tbody>
+</table>
+
+
+  </div>
+  </div>
+
 </template>
 
 <style scoped></style>

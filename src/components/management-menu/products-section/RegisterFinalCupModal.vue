@@ -37,7 +37,7 @@ onMounted(() => {
 
 <template>
   <main
-    class="w-100 h-fit bg-white rounded-3xl shadow-xl p-6 pt-8 flex flex-col items-center gap-6">
+    class="w-100 h-fit bg-white rounded-3xl shadow-xl p-6 pt-8 flex flex-col items-center gap-6 mx-4 relative md:mx-0">
     <h1 class="text-3xl font-bold mb-2 text-center">{{ title }}</h1>
     <div
       class="h-8 w-8 rounded-full hover:bg-neutral-200 flex items-center justify-center absolute top-4 right-4 cursor-pointer"
