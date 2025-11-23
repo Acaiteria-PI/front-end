@@ -13,7 +13,7 @@ export const useAuth = defineStore('auth', () => {
 
   const user = ref(null)
   const isLoggedIn = computed(() => {
-    return !!user.value // !! statement return true if user is not null, empty string or 0
+    return !!accessToken.value // !! statement return true if user is not null, empty string or 0
   })
 
   const firstLetter = computed(() => {
@@ -63,5 +63,5 @@ export const useAuth = defineStore('auth', () => {
     user.value = null
   }
 
-  return { login, fetchCurrentUser, logout, user, accessToken, isLoggedIn, firstLetter }
+  return { login, fetchCurrentUser, logout, user, accessToken, refreshToken, isLoggedIn, firstLetter }
 })

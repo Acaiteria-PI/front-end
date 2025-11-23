@@ -38,6 +38,16 @@ const router = createRouter({
           path: 'recipients',
           name: 'recipients',
           component: () => import('@/views/RecipientsView.vue')
+        },
+        {
+          path: 'combos',
+          name: 'combos',
+          component: () => import('@/views/CombosView.vue')
+        },
+        {
+          path: 'employees',
+          name: 'employees',
+          component: () => import('@/views/EmployeeView.vue')
         }
       ]
     }
@@ -52,25 +62,13 @@ router.beforeEach(async (to, from, next) => {
       await authStore.fetchCurrentUser()
     } catch (error) {
       console.error('Erro ao buscar usuário:', error)
+      authStore.logout()
+      return next({ name: 'login' })
     }
   }
-  if (to.name !== 'login' && !authStore.isLoggedIn) next({ name: 'login' })
-  if (to.name === 'management-menu') next({ name: 'ingredients' })
-  else next()
-})
-router.beforeEach(async (to, from, next) => {
-  const authStore = useAuth()
-
-  if (!authStore.user && authStore.accessToken) {
-    try {
-      await authStore.fetchCurrentUser()
-    } catch (error) {
-      console.error('Erro ao buscar usuário:', error)
-    }
-  }
-  if (to.name !== 'login' && !authStore.isLoggedIn) next({ name: 'login' })
-  if (to.name === 'management-menu') next({ name: 'ingredients' })
-  else next()
+  if (to.name !== 'login' && !authStore.isLoggedIn) return next({ name: 'login' })
+  if (to.name === 'management-menu') return next({ name: 'ingredients' })
+  else return next()
 })
 
 export default router

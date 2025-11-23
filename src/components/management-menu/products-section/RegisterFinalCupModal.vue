@@ -1,14 +1,13 @@
 <script setup>
 import { onMounted, reactive } from 'vue'
 import { X } from 'lucide-vue-next'
-import { useFinalCupStore } from '@/stores/finalCup.js'
 import { useModalStore } from '@/stores/modal.js'
 import { useIngredientStore } from '@/stores/ingredient.js'
 import { useRecipientStore } from '@/stores/recipient.js'
+import MoneyInput from '@/components/MoneyInput.vue'
 
 const recipientStore = useRecipientStore()
 const ingredientStore = useIngredientStore()
-const finalCupStore = useFinalCupStore()
 const modalStore = useModalStore()
 
 defineProps({
@@ -27,18 +26,10 @@ const fields = reactive([
     placeholder: 'Ex: Açai c/ banana',
     type: 'text',
     cols: '2'
-  },
-  {
-    id: 'price',
-    name: 'Preço',
-    placeholder: 'R$25,00',
-    type: 'text',
-    cols: '1'
   }
 ])
 
 onMounted(() => {
-  finalCupStore.fetchFinalCups()
   ingredientStore.fetchIngredients()
   recipientStore.fetchRecipients()
 })
@@ -69,6 +60,12 @@ onMounted(() => {
             class="border border-neutral-300 rounded-xl p-2 w-full h-12"
           />
         </div>
+
+        <div class="flex flex-col gap-1 align-center w-full col-span-2">
+          <label for="price">Preço</label>
+          <MoneyInput v-model="model.price" />
+        </div>
+
         <div class="flex flex-col gap-1 col-span-2">
           <label for="recipient">Recipiente</label>
           <select v-model="model.recipient" name="recipient" id="recipient"
