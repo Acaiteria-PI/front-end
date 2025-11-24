@@ -29,8 +29,8 @@ onMounted(() => {
     v-model:active="loadingStore.isLoading"
     :is-full-page="loadingStore.fullPage"
   />
-  <main class="w-full p-8">
-    <SectionTitle title="Produtos" class="mt-8" />
+  <main class="w-full p-8 mb-20 md:mb-0">
+    <SectionTitle title="Produtos" />
     <section class="flex flex-row items-start justify-between gap-4 md:gap-0">
       <SearchBar />
       <NewProductBtn

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 export const useModalStore = defineStore('modal', () => {
   const editingItem = ref()
@@ -26,6 +26,14 @@ export const useModalStore = defineStore('modal', () => {
   const closeConfirmDeleteModal = () => {
     confirmDeleteModal.value = false
   }
+
+watch(
+  () => [createModal.value, confirmDeleteModal.value],
+  ([m1, m2]) => {
+    const anyOpen = m1 || m2
+    document.body.style.overflow = anyOpen ? 'hidden' : 'auto'
+  }
+)
 
   return {
     editingItem,

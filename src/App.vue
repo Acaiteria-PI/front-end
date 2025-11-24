@@ -15,7 +15,7 @@ const { isDesktop } = useBreakpoint(768)
         <NavBar />
       </header>
 
-      <div v-else class="bottom-0 fixed w-full px-4 pb-2 z-999">
+      <div v-else class="bottom-0 fixed w-full px-4 pb-2">
         <MobileNavBar />
       </div>
     </div>

@@ -10,7 +10,7 @@ const modalStore = useModalStore()
 </script>
 
 <template>
-  <div class="bg-white min-w-md rounded-xl border border-gray-300 p-4 flex flex-col">
+  <div class="bg-white md:min-w-md rounded-xl border border-gray-300 p-4 flex flex-col">
     <div class="flex items-start justify-between mb-1">
       <h2 class="text-lg font-semibold">{{ product.name }}</h2>
       <div class="flex items-center gap-2">

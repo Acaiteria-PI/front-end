@@ -33,7 +33,7 @@ const headers = [
 <template>
   <loading v-model:active="loadingStore.isLoading"
            :is-full-page="loadingStore.fullPage" />
-  <div class="w-full p-8">
+  <div class="w-full p-8 mb-20 md:mb-0">
     <SectionTitle title="Gerenciamento de funcionários" />
     <section class="flex flex-row items-start justify-between">
       <SearchBar />

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import ProductsTable from '@/components/management-menu/ProductsTable.vue'
 import SectionTitle from '@/components/management-menu/SectionTitle.vue'
 import SearchBar from '@/components/management-menu/SearchBar.vue'
@@ -32,8 +32,8 @@ const headers = [
 <template>
   <loading v-model:active="loadingStore.isLoading"
            :is-full-page="loadingStore.fullPage" />
-  <div class="w-full p-8">
-    <SectionTitle title="Gerenciamento de recipientes" class="mt-8" />
+  <div class="w-full p-8 mb-20 md:mb-0">
+    <SectionTitle title="Gerenciamento de recipientes" />
     <section class="flex flex-row items-start justify-between gap-4 md:gap-0">
       <SearchBar />
       <div class="flex flex-row gap-4">
