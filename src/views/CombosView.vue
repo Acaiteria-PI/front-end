@@ -27,9 +27,9 @@ onMounted( async() => {
 <template>
   <loading v-model:active="loadingStore.isLoading"
            :is-full-page="loadingStore.fullPage" />
-  <main class="w-full p-8">
+  <main class="w-full p-8 mb-20 md:mb-0">
     <SectionTitle title="Combos" />
-    <section class="flex flex-row items-start justify-between">
+    <section class="flex flex-row items-start justify-between gap-4 md:gap-0">
       <SearchBar />
       <NewProductBtn title="+ Novo combo" @click="modalStore.openCreateModal('create')" />
     </section>
@@ -47,7 +47,7 @@ onMounted( async() => {
         :model="modalStore.modalMode === 'create' ? comboStore.newCombo : modalStore.editingItem"
         :title="modalStore.modalMode === 'create' ? 'Cadastrar combo' : 'Editar combo'"
         :btn-name="modalStore.modalMode === 'create' ? 'Cadastrar' : 'Salvar'"
-        class="absolute inset-0 m-auto z-50" />
+        class="absolute inset-0 m-auto z-200" />
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
 

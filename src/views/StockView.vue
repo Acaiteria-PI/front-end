@@ -34,9 +34,9 @@ const headers = [
 <template>
   <loading v-model:active="loadingStore.isLoading"
            :is-full-page="loadingStore.fullPage" />
-  <div class="w-full p-8">
+  <div class="w-full p-8 mb-20 md:mb-0">
     <SectionTitle title="Gerenciamento de estoque" />
-    <section class="flex flex-row items-start justify-between">
+    <section class="flex flex-row items-start justify-between gap-4 md:gap-0">
       <SearchBar />
       <div class="flex flex-row gap-4">
         <NewProductBtn title="Registrar estoque" @click="modalStore.openCreateModal('create')" />
