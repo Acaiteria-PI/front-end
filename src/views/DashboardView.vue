@@ -37,7 +37,7 @@ const stats = [
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 p-8">
+  <div class="min-h-full bg-gray-50 p-8 pb-20 md:pb-0">
     <h1 class="text-4xl font-bold text-gray-900 mb-8">Dashboard</h1>
     <DashboardCard :stats="stats" />
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8">
