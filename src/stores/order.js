@@ -1,0 +1,95 @@
+import {defineStore} from "pinia";
+import {ref} from "vue";
+import OrderApi from "@/services/orderApi";
+import {useLoading} from "@/stores/loading.js";
+import {useModalStore} from "@/stores/modal.js";
+
+const loadingStore = useLoading()
+const modalStore = useModalStore()
+const orderApi = new OrderApi()
+
+export const useOrderStore = defineStore('order', () => {
+    const orders = ref([])
+    const newOrder = ref({
+      id: null,
+      status: '',
+      customer: '',
+      order_date: null,
+      establishment: null,
+      responsible_person: null,
+      total_amount: null,
+      is_paid: false
+    })
+
+    const fetchOrders = async () => {
+      loadingStore.isLoading = true
+      const data = await orderApi.fetchOrders()
+      orders.value = Array.isArray(data.results) ? [...data.results] : [...data]
+      loadingStore.isLoading = false
+    }
+
+    const createOrder = async (order) => {
+      try {
+        loadingStore.isLoading = true
+        const created = await orderApi.createOrder(order)
+        orders.value.push(created)
+
+        newOrder.value = {
+          id: null,
+          status: '',
+          customer: '',
+          order_date: null,
+          establishment: null,
+          responsible_person: null,
+          total_amount: null,
+          is_paid: false
+        }
+
+        modalStore.closeCreateModal()
+        loadingStore.isLoading = false
+      } catch (err) {
+        console.error('Error creating order', err)
+        loadingStore.isLoading = false
+      }
+    }
+
+    const updateOrder = async () => {
+      try {
+        loadingStore.isLoading = true
+
+        await orderApi.updateOrder(modalStore.editingItem)
+
+        await fetchOrders()
+        modalStore.closeCreateModal()
+        loadingStore.isLoading = false
+
+      } catch (err) {
+        console.error('Error updating order', err)
+        loadingStore.isLoading = false
+      }
+    }
+
+    const deleteOrder = async (id) => {
+      try {
+        loadingStore.isLoading = true
+
+        await orderApi.deleteOrder(id)
+        orders.value = orders.value.filter(order => order.id !== id)
+        modalStore.closeConfirmDeleteModal()
+
+        loadingStore.isLoading = false
+      } catch (err) {
+        console.error('Error deleting order', err)
+        loadingStore.isLoading = false
+      }
+    }
+
+    return {
+      orders,
+      fetchOrders,
+      createOrder,
+      updateOrder,
+      deleteOrder
+    }
+  }
+)
