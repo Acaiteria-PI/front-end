@@ -23,7 +23,7 @@ onMounted(async () => {
 
 function getTotalPrice() {
   const recipientPrice = recipientStore.recipients.find(r => r.id === customCupStore.newCustomCup.recipient) || 0
-  let total = 0 + Number(recipientPrice.price || 0)
+  let total = Number(recipientPrice.price || 0)
   for (const i of customCupStore.newCustomCup.ingredient) {
     const ingredientPrice = ingredientStore.ingredients.find(ing => ing.id === i).price
     total += Number(ingredientPrice)

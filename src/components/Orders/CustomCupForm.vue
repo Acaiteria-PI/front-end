@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted} from "vue";
 import {Coffee} from "lucide-vue-next";
 import {useIngredientStore} from "@/stores/ingredient.js";
 import {useCustomCupStore} from "@/stores/customCup.js";

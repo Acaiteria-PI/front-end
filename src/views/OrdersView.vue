@@ -4,8 +4,6 @@ import {onMounted} from "vue";
 import {useOrderStore} from "@/stores/order.js";
 import NewProductBtn from "@/components/management-menu/NewProductBtn.vue";
 import SectionTitle from "@/components/management-menu/SectionTitle.vue";
-import SearchBar from "@/components/management-menu/SearchBar.vue";
-import FinalCupCard from "@/components/management-menu/products-section/FinalCupCard.vue";
 
 const orderStore = useOrderStore();
 
