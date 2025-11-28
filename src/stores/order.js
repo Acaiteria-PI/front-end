@@ -85,6 +85,7 @@ export const useOrderStore = defineStore('order', () => {
     }
 
     return {
+      newOrder,
       orders,
       fetchOrders,
       createOrder,

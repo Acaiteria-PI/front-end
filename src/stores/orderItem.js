@@ -43,7 +43,7 @@ export const useOrderItemStore = defineStore('orderItem', () => {
           combo: null,
           order: null,
           quantity: null,
-          unity_price: null,
+          unit_price: null,
           total_price: null
         }
 
@@ -87,6 +87,7 @@ export const useOrderItemStore = defineStore('orderItem', () => {
     }
 
     return {
+      newOrderItem,
       orderItems,
       fetchOrderItems,
       createOrderItem,
