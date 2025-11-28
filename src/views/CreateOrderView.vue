@@ -1,6 +1,9 @@
 <script setup>
 import {Sparkles, Tag, Gift} from 'lucide-vue-next'
-import OrderTypeCard from "@/components/OrderTypeCard.vue";
+import OrderTypeCard from "@/components/Orders/OrderTypeCard.vue";
+import {useRouter} from "vue-router";
+
+const router = useRouter()
 </script>
 
 <template>
@@ -18,7 +21,7 @@ import OrderTypeCard from "@/components/OrderTypeCard.vue";
 
       <!-- Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <OrderTypeCard title="Copo customizado" :icon="Sparkles" icon-color="#9333ea"
+        <OrderTypeCard @click="router.push('/orders/create/custom-cup')" title="Copo customizado" :icon="Sparkles" icon-color="#9333ea"
                        description="Monte o açaí do seu jeito com frutas e complementos à escolha"/>
         <OrderTypeCard title="Copo pronto" :icon="Tag" icon-color="#3b82f6"
                        description="Escolha entre nossas combinações já montadas e aprovadas"/>
