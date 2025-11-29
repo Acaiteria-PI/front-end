@@ -1,14 +1,17 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
 import OrderApi from "@/services/orderApi";
-import {useLoading} from "@/stores/loading.js";
 import {useModalStore} from "@/stores/modal.js";
+import {useLoading} from "@/stores/loading.js";
+import {useOrderItemStore} from "@/stores/orderItem.js";
 
-const loadingStore = useLoading()
-const modalStore = useModalStore()
 const orderApi = new OrderApi()
 
 export const useOrderStore = defineStore('order', () => {
+    const modalStore = useModalStore()
+    const loadingStore = useLoading()
+    const orderItemStore = useOrderItemStore()
+
     const orders = ref([])
     const newOrder = ref({
       id: null,
@@ -26,6 +29,10 @@ export const useOrderStore = defineStore('order', () => {
       const data = await orderApi.fetchOrders()
       orders.value = Array.isArray(data.results) ? [...data.results] : [...data]
       loadingStore.isLoading = false
+    }
+
+    const getOrderItems = (order) => {
+      return orderItemStore.orderItems.filter(item => item.order === order.id)
     }
 
     const createOrder = async (order) => {
@@ -90,7 +97,8 @@ export const useOrderStore = defineStore('order', () => {
       fetchOrders,
       createOrder,
       updateOrder,
-      deleteOrder
+      deleteOrder,
+      getOrderItems
     }
   }
 )
