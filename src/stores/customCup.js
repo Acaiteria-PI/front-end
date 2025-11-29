@@ -1,16 +1,16 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import {defineStore} from 'pinia'
+import {ref} from 'vue'
 import CustomCupApi from "@/services/customCupApi.js";
-import { useLoading } from '@/stores/loading.js'
+import {useLoading} from '@/stores/loading.js'
 import {useModalStore} from "@/stores/modal.js";
 
-const loadingStore = useLoading()
-const modalStore = useModalStore()
 const customCupApi = new CustomCupApi()
 
 export const useCustomCupStore = defineStore('customCup', () => {
-
+  const modalStore = useModalStore()
+  const loadingStore = useLoading()
   const customCups = ref([])
+
   const newCustomCup = ref({
     id: null,
     recipient: null,

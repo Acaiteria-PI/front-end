@@ -5,10 +5,11 @@ import { useLoading } from '@/stores/loading.js'
 import { useModalStore } from '@/stores/modal.js'
 
 const finalCupApi = new FinalCupApi()
+
+export const useFinalCupStore = defineStore('product', () => {
 const loadingStore = useLoading()
 const modalStore = useModalStore()
 
-export const useFinalCupStore = defineStore('product', () => {
   const finalCups = ref([])
   const newFinalCup = ref({
     id: null,
