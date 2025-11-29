@@ -3,12 +3,15 @@ import {ref} from "vue";
 import OrderItemApi from "@/services/orderItemApi";
 import {useLoading} from "@/stores/loading.js";
 import {useModalStore} from "@/stores/modal.js";
+import {useCustomCupStore} from "@/stores/customCup.js";
 
-const loadingStore = useLoading()
-const modalStore = useModalStore()
 const orderItemApi = new OrderItemApi()
 
 export const useOrderItemStore = defineStore('orderItem', () => {
+    const loadingStore = useLoading()
+    const customCupStore = useCustomCupStore()
+    const modalStore = useModalStore()
+
     const orderItems = ref([])
     const newOrderItem = ref({
       id: null,
@@ -27,6 +30,10 @@ export const useOrderItemStore = defineStore('orderItem', () => {
       const data = await orderItemApi.fetchOrderItems()
       orderItems.value = Array.isArray(data.results) ? [...data.results] : [...data]
       loadingStore.isLoading = false
+    }
+
+    const getCustomCup = (cupId) => {
+      return customCupStore.customCups.find(cup => cup.id === cupId)
     }
 
     const createOrderItem = async (order) => {
@@ -92,7 +99,8 @@ export const useOrderItemStore = defineStore('orderItem', () => {
       fetchOrderItems,
       createOrderItem,
       updateOrderItem,
-      deleteOrderItem
+      deleteOrderItem,
+      getCustomCup
     }
   }
 )
