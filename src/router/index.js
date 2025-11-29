@@ -65,7 +65,12 @@ const router = createRouter({
       path: '/orders/create/custom-cup',
       name: 'create-custom-cup',
       component: () => import('@/views/CreateCustomCupView.vue')
-    }
+    },
+    {
+      path: '/created-orders',
+      name: 'created-orders',
+      component: () => import('@/views/CreatedOrdersView.vue')
+    },
   ]
 })
 

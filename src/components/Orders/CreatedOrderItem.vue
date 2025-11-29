@@ -1,0 +1,94 @@
+<script setup>
+import {useOrderItemStore} from "@/stores/orderItem.js";
+import {Coffee, ShoppingBag, ShoppingCart, Sparkles} from "lucide-vue-next";
+import {computed} from "vue";
+
+const orderItemStore = useOrderItemStore();
+
+const props = defineProps({
+  order: {
+    type: Object,
+    required: true
+  },
+  orderItem: {
+    type: Object,
+    required: true
+  }
+});
+
+const getItemIcon = (type) => {
+  const icons = {
+    'CUSTOM_CUP': Sparkles,
+    'FINAL_CUP': Coffee,
+    'COMBO': ShoppingCart
+  };
+  return icons[type] || ShoppingBag;
+};
+
+const getItemIconColor = (type) => {
+  const colors = {
+    'CUSTOM_CUP': 'text-purple-600',
+    'FINAL_CUP': 'text-blue-600',
+    'COMBO': 'text-orange-600'
+  };
+  return colors[type] || 'text-gray-600';
+};
+
+const customCup = computed(() => {
+  return orderItemStore.getCustomCup(props.orderItem.custom_cup)
+})
+
+const recipientName = computed(() => {
+  if (!customCup.value || !customCup.value.recipient_data) return ''
+
+  return customCup.value?.recipient_data?.title || ''
+})
+
+const ingredientsNames = computed(() => {
+  if (!customCup.value || !customCup.value.ingredient_data) return ''
+
+  return customCup.value?.ingredient_data?.map(ingredient => ingredient.name)?.join(', ')
+})
+</script>
+
+<template>
+  <div
+    class="bg-white rounded-lg p-4 border border-gray-200"
+  >
+    <div class="flex items-start justify-between gap-4">
+      <div class="flex-1">
+        <div class="flex items-center gap-2 mb-2">
+          <component
+            :is="getItemIcon(orderItem.type)"
+            :size="18"
+            :class="getItemIconColor(orderItem.type)"
+          />
+          <span class="font-medium text-gray-800">{{ orderItem.type }}</span>
+        </div>
+
+        <!-- Detalhes do Item (CUSTOM CUP) -->
+        <div class="ml-6 space-y-1" v-if="orderItem.type === 'CUSTOM_CUP'">
+          <div
+            class="text-sm"
+          >
+            <span class="text-gray-500">Recipiente:</span>
+            <span class="text-gray-700 ml-1">{{ recipientName }}</span>
+          </div>
+
+          <div
+            class="text-sm"
+          >
+            <span class="text-gray-500">Ingredientes:</span>
+            <span class="text-gray-700 ml-1">{{ ingredientsNames }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-right">
+        <p class="text-lg font-semibold text-gray-800">R$ {{
+            orderItem.total_price.replace('.', ',')
+          }}</p>
+      </div>
+    </div>
+  </div>
+</template>
