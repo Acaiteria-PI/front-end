@@ -16,8 +16,8 @@ const headers = [
   {name: 'Pago', value: 'is_paid'}
 ]
 
-onMounted(() => {
-  orderStore.fetchOrders();
+onMounted( async() => {
+  await orderStore.fetchOrders();
 });
 </script>
 
