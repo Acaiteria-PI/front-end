@@ -33,7 +33,7 @@ onMounted(() => {
         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
         v-model="customCupStore.newCustomCup.recipient"
       >
-        <option value="" disabled selected>Selecione o recipiente</option>
+        <option :value="null" disabled>Selecione o recipiente</option>
         <option v-for="recipient in recipientStore.recipients" :value="recipient.id">
           {{ recipient.title }}
         </option>
