@@ -59,12 +59,17 @@ const router = createRouter({
     {
       path: '/orders/create',
       name: 'create-order',
-      component: () => import('@/views/CreateOrderView.vue')
+      component: () => import('@/views/ChoseOrderTypeView.vue')
     },
     {
       path: '/orders/create/custom-cup',
       name: 'create-custom-cup',
       component: () => import('@/views/CreateCustomCupView.vue')
+    },
+    {
+      path: '/orders/create/final-cup',
+      name: 'create-final-cup',
+      component: () => import('@/views/CreateFinalCupView.vue')
     },
     {
       path: '/created-orders',
@@ -81,7 +86,6 @@ router.beforeEach(async (to, from, next) => {
     try {
       await authStore.fetchCurrentUser()
     } catch (error) {
-      console.error('Erro ao buscar usuário:', error)
       authStore.logout()
       return next({ name: 'login' })
     }
