@@ -2,14 +2,9 @@
 import {useAuth} from '@/stores/auth.js'
 import {ShoppingBag} from 'lucide-vue-next'
 import {useOrderStore} from "@/stores/order.js";
-import {onMounted} from "vue";
 
 const orderStore = useOrderStore()
 const authStore = useAuth()
-
-onMounted(async () => {
-  await orderStore.fetchOrders()
-})
 </script>
 
 <template>
@@ -46,7 +41,7 @@ onMounted(async () => {
           </li>
           <li>
             <router-link
-              to="/orders"
+              to="/orders/create"
               class="text-neutral-700 font-medium hover:text-rose-900 transition-colors relative group pb-1"
             >
               Pedidos
@@ -58,7 +53,7 @@ onMounted(async () => {
       </nav>
       <div class="flex items-center gap-6">
         <div>
-          <router-link to="/created-orders"
+          <router-link to="/orders"
                        class="relative flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity">
             <ShoppingBag size="28"/>
             <div v-if="orderStore.orders.length > 0"

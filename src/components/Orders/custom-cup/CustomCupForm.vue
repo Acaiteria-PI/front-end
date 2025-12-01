@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted} from "vue";
-import {Coffee} from "lucide-vue-next";
+import {IceCreamBowl} from "lucide-vue-next";
 import {useIngredientStore} from "@/stores/ingredient.js";
 import {useCustomCupStore} from "@/stores/customCup.js";
 import {useRecipientStore} from "@/stores/recipient.js";
@@ -20,7 +20,7 @@ onMounted(() => {
 <template>
   <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
     <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-      <Coffee :size="20" class="mr-2 text-rose-900"/>
+      <IceCreamBowl :size="20" class="mr-2 text-rose-900"/>
       Conteúdo do Copo
     </h2>
 
@@ -34,7 +34,7 @@ onMounted(() => {
         v-model="customCupStore.newCustomCup.recipient"
       >
         <option :value="null" disabled>Selecione o recipiente</option>
-        <option v-for="recipient in recipientStore.recipients" :value="recipient.id">
+        <option v-for="recipient in recipientStore.recipients" :key=recipient.id :value="recipient.id">
           {{ recipient.title }}
         </option>
       </select>

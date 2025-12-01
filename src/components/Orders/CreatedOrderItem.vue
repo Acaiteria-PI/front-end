@@ -1,8 +1,11 @@
 <script setup>
 import {useOrderItemStore} from "@/stores/orderItem.js";
-import {Coffee, ShoppingBag, ShoppingCart, Sparkles} from "lucide-vue-next";
+import {Coffee, ShoppingBag, ShoppingCart, Sparkles, Trash} from "lucide-vue-next";
 import {computed} from "vue";
+import ConfirmDeleteModal from '@/components/management-menu/ConfirmDeleteModal.vue'
+import { useModalStore } from '@/stores/modal.js'
 
+const modalStore = useModalStore()
 const orderItemStore = useOrderItemStore();
 
 const props = defineProps({
@@ -35,7 +38,15 @@ const getItemIconColor = (type) => {
 };
 
 const customCup = computed(() => {
-  return orderItemStore.getCustomCup(props.orderItem.custom_cup)
+  return orderItemStore.getCupById(props.orderItem.custom_cup, 'CUSTOM_CUP');
+})
+
+const finalCup = computed(() => {
+  return orderItemStore.getCupById(props.orderItem.final_cup, 'FINAL_CUP');
+})
+
+const combo = computed(() => {
+  return orderItemStore.getCupById(props.orderItem.combo, 'COMBO');
 })
 
 const recipientName = computed(() => {
@@ -67,7 +78,7 @@ const ingredientsNames = computed(() => {
         </div>
 
         <!-- Detalhes do Item (CUSTOM CUP) -->
-        <div class="ml-6 space-y-1" v-if="orderItem.type === 'CUSTOM_CUP'">
+        <div v-if="orderItem.type === 'CUSTOM_CUP'" class="ml-6 space-y-1">
           <div
             class="text-sm"
           >
@@ -82,6 +93,26 @@ const ingredientsNames = computed(() => {
             <span class="text-gray-700 ml-1">{{ ingredientsNames }}</span>
           </div>
         </div>
+
+        <!-- Detalhes do Item (FINAL CUP) -->
+        <div v-else-if="orderItem.type === 'FINAL_CUP'" class="ml-6 space-y-1">
+          <div
+            class="text-sm"
+          >
+            <span class="text-gray-500">Nome:</span>
+            <span class="text-gray-700 ml-1">{{ finalCup.name }}</span>
+          </div>
+        </div>
+
+        <!-- Detalhes do Item (COMBO) -->
+        <div v-else-if="orderItem.type === 'COMBO'" class="ml-6 space-y-1">
+          <div
+            class="text-sm"
+          >
+            <span class="text-gray-500">Nome:</span>
+            <span class="text-gray-700 ml-1">{{ combo.name }}</span>
+          </div>
+        </div>
       </div>
 
       <div class="text-right">
@@ -89,6 +120,18 @@ const ingredientsNames = computed(() => {
             orderItem.total_price.replace('.', ',')
           }}</p>
       </div>
+      <div @click="modalStore.openConfirmDeleteModal(orderItem.id)" class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
+        <Trash size="20" />
+      </div>
+
+      <div v-if="modalStore.confirmDeleteModal === true"
+           class="fixed inset-0 flex items-center justify-center">
+        <ConfirmDeleteModal @confirm="orderItemStore.deleteOrderItem(modalStore.itemToDelete)"
+                            @cancel="modalStore.closeConfirmDeleteModal"
+                            class="absolute inset-0 m-auto z-50" />
+        <div class="fixed inset-0 bg-black/50 z-40"></div>
+      </div>
+
     </div>
   </div>
 </template>

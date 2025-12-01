@@ -1,5 +1,9 @@
 <script setup>
+import { ref } from 'vue'
 import { Search } from 'lucide-vue-next'
+
+const search = ref("")
+const emit = defineEmits(["update:search"])
 </script>
 
 <template>
@@ -8,6 +12,8 @@ import { Search } from 'lucide-vue-next'
   >
     <Search :color="'#737373'" class="w-4 h-4" />
     <input
+      v-model="search"
+      @input="emit('update:search', search)"
       type="text"
       placeholder="Buscar"
       class="w-full h-full text-sm text-neutral-700 bg-transparent outline-none"

@@ -8,7 +8,7 @@ const orderStore = useOrderStore();
 <template>
   <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
     <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-      <User :size="20" class="mr-2 text-rose-900"/>
+      <User :size="20" class="mr-2 text-blue-600"/>
       Dados do Pedido
     </h2>
 

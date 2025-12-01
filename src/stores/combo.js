@@ -5,10 +5,11 @@ import { useLoading } from '@/stores/loading.js'
 import { useModalStore } from '@/stores/modal.js'
 
 const comboApi = new ComboApi()
-const loadingStore = useLoading()
-const modalStore = useModalStore()
 
 export const useComboStore = defineStore('combo', () => {
+  const loadingStore = useLoading()
+  const modalStore = useModalStore()
+  
   const combos = ref([])
   const newCombo = ref({
     id: null,
