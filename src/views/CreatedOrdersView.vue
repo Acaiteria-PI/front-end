@@ -6,11 +6,14 @@ import { Clock, Package, ShoppingBag, User, UserCheck } from 'lucide-vue-next'
 import Loading from 'vue-loading-overlay'
 import { useLoading } from '@/stores/loading.js'
 import 'vue-loading-overlay/dist/css/index.css'
+import { computed } from 'vue'
 
 const loadingStore = useLoading()
 
 const router = useRouter()
 const orderStore = useOrderStore()
+
+const orders = computed(() => orderStore.orders)
 
 const getStatusClass = (status) => {
   const classes = {
@@ -44,6 +47,7 @@ const handleAddOrderItem = (orderId) => {
     }
   })
 }
+
 </script>
 
 <template>
@@ -59,7 +63,7 @@ const handleAddOrderItem = (orderId) => {
       <!-- Lista de Pedidos -->
       <div class="space-y-4">
         <div
-          v-for="order in orderStore.orders"
+          v-for="order in orders"
           :key="order.id"
           class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
         >
@@ -109,7 +113,7 @@ const handleAddOrderItem = (orderId) => {
 
               <div class="text-right">
                 <p class="text-xs text-gray-500 mb-1">Valor total</p>
-                <p class="text-2xl font-bold text-purple-600">
+                <p class="text-2xl font-bold text-blue-600">
                   R$ {{ order.total_amount.replace('.', ',') }}
                 </p>
               </div>

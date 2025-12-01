@@ -54,6 +54,7 @@ const handleSubmit = async () => { //COMENTÁRIOS FEITOS PRA AJUDAR NA COMPREENS
   }
 
   await router.push('/orders')
+  await orderStore.fetchOrders()
 }
 
 </script>
