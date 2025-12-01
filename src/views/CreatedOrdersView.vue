@@ -3,6 +3,11 @@ import { useRouter } from 'vue-router'
 import CreatedOrderItem from '@/components/Orders/CreatedOrderItem.vue'
 import { useOrderStore } from '@/stores/order.js'
 import { Clock, Package, ShoppingBag, User, UserCheck } from 'lucide-vue-next'
+import Loading from 'vue-loading-overlay'
+import { useLoading } from '@/stores/loading.js'
+import 'vue-loading-overlay/dist/css/index.css'
+
+const loadingStore = useLoading()
 
 const router = useRouter()
 const orderStore = useOrderStore()
@@ -33,17 +38,17 @@ const getPaymentStatus = (status) => {
 }
 
 const handleAddOrderItem = (orderId) => {
-  orderStore.editingOrder.value = orderId
   router.push({ name: 'create-order',
     params: {
       orderId: orderId
     }
   })
-  console.log(orderStore.editingOrder)
 }
 </script>
 
 <template>
+  <loading v-model:active="loadingStore.isLoading"
+           :is-full-page="loadingStore.fullPage" />
   <div class="min-h-screen bg-gray-50 p-6">
     <div class="max-w-7xl mx-auto">
       <div class="mb-6">
