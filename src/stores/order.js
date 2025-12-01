@@ -11,6 +11,7 @@ export const useOrderStore = defineStore('order', () => {
     const modalStore = useModalStore()
     const loadingStore = useLoading()
     const orderItemStore = useOrderItemStore()
+    const editingOrder = ref(null)
 
     const orders = ref([])
     const newOrder = ref({
@@ -92,6 +93,7 @@ export const useOrderStore = defineStore('order', () => {
     return {
       newOrder,
       orders,
+      editingOrder,
       fetchOrders,
       createOrder,
       updateOrder,

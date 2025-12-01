@@ -52,33 +52,28 @@ const router = createRouter({
       ]
     },
     {
-      path: '/orders',
-      name: 'orders',
-      component: () => import('@/views/OrdersView.vue'),
-    },
-    {
-      path: '/orders/create',
+      path: '/orders/create/:orderId?',
       name: 'create-order',
       component: () => import('@/views/ChoseOrderTypeView.vue')
     },
     {
-      path: '/orders/create/custom-cup',
+      path: '/orders/create/custom-cup/:orderId?',
       name: 'create-custom-cup',
       component: () => import('@/views/CreateCustomCupView.vue')
     },
     {
-      path: '/orders/create/final-cup',
+      path: '/orders/create/final-cup/:orderId?',
       name: 'create-final-cup',
       component: () => import('@/views/CreateFinalCupView.vue')
     },
     {
-      path: '/orders/create/combo',
+      path: '/orders/create/combo/:orderId?',
       name: 'create-combo',
       component: () => import('@/views/CreateComboView.vue')
     },
     {
-      path: '/created-orders',
-      name: 'created-orders',
+      path: '/orders',
+      name: 'orders',
       component: () => import('@/views/CreatedOrdersView.vue')
     },
   ]
@@ -91,6 +86,7 @@ router.beforeEach(async (to, from, next) => {
     try {
       await authStore.fetchCurrentUser()
     } catch (error) {
+      console.log(error)
       authStore.logout()
       return next({ name: 'login' })
     }

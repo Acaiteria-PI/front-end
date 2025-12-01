@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { ChevronLeft, Coffee, Check } from 'lucide-vue-next'
+import { useRouter, useRoute } from 'vue-router'
+import { ChevronLeft, Coffee } from 'lucide-vue-next'
 import FinalCupSelectionCard from '@/components/Orders/final-cup/FinalCupSelectionCard.vue'
 import FinalCupOrderSummary from '@/components/Orders/final-cup/FinalCupOrderSummary.vue'
 import OrderForm from '@/components/Orders/OrderForm.vue'
@@ -9,34 +9,48 @@ import { useFinalCupStore } from '@/stores/finalCup.js'
 import { useOrderStore } from '@/stores/order.js'
 import { useOrderItemStore } from '@/stores/orderItem.js'
 
+const route = useRoute()
 const router = useRouter()
 const selectedCup = ref(null)
 const finalCupStore = useFinalCupStore()
 const orderStore = useOrderStore()
 const orderItemStore = useOrderItemStore()
 
+const routeId = route.params.orderId
+
 const handleSelectCup = (cupId) => {
   selectedCup.value = cupId
 }
 
 const handleSubmit = async () => {
-  const orderData = {
-    status: 'PENDING',
-    customer: orderStore.newOrder.customer,
+  if (!routeId) {
+    const orderData = {
+      status: 'PENDING',
+      customer: orderStore.newOrder.customer
+    }
+    await orderStore.createOrder(orderData)
+    const createdOrder = orderStore.orders[orderStore.orders.length - 1]
+
+    const orderItemData = {
+      type: 'FINAL_CUP',
+      final_cup: selectedCup.value,
+      order: createdOrder.id,
+      quantity: 1,
+      unit_price: finalCupStore.finalCups.find(cup => cup.id === selectedCup.value).price
+    }
+    await orderItemStore.createOrderItem(orderItemData)
+  } else {
+    const orderItemData = {
+      type: 'FINAL_CUP',
+      final_cup: selectedCup.value,
+      order: routeId,
+      quantity: 1,
+      unit_price: finalCupStore.finalCups.find(cup => cup.id === selectedCup.value).price
+    }
+    await orderItemStore.createOrderItem(orderItemData)
   }
-  await orderStore.createOrder(orderData)
-  const createdOrder = orderStore.orders[orderStore.orders.length - 1]
 
-  const orderItemData = {
-    type: 'FINAL_CUP',
-    final_cup: selectedCup.value,
-    order: createdOrder.id,
-    quantity: 1,
-    unit_price: finalCupStore.finalCups.find(cup => cup.id === selectedCup.value).price,
-  };
-  await orderItemStore.createOrderItem(orderItemData)
-
-  router.push('/orders')
+  await router.push('/orders')
 }
 </script>
 
@@ -57,7 +71,7 @@ const handleSubmit = async () => {
       </div>
 
       <!-- order data -->
-      <OrderForm />
+      <OrderForm v-if="!routeId" />
 
       <!-- final cups grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

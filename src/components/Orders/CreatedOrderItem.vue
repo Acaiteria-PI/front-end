@@ -1,8 +1,11 @@
 <script setup>
 import {useOrderItemStore} from "@/stores/orderItem.js";
-import {Coffee, ShoppingBag, ShoppingCart, Sparkles} from "lucide-vue-next";
+import {Coffee, ShoppingBag, ShoppingCart, Sparkles, Trash} from "lucide-vue-next";
 import {computed} from "vue";
+import ConfirmDeleteModal from '@/components/management-menu/ConfirmDeleteModal.vue'
+import { useModalStore } from '@/stores/modal.js'
 
+const modalStore = useModalStore()
 const orderItemStore = useOrderItemStore();
 
 const props = defineProps({
@@ -117,6 +120,18 @@ const ingredientsNames = computed(() => {
             orderItem.total_price.replace('.', ',')
           }}</p>
       </div>
+      <div @click="modalStore.openConfirmDeleteModal(orderItem.id)" class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
+        <Trash size="20" />
+      </div>
+
+      <div v-if="modalStore.confirmDeleteModal === true"
+           class="fixed inset-0 flex items-center justify-center">
+        <ConfirmDeleteModal @confirm="orderItemStore.deleteOrderItem(modalStore.itemToDelete)"
+                            @cancel="modalStore.closeConfirmDeleteModal"
+                            class="absolute inset-0 m-auto z-50" />
+        <div class="fixed inset-0 bg-black/50 z-40"></div>
+      </div>
+
     </div>
   </div>
 </template>

@@ -1,12 +1,11 @@
 <script setup>
-import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import CreatedOrderItem from '@/components/Orders/CreatedOrderItem.vue'
 import { useOrderStore } from '@/stores/order.js'
-import { useOrderItemStore } from '@/stores/orderItem.js'
 import { Clock, Package, ShoppingBag, User, UserCheck } from 'lucide-vue-next'
 
+const router = useRouter()
 const orderStore = useOrderStore()
-const orderItemStore = useOrderItemStore()
 
 const getStatusClass = (status) => {
   const classes = {
@@ -26,6 +25,21 @@ const formatDate = (date) => {
     hour: '2-digit',
     minute: '2-digit',
   })
+}
+
+const getPaymentStatus = (status) => {
+  if (status == false) return 'Não pago'
+  else return 'Pago'
+}
+
+const handleAddOrderItem = (orderId) => {
+  orderStore.editingOrder.value = orderId
+  router.push({ name: 'create-order',
+    params: {
+      orderId: orderId
+    }
+  })
+  console.log(orderStore.editingOrder)
 }
 </script>
 
@@ -56,6 +70,7 @@ const formatDate = (date) => {
                     {{ order.status }}
                   </span>
                   <span class="text-sm text-gray-500"> Pedido #{{ order.id }} </span>
+                  <span class="bg-gray-300 px-3 py-1 rounded-full text-sm font-medium"> Pedido {{ getPaymentStatus(order.is_paid) }} </span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
@@ -117,6 +132,7 @@ const formatDate = (date) => {
           <div class="px-6 py-4 bg-white border-t border-gray-100">
             <div class="flex gap-3 justify-end">
               <button
+              @click="handleAddOrderItem(order.id)"
                 class="cursor-pointer px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
               >
                 Adicionar item

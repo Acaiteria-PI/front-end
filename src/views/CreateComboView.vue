@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { ChevronLeft, Coffee, Check } from 'lucide-vue-next'
+import { useRouter, useRoute } from 'vue-router'
+import { ChevronLeft, Coffee } from 'lucide-vue-next'
 
 import ComboSelectionCard from '@/components/Orders/combo/ComboSelectionCard.vue'
 import ComboOrderSummary from '@/components/Orders/combo/ComboOrderSummary.vue'
@@ -10,17 +10,21 @@ import { useOrderStore } from '@/stores/order.js'
 import { useOrderItemStore } from '@/stores/orderItem.js'
 import { useComboStore } from '@/stores/combo.js'
 
+const route = useRoute()
 const router = useRouter()
 const selectedCombo = ref(null)
 const comboStore = useComboStore()
 const orderStore = useOrderStore()
 const orderItemStore = useOrderItemStore()
 
+const routeId = route.params.orderId
+
 const handleSelectCombo = (comboId) => {
   selectedCombo.value = comboId
 }
 
 const handleSubmit = async () => {
+  if (!routeId) {
   const orderData = {
     status: 'PENDING',
     customer: orderStore.newOrder.customer,
@@ -36,8 +40,18 @@ const handleSubmit = async () => {
     unit_price: comboStore.combos.find(combo => combo.id === selectedCombo.value).price,
   };
   await orderItemStore.createOrderItem(orderItemData)
+  } else {
+    const orderItemData = {
+      type: 'COMBO',
+      combo: selectedCombo.value,
+      order: routeId,
+      quantity: 1,
+      unit_price: comboStore.combos.find(combo => combo.id === selectedCombo.value).price,
+    }
+    await orderItemStore.createOrderItem(orderItemData)
+  }
 
-  router.push('/orders')
+  await router.push('/orders')
 }
 </script>
 
@@ -58,7 +72,7 @@ const handleSubmit = async () => {
       </div>
 
       <!-- order data -->
-      <OrderForm />
+      <OrderForm v-if="!routeId" />
 
       <!-- final cups grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
