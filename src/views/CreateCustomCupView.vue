@@ -1,12 +1,12 @@
 <script setup>
 import {ChevronLeft} from 'lucide-vue-next';
 import {useRouter} from 'vue-router';
-import CustomCupForm from "@/components/Orders/CustomCupForm.vue";
+import CustomCupForm from "@/components/Orders/custom-cup/CustomCupForm.vue";
 import OrderForm from "@/components/Orders/OrderForm.vue";
 import {useCustomCupStore} from "@/stores/customCup.js";
 import {useOrderStore} from "@/stores/order.js";
 import {useOrderItemStore} from "@/stores/orderItem.js";
-import OrderSummary from "@/components/Orders/OrderSummary.vue";
+import OrderSummary from "@/components/Orders/custom-cup/CustomCupOrderSummary.vue";
 import SubmitButton from "@/components/SubmitButton.vue";
 
 const orderItemStore = useOrderItemStore();
@@ -26,12 +26,9 @@ const handleSubmit = async () => { //COMENTÁRIOS FEITOS PRA AJUDAR NA COMPREENS
   const orderData = {
     status: 'PENDING',
     customer: orderStore.newOrder.customer,
-    item_type: 'custom_cup',
-    responsible_person: 1,
   };
   await orderStore.createOrder(orderData);
   const createdOrder = orderStore.orders[orderStore.orders.length -1]
-  console.log(createdOrder)
 
   const orderItemData = {
     type: 'CUSTOM_CUP',
@@ -50,10 +47,9 @@ const handleSubmit = async () => { //COMENTÁRIOS FEITOS PRA AJUDAR NA COMPREENS
 <template>
   <div class="min-h-screen bg-gray-50 p-6">
     <div class="max-w-4xl mx-auto">
-      <!-- Header -->
       <div class="mb-6">
         <button @click="goBack" class="cursor-pointer flex items-center text-gray-600 hover:text-gray-800 mb-4">
-          <ChevronLeft :size="20"/>
+          <ChevronLeft :size="24"/>
           <span class="ml-1">Voltar</span>
         </button>
         <h1 class="text-3xl font-bold text-gray-800 mb-2">
@@ -65,16 +61,16 @@ const handleSubmit = async () => { //COMENTÁRIOS FEITOS PRA AJUDAR NA COMPREENS
       </div>
 
       <div class="space-y-6">
-        <!-- custom_cup -->
+        <!-- custo cup -->
         <CustomCupForm/>
 
         <!-- order -->
         <OrderForm/>
 
-        <!-- Dados do Item -->
+        <!-- order item data -->
         <OrderSummary/>
 
-        <!-- Botões de Ação -->
+        <!-- action buttons -->
         <div class="grid grid-cols-5 gap-4 mt-6 flex">
           <button
             @click="goBack"
