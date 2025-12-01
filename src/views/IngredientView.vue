@@ -8,13 +8,9 @@ import ConfirmDeleteModal from '@/components/management-menu/ConfirmDeleteModal.
 import NewProductBtn from '@/components/management-menu/NewProductBtn.vue'
 import {useIngredientStore} from '@/stores/ingredient.js'
 import {useModalStore} from '@/stores/modal.js'
-import {useLoading} from '@/stores/loading.js'
-import Loading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/css/index.css'
 
 const ingredientStore = useIngredientStore()
 const modalStore = useModalStore()
-const loadingStore = useLoading()
 
 const headers = [
   { name: 'Nome', value: 'name' },
@@ -35,8 +31,6 @@ watch(termo, (value) => {
 </script>
 
 <template>
-  <loading v-model:active="loadingStore.isLoading"
-           :is-full-page="loadingStore.fullPage" />
   <div class="w-full p-8 mb-20 md:mb-0">
     <SectionTitle title="Gerenciamento de ingredientes" />
     <section class="flex flex-row items-start justify-between gap-4 md:gap-0">
