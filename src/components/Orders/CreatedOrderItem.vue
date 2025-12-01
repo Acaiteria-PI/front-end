@@ -129,7 +129,7 @@ const ingredientsNames = computed(() => {
         <ConfirmDeleteModal @confirm="orderItemStore.deleteOrderItem(modalStore.itemToDelete)"
                             @cancel="modalStore.closeConfirmDeleteModal"
                             class="absolute inset-0 m-auto z-50" />
-        <div class="fixed inset-0 bg-black/50 z-40"></div>
+        <div class="fixed inset-0 bg-black/20 z-40"></div>
       </div>
 
     </div>
