@@ -50,7 +50,27 @@ const router = createRouter({
           component: () => import('@/views/EmployeeView.vue')
         }
       ]
-    }
+    },
+    {
+      path: '/orders',
+      name: 'orders',
+      component: () => import('@/views/OrdersView.vue'),
+    },
+    {
+      path: '/orders/create',
+      name: 'create-order',
+      component: () => import('@/views/CreateOrderView.vue')
+    },
+    {
+      path: '/orders/create/custom-cup',
+      name: 'create-custom-cup',
+      component: () => import('@/views/CreateCustomCupView.vue')
+    },
+    {
+      path: '/created-orders',
+      name: 'created-orders',
+      component: () => import('@/views/CreatedOrdersView.vue')
+    },
   ]
 })
 

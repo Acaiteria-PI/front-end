@@ -1,24 +1,19 @@
 <script setup>
-import { onMounted } from 'vue'
 import ProductsTable from '@/components/management-menu/ProductsTable.vue'
 import SectionTitle from '@/components/management-menu/SectionTitle.vue'
 import SearchBar from '@/components/management-menu/SearchBar.vue'
 import RegisterIngredientModal from '@/components/management-menu/ReisterIngredientModal.vue'
 import ConfirmDeleteModal from '@/components/management-menu/ConfirmDeleteModal.vue'
 import NewProductBtn from '@/components/management-menu/NewProductBtn.vue'
-import { useIngredientStore } from '@/stores/ingredient.js'
-import { useModalStore } from '@/stores/modal.js'
-import { useLoading } from '@/stores/loading.js'
+import {useIngredientStore} from '@/stores/ingredient.js'
+import {useModalStore} from '@/stores/modal.js'
+import {useLoading} from '@/stores/loading.js'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
 
 const ingredientStore = useIngredientStore()
 const modalStore = useModalStore()
 const loadingStore = useLoading()
-
-onMounted(() => {
-  ingredientStore.fetchIngredients()
-})
 
 const headers = [
   { name: 'Nome', value: 'name' },

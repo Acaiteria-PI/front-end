@@ -4,11 +4,11 @@ import IngredientApi from '@/services/ingredientApi'
 import { useLoading } from '@/stores/loading.js'
 import { useModalStore } from '@/stores/modal.js'
 
-const loadingStore = useLoading()
-const modalStore = useModalStore()
 const ingredientApi = new IngredientApi()
 
 export const useIngredientStore = defineStore('ingredient', () => {
+const loadingStore = useLoading()
+const modalStore = useModalStore()
 
   const ingredients = ref([])
   const newIngredient = ref({

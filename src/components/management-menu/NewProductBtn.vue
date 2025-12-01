@@ -1,4 +1,10 @@
 <script setup>
+defineProps({
+  title: {
+    type: String,
+    default: 'Registrar'
+  }
+})
 </script>
 
 <template>
@@ -6,7 +12,7 @@
     <button
       class="w-full h-10 sm:h-12 px-4 py-2 border border-neutral-400 rounded-xl text-sm font-medium text-gray-900 bg-white hover:bg-gray-50 cursor-pointer"
     >
-      Registrar
+      {{ title }}
     </button>
   </div>
 </template>
