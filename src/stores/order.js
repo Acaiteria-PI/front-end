@@ -19,7 +19,6 @@ export const useOrderStore = defineStore('order', () => {
       customer: '',
       order_date: null,
       establishment: null,
-      responsible_person: null,
       total_amount: null,
       is_paid: false
     })
@@ -47,7 +46,6 @@ export const useOrderStore = defineStore('order', () => {
           customer: '',
           order_date: null,
           establishment: null,
-          responsible_person: null,
           total_amount: null,
           is_paid: false
         }
