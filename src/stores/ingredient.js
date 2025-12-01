@@ -19,9 +19,9 @@ const modalStore = useModalStore()
     unit_of_measure: ''
   })
 
-  const fetchIngredients = async () => {
+  const fetchIngredients = async (search = '') => {
     loadingStore.isLoading = true
-    const data = await ingredientApi.fetchIngredients()
+    const data = await ingredientApi.fetchIngredients(search)
     ingredients.value = Array.isArray(data.results) ? [...data.results] : [...data]
     loadingStore.isLoading = false
   }

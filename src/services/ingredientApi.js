@@ -1,8 +1,10 @@
 import API from '@/services/axios'
 
 export default class IngredientApi {
-  async fetchIngredients() {
-    const { data } = await API.get('api/ingredients/')
+  async fetchIngredients(search = '') {
+    const { data } = await API.get(`api/ingredients/`, {
+      params: { search }
+    })
     return data
   }
 

@@ -1,4 +1,5 @@
 <script setup>
+import {ref, watch} from 'vue'
 import ProductsTable from '@/components/management-menu/ProductsTable.vue'
 import SectionTitle from '@/components/management-menu/SectionTitle.vue'
 import SearchBar from '@/components/management-menu/SearchBar.vue'
@@ -21,6 +22,16 @@ const headers = [
   { name: 'Preço', value: 'price' },
   { name: 'Un. de medida (porção)', value: 'unit_of_measure' }
 ]
+
+const termo = ref("")
+let debounceTimer = null
+
+watch(termo, (value) => {
+  clearTimeout(debounceTimer)
+  debounceTimer = setTimeout(() => {
+  ingredientStore.fetchIngredients(value)
+  }, 400)
+  })
 </script>
 
 <template>
@@ -29,7 +40,7 @@ const headers = [
   <div class="w-full p-8 mb-20 md:mb-0">
     <SectionTitle title="Gerenciamento de ingredientes" />
     <section class="flex flex-row items-start justify-between gap-4 md:gap-0">
-      <SearchBar />
+      <SearchBar v-model:search="termo" />
       <div class="flex flex-row gap-4">
         <NewProductBtn title="+ Novo ingrediente" @click="modalStore.openCreateModal('create')" />
       </div>
