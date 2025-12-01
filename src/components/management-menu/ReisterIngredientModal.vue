@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onMounted } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { X } from 'lucide-vue-next'
 import { useIngredientStore } from '@/stores/ingredient.js'
 import { useModalStore } from '@/stores/modal.js'
@@ -23,12 +23,12 @@ const fields = reactive([
     name: 'Nome',
     placeholder: 'Ex: Banana',
     type: 'text',
-    cols: '1'
+    cols: '2'
   },
   {
     id: 'portion',
     name: 'Porção',
-    placeholder: 'Porção para o produto final',
+    placeholder: 'Porção do ing.',
     type: 'number',
     cols: '1'
   },
@@ -58,7 +58,27 @@ onMounted(() => {
 
     <form @submit.prevent="$emit(mode === 'create' ? 'createIngredient' : 'editIngredient')"
           class="w-full flex flex-col gap-6">
-      <section class="w-full grid grid-cols-1 gap-4">
+      <section class="w-full grid grid-cols-2 gap-4">
+        <div class="flex items-center justify-between p-4 bg-gray-100 rounded-xl col-span-2">
+          <div>
+            <p class="font-semibold text-gray-900">Ingrediente adicional</p>
+          </div>
+
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              v-model="model.is_addon"
+              class="sr-only peer"
+            />
+            <div class="w-11 h-6 bg-gray-300 peer-focus:ring-2 peer-focus:ring-rose-500
+                  rounded-full peer peer-checked:after:translate-x-full
+                  peer-checked:after:border-white after:content-['']
+                  after:absolute after:top-[2px] after:left-[2px]
+                  after:bg-white after:rounded-full after:h-5 after:w-5
+                  after:transition-all peer-checked:bg-rose-900">
+            </div>
+          </label>
+        </div>
         <div v-for="field in fields" :key="field.id"
              class="flex flex-col gap-1 align-center w-full"
              :class="{ 'col-span-2' : field.cols === '2', 'col-span-1': field.cols === '1' }">
@@ -72,10 +92,11 @@ onMounted(() => {
           />
         </div>
 
-        <div class="flex flex-col gap-1 align-center w-full col-span-1">
+        <div class="flex flex-col gap-1 align-center w-full col-span-2">
           <label for="price">Preço</label>
           <MoneyInput v-model="model.price" />
         </div>
+
       </section>
       <button type="submit"
               class="w-full h-15 rounded-xl bg-rose-900 font-medium text-white hover:bg-rose-950 cursor-pointer duration-200 ease-in-out">
