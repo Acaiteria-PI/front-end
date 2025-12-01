@@ -8,7 +8,8 @@ import { useIngredientStore } from '@/stores/ingredient.js'
 import { useOrderStore } from '@/stores/order.js'
 import { useRecipientStore } from '@/stores/recipient.js'
 import { useFinalCupStore } from './stores/finalCup'
-import {useComboStore} from './stores/combo'
+import { useComboStore } from './stores/combo'
+import { useStockStore } from './stores/stock'
 import NavBar from './components/NavBar.vue'
 import MobileNavBar from '@/components/MobileNavBar.vue'
 
@@ -20,9 +21,11 @@ const ingredientStore = useIngredientStore()
 const orderItemStore = useOrderItemStore()
 const orderStore = useOrderStore()
 const recipientStore = useRecipientStore()
+const stockStore = useStockStore()
 const { isDesktop } = useBreakpoint(768)
 
 onMounted(async () => {
+  await stockStore.fetchStock()
   await comboStore.fetchCombos()
   await customCupStore.fetchCustomCups()
   await finalCupStore.fetchFinalCups()
