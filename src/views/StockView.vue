@@ -22,10 +22,9 @@ onMounted(() => {
 
 const headers = [
   { name: 'Ingrediente', value: 'ingredient_data' },
-  { name: 'Quantidade', value: 'quantity' },
+  { name: 'Quantidade (g)', value: 'quantity' },
   { name: 'Lote', value: 'batch' },
   { name: 'Fornecedor', value: 'supplier' },
-  { name: 'Un. de medida (lote)', value: 'unit_of_measure' },
   { name: 'Preço (lote)', value: 'batch_price' },
   { name: 'Validade', value: 'expiration_date' }
 ]
