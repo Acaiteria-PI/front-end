@@ -72,6 +72,11 @@ const router = createRouter({
       component: () => import('@/views/CreateFinalCupView.vue')
     },
     {
+      path: '/orders/create/combo',
+      name: 'create-combo',
+      component: () => import('@/views/CreateComboView.vue')
+    },
+    {
       path: '/created-orders',
       name: 'created-orders',
       component: () => import('@/views/CreatedOrdersView.vue')

@@ -25,7 +25,7 @@ const router = useRouter()
                        description="Monte o açaí do seu jeito com frutas e complementos à escolha"/>
         <OrderTypeCard @click="router.push('/orders/create/final-cup')" title="Copo pronto" :icon="Tag" icon-color="#3b82f6"
                        description="Escolha entre nossas combinações já montadas e aprovadas"/>
-        <OrderTypeCard title="Combo" :icon="Gift" icon-color="#f97316"
+        <OrderTypeCard @click="router.push('/orders/create/combo')" title="Combo" :icon="Gift" icon-color="#f97316"
                        description="Pacotes especiais com açaí e acompanhamentos em promoção"/>
 
       </div>
