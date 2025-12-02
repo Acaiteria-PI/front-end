@@ -5,12 +5,12 @@ import { useLoading } from '@/stores/loading.js'
 import { useModalStore } from '@/stores/modal.js'
 import { useRelationErrorHandler } from '@/composables/useRelationErrorHandler.js'
 
-const { handleDeleteRelationError } = useRelationErrorHandler()
-const loadingStore = useLoading()
-const modalStore = useModalStore()
 const recipientApi = new RecipientApi()
 
 export const useRecipientStore = defineStore('recipient', () => {
+const loadingStore = useLoading()
+const modalStore = useModalStore()
+const { handleDeleteRelationError } = useRelationErrorHandler()
 
   const recipients = ref([])
   const newRecipient = ref({

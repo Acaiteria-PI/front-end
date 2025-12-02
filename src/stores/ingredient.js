@@ -4,11 +4,11 @@ import IngredientApi from '@/services/ingredientApi'
 import { useLoading } from '@/stores/loading.js'
 import { useModalStore } from '@/stores/modal.js'
 
-const loadingStore = useLoading()
-const modalStore = useModalStore()
 const ingredientApi = new IngredientApi()
 
 export const useIngredientStore = defineStore('ingredient', () => {
+const loadingStore = useLoading()
+const modalStore = useModalStore()
 
   const ingredients = ref([])
   const newIngredient = ref({
@@ -16,12 +16,13 @@ export const useIngredientStore = defineStore('ingredient', () => {
     name: '',
     portion: '',
     price: null,
-    unit_of_measure: ''
+    unit_of_measure: '',
+    is_addon: false
   })
 
-  const fetchIngredients = async () => {
+  const fetchIngredients = async (search = '') => {
     loadingStore.isLoading = true
-    const data = await ingredientApi.fetchIngredients()
+    const data = await ingredientApi.fetchIngredients(search)
     ingredients.value = Array.isArray(data.results) ? [...data.results] : [...data]
     loadingStore.isLoading = false
   }

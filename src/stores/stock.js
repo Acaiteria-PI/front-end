@@ -4,11 +4,11 @@ import StockApi from '@/services/stockApi.js'
 import { useLoading } from '@/stores/loading.js'
 import { useModalStore } from '@/stores/modal.js'
 
-const loadingStore = useLoading()
-const modalStore = useModalStore()
 const stockApi = new StockApi()
 
 export const useStockStore = defineStore('stock', () => {
+    const loadingStore = useLoading()
+    const modalStore = useModalStore()
     const stockItems = ref([])
     const lowStockItems = ref([])
     const newItem = ref({
@@ -101,7 +101,7 @@ export const useStockStore = defineStore('stock', () => {
       createStockItem,
       newItem,
       deleteStockItem,
-      updateStockItem,
+      updateStockItem
     }
   }
 )
