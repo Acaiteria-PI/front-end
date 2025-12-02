@@ -58,10 +58,9 @@ const confirmPayment = () => {
     change: change.value
   }
 
-  // Aqui você faria:
-  // 1. Atualizar pedido com método de pagamento
-  // 2. Mudar status para PAGO ou AGUARDANDO_PAGAMENTO
-  // 3. Navegar para próxima tela ou voltar para lista
+  if (paymentData.method === 'pix') {
+    router.push({ name: 'pix-payment', params: { orderId: routeId } })
+  }
 }
 </script>
 
@@ -109,8 +108,10 @@ const confirmPayment = () => {
       </div>
 
       <!-- Campo de Troco (apenas para Dinheiro) -->
-      <div v-if="selectedMethod === 'dinheiro'" class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 mb-6">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Valor recebido (opcional)</label>
+      <div v-if="selectedMethod === 'dinheiro'"
+           class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Valor recebido
+          (opcional)</label>
         <div class="relative">
           <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">R$</span>
           <input
@@ -133,7 +134,7 @@ const confirmPayment = () => {
       <div class="flex gap-4">
         <button
           @click="router.back()"
-          class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition"
+          class="cursor-pointer flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition"
         >
           Cancelar
         </button>
@@ -141,7 +142,7 @@ const confirmPayment = () => {
           @click="confirmPayment"
           :disabled="!selectedMethod"
           :class="[
-            'flex-1 px-6 py-3 rounded-lg font-medium transition',
+            'cursor-pointer flex-1 px-6 py-3 rounded-lg font-medium transition',
             (selectedMethod)
               ? 'bg-green-600 text-white hover:bg-green-700'
               : 'bg-gray-300 text-gray-500 cursor-not-allowed'
