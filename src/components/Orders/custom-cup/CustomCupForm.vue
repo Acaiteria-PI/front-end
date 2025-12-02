@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted} from "vue";
+import {onMounted, computed} from "vue";
 import {IceCreamBowl} from "lucide-vue-next";
 import {useIngredientStore} from "@/stores/ingredient.js";
 import {useCustomCupStore} from "@/stores/customCup.js";
@@ -9,6 +9,9 @@ const recipientStore = useRecipientStore();
 const customCupStore = useCustomCupStore();
 const ingredientStore = useIngredientStore();
 
+const addons = computed(() => {
+  return ingredientStore.ingredients.filter(ingredient => ingredient.is_addon === true)
+})
 
 onMounted(() => {
   recipientStore.fetchRecipients()
@@ -47,7 +50,7 @@ onMounted(() => {
       </label>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <label
-          v-for="ingredient in ingredientStore.ingredients"
+          v-for="ingredient in addons"
           :key="ingredient.id"
           class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition"
         >

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive } from 'vue'
+import { computed, onMounted, reactive } from 'vue'
 import { X } from 'lucide-vue-next'
 import { useModalStore } from '@/stores/modal.js'
 import { useIngredientStore } from '@/stores/ingredient.js'
@@ -28,6 +28,10 @@ const fields = reactive([
     cols: '2'
   }
 ])
+
+const addons = computed(() => {
+  return ingredientStore.ingredients.filter(ingredient => ingredient.is_addon === true)
+})
 
 onMounted(() => {
   ingredientStore.fetchIngredients()
@@ -79,7 +83,7 @@ onMounted(() => {
         <section class="gap-1 flex flex-col col-span-2">
           <label for="ingredient">Ingredientes</label>
           <div class="max-h-40 overflow-y-scroll border border-neutral-300 rounded-xl">
-            <div v-for="ingredient in ingredientStore.ingredients" :key="ingredient.id">
+            <div v-for="ingredient in addons" :key="ingredient.id">
               <div class="flex justify-between align-center p-4">
                 <label :for="ingredient.id">{{ ingredient.name }}</label>
                 <input class="w-4 cursor-pointer" v-model="model.ingredient" :value="ingredient.id"

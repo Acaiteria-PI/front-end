@@ -19,13 +19,6 @@ defineEmits(['createStock', 'editStock'])
 
 const fields = reactive([
   {
-    id: 'quantity',
-    name: 'Quantidade no lote',
-    placeholder: '2000',
-    type: 'number',
-    cols: '2'
-  },
-  {
     id: 'batch',
     name: 'Lote',
     placeholder: 'Lote A1',
@@ -47,10 +40,10 @@ const fields = reactive([
     cols: '2'
   },
   {
-    id: 'unit_of_measure',
-    name: 'Unidade de medida',
-    placeholder: 'Un. do lote',
-    type: 'text',
+    id: 'quantity',
+    name: 'Quantidade no lote (g)',
+    placeholder: '2000',
+    type: 'number',
     cols: '1'
   }
 ])

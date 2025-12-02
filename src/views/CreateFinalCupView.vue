@@ -57,7 +57,7 @@ const handleSubmit = async () => {
 
 <template>
   <!-- header -->
-  <div class="min-h-screen bg-gray-50 p-6">
+  <div class="min-h-full bg-gray-50 p-6">
     <div class="max-w-6xl mx-auto space-y-6">
       <div class="mb-6">
         <button

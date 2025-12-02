@@ -16,7 +16,8 @@ const modalStore = useModalStore()
     name: '',
     portion: '',
     price: null,
-    unit_of_measure: ''
+    unit_of_measure: '',
+    is_addon: false
   })
 
   const fetchIngredients = async (search = '') => {

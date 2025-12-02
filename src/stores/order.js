@@ -52,6 +52,7 @@ export const useOrderStore = defineStore('order', () => {
         }
 
         modalStore.closeCreateModal()
+        await fetchOrders()
         loadingStore.isLoading = false
       } catch (err) {
         console.error('Error creating order', err)
