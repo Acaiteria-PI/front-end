@@ -49,6 +49,7 @@ const modalStore = useModalStore()
         ingredient: null
       }
       await fetchFinalCups()
+      modalStore.closeCreateModal()
       loadingStore.isLoading = false
     } catch (error) {
       console.error('Error creating final cup:', error)

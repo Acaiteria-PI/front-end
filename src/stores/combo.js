@@ -9,7 +9,7 @@ const comboApi = new ComboApi()
 export const useComboStore = defineStore('combo', () => {
   const loadingStore = useLoading()
   const modalStore = useModalStore()
-  
+
   const combos = ref([])
   const newCombo = ref({
     id: null,
@@ -47,6 +47,7 @@ export const useComboStore = defineStore('combo', () => {
         final_cup: null
       }
       await fetchCombos()
+      modalStore.closeCreateModal()
       loadingStore.isLoading = false
     } catch (error) {
       console.error('Error creating combo:', error)
