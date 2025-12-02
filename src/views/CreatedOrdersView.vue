@@ -40,6 +40,11 @@ const getPaymentStatus = (status) => {
   else return 'Pago'
 }
 
+const getPaymentStatusClass = (status) => {
+  if (status == false) return 'bg-red-100 text-red-700'
+  else return 'bg-green-100 text-green-700'
+}
+
 const handleAddOrderItem = (orderId) => {
   router.push({
     name: 'create-order',
@@ -47,6 +52,14 @@ const handleAddOrderItem = (orderId) => {
       orderId: orderId
     }
   })
+}
+
+const handleCancelOrder = (order) => {
+  if (order.status !== 'CANCELED') {
+    order.status = 'CANCELED'
+
+    orderStore.updateOrder(order)
+  }
 }
 
 const handleFinishOrder = (orderId) => {
@@ -90,7 +103,8 @@ const handleFinishOrder = (orderId) => {
                   </span>
                   <span class="text-sm text-gray-500"> Pedido #{{ order.id }} </span>
                   <span
-                    class="bg-gray-300 px-3 py-1 rounded-full text-sm font-medium"> Pedido {{ getPaymentStatus(order.is_paid)
+                    :class="getPaymentStatusClass(order.is_paid)"
+                    class="px-3 py-1 rounded-full text-sm font-medium"> Pedido {{ getPaymentStatus(order.is_paid)
                     }} </span>
                 </div>
 
@@ -154,6 +168,12 @@ const handleFinishOrder = (orderId) => {
           <div class="px-6 py-4 bg-white border-t border-gray-100">
             <div class="flex gap-3 justify-end">
               <button
+                @click="handleCancelOrder(order)"
+                class="cursor-pointer px-4 py-2 text-sm text-gray-700 border border-red-500 rounded-lg hover:bg-red-800 hover:text-white transition"
+              >
+                Cancelar pedido
+              </button>
+              <button
                 @click="handleAddOrderItem(order.id)"
                 class="cursor-pointer px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
               >
@@ -177,8 +197,14 @@ const handleFinishOrder = (orderId) => {
       >
         <Package :size="48" class="mx-auto text-gray-300 mb-4" />
         <h3 class="text-lg font-semibold text-gray-800 mb-2">Nenhum pedido encontrado</h3>
-        <p class="text-gray-600">Os pedidos aparecerão aqui quando forem criados</p>
+        <p class="text-gray-600 mb-4">Os pedidos aparecerão aqui quando forem criados</p>
+        <router-link to="/orders/create"
+                     class="cursor-pointer bg-rose-900 px-4 py-2 text-sm text-white hover:bg-rose-950 transition rounded-lg">Criar pedido
+        </router-link>
       </div>
     </div>
   </div>
 </template>
+
+<style>
+</style>
