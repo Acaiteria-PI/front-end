@@ -60,7 +60,7 @@ const handleSubmit = async () => { //COMENTÁRIOS FEITOS PRA AJUDAR NA COMPREENS
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 p-6">
+  <div class="min-h-combo bg-gray-50 p-6">
     <div class="max-w-4xl mx-auto">
       <div class="mb-6">
         <button @click="goBack"

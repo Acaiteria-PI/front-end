@@ -63,7 +63,7 @@ const handleFinishOrder = (orderId) => {
 <template>
   <loading v-model:active="loadingStore.isLoading"
            :is-full-page="loadingStore.fullPage" />
-  <div class="min-h-screen bg-gray-50 p-6">
+  <div class="min-h-full bg-gray-50 p-6">
     <div class="max-w-7xl mx-auto">
       <div class="mb-6">
         <h1 class="text-3xl font-bold text-gray-800 mb-2">Pedidos</h1>
@@ -75,7 +75,7 @@ const handleFinishOrder = (orderId) => {
         <div
           v-for="order in orders"
           :key="order.id"
-          class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
+          class="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
         >
           <!-- Header do Pedido -->
           <div class="p-6 border-b border-gray-100">
