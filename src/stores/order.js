@@ -60,14 +60,13 @@ export const useOrderStore = defineStore('order', () => {
       }
     }
 
-    const updateOrder = async () => {
+    const updateOrder = async (order) => {
       try {
         loadingStore.isLoading = true
 
-        await orderApi.updateOrder(modalStore.editingItem)
+        await orderApi.updateOrder(order)
 
         await fetchOrders()
-        modalStore.closeCreateModal()
         loadingStore.isLoading = false
 
       } catch (err) {
