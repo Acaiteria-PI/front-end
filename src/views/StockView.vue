@@ -8,16 +8,24 @@ import RegisterStockModal from '@/components/management-menu/RegisterStockModal.
 import ConfirmDeleteModal from '@/components/management-menu/ConfirmDeleteModal.vue'
 import 'vue-loading-overlay/dist/css/index.css'
 import Loading from 'vue-loading-overlay'
-import { useStockStore } from '@/stores/stock'
 import { useLoading } from '@/stores/loading.js'
+import { useStockStore } from '@/stores/stock'
 import { useModalStore } from '@/stores/modal.js'
 
 const stockStore = useStockStore()
 const loadingStore = useLoading()
 const modalStore = useModalStore()
 
-onMounted(() => {
-  stockStore.fetchStock()
+onMounted(async () => {
+  if (stockStore.stockItems.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await stockStore.fetchStock()
+  } catch (error) {
+    console.error('Error fetching stock:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 })
 
 const headers = [

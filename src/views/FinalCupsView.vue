@@ -17,10 +17,16 @@ const finalCupStore = useFinalCupStore()
 const loadingStore = useLoading()
 const modalStore = useModalStore()
 
-onMounted(() => {
-  loadingStore.isLoading = true
-  finalCupStore.fetchFinalCups()
-  loadingStore.isLoading = false
+onMounted(async () => {
+  if (finalCupStore.finalCups.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await finalCupStore.fetchFinalCups()
+  } catch (error) {
+    console.error('Error fetching final cups:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 })
 </script>
 

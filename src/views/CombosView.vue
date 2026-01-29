@@ -17,10 +17,16 @@ const comboStore = useComboStore()
 const loadingStore = useLoading()
 const modalStore = useModalStore()
 
-onMounted( async() => {
-  loadingStore.isLoading = true
-  await comboStore.fetchCombos()
-  loadingStore.isLoading = false
+onMounted(async () => {
+  if (comboStore.combos.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await comboStore.fetchCombos()
+  } catch (error) {
+    console.error('Error fetching combos:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 })
 </script>
 

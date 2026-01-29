@@ -4,7 +4,10 @@ import {IceCreamBowl} from "lucide-vue-next";
 import {useIngredientStore} from "@/stores/ingredient.js";
 import {useCustomCupStore} from "@/stores/customCup.js";
 import {useRecipientStore} from "@/stores/recipient.js";
+import { useLoading } from '@/stores/loading.js'
+import 'vue-loading-overlay/dist/css/index.css'
 
+const loadingStore = useLoading()
 const recipientStore = useRecipientStore();
 const customCupStore = useCustomCupStore();
 const ingredientStore = useIngredientStore();
@@ -13,10 +16,22 @@ const addons = computed(() => {
   return ingredientStore.ingredients.filter(ingredient => ingredient.is_addon === true)
 })
 
-onMounted(() => {
-  recipientStore.fetchRecipients()
-  ingredientStore.fetchIngredients();
-  customCupStore.fetchCustomCups();
+onMounted(async () => {
+  const promises = []
+  if (recipientStore.recipients.length === 0) promises.push(recipientStore.fetchRecipients())
+  if (ingredientStore.ingredients.length === 0) promises.push(ingredientStore.fetchIngredients())
+  if (customCupStore.customCups.length === 0) promises.push(customCupStore.customCups)
+
+  if (promises.length === 0) return
+
+  try {
+    loadingStore.isLoading = true
+    await Promise.all(promises)
+  } catch (error) {
+    console.log('Error fetching data for custom cup form:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 });
 </script>
 

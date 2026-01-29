@@ -32,10 +32,6 @@ const totalAmount = computed(() => {
   return `R$ ${ total.toFixed(2).replace('.', ',') }`
 })
 
-onMounted(() => {
-  stockStore.fetchLowStock()
-})
-
 const stats = reactive([
   {
     label: 'Pedidos hoje',

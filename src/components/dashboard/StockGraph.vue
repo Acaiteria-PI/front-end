@@ -3,17 +3,20 @@ import { ref, onMounted } from 'vue'
 import { BarChart } from 'vue-chart-3'
 import { Chart, registerables } from 'chart.js'
 import { useStockStore } from '@/stores/stock.js'
+import { useLoading } from '@/stores/loading.js'
+import 'vue-loading-overlay/dist/css/index.css'
 
 Chart.register(...registerables)
 
 const stockStore = useStockStore()
+const loadingStore = useLoading()
 
 const chartData = ref({
   type: 'bar',
   data: {
     labels: [],
     datasets: [{
-      label: 'Qtd em estoque',
+      label: 'Qtd em estoque (g)',
       data: [],
       backgroundColor: '',
       borderRadius: 8,
@@ -32,14 +35,21 @@ const chartOptions = {
   }
 }
 
-
 onMounted(async () => {
-  await stockStore.fetchLowStock()
+  try {
+    loadingStore.isLoading = true
+    await stockStore.fetchLowStock()
+  } catch (error) {
+    console.error('Error fetching low stock items:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
+
   chartData.value.data.labels = stockStore.lowStockItems.map(item => `${item.ingredient_data.name} (${item.ingredient_data.unit_of_measure}) - Lote ${item.batch}`)
   chartData.value.data.datasets[0].data = stockStore.lowStockItems.map(item => item.quantity)
   chartData.value.data.datasets[0].backgroundColor = stockStore.lowStockItems.map(item => {
-    if (item.quantity < 11) return '#ef4444'
-    if (item.quantity < 13) return '#f59e0b'
+    if (item.quantity < 700) return '#ef4444'
+    if (item.quantity < 1000 && item.quantity >= 700) return '#f59e0b'
     return '#10b981'
   })
 })

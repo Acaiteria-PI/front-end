@@ -4,7 +4,10 @@ import { X } from 'lucide-vue-next'
 import { useFinalCupStore } from '@/stores/finalCup.js'
 import { useModalStore } from '@/stores/modal.js'
 import MoneyInput from '@/components/MoneyInput.vue'
+import { useLoading } from '@/stores/loading.js'
+import 'vue-loading-overlay/dist/css/index.css'
 
+const loadingStore = useLoading()
 const finalCupStore = useFinalCupStore()
 const modalStore = useModalStore()
 
@@ -17,8 +20,16 @@ defineProps({
 
 defineEmits(['createCombo', 'editCombo'])
 
-onMounted(() => {
-  finalCupStore.fetchFinalCups()
+onMounted(async () => {
+  if (finalCupStore.finalCups.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await finalCupStore.fetchFinalCups()
+  } catch (error) {
+    console.error('Error fetching final cups for combo modal:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 })
 </script>
 
