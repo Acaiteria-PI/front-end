@@ -21,18 +21,15 @@ export const useAuth = defineStore('auth', () => {
   })
 
   const fetchCurrentUser = async () => {
-    if (!accessToken.value) {
-      user.value = null
-      return
-    }
-    const res = await API.get('api/users/me/', {
-      headers: {
-        Authorization: `Bearer ${accessToken.value}`
-      }
-    })
-    user.value = res.data
-  }
+    if (!accessToken.value) return
 
+    try {
+      const res = await API.get('api/users/me/')
+      user.value = res.data
+    } catch (error) {
+      logout()
+    }
+  }
 
   const login = async (email, password) => {
     try {
@@ -47,7 +44,6 @@ export const useAuth = defineStore('auth', () => {
       await fetchCurrentUser()
       await router.push('/')
       loadingStore.isLoading = false
-
     } catch (err) {
       console.log('Login error: ', err.response?.data || err.message)
       loadingStore.isLoading = false
@@ -63,5 +59,14 @@ export const useAuth = defineStore('auth', () => {
     user.value = null
   }
 
-  return { login, fetchCurrentUser, logout, user, accessToken, refreshToken, isLoggedIn, firstLetter }
+  return {
+    login,
+    fetchCurrentUser,
+    logout,
+    user,
+    accessToken,
+    refreshToken,
+    isLoggedIn,
+    firstLetter,
+  }
 })
