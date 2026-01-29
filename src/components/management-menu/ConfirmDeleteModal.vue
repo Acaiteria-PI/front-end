@@ -13,13 +13,13 @@ const emit = defineEmits(['confirm', 'cancel'])
     <div class="options w-full flex flex-row justify-between">
       <button
         @click="emit('cancel')"
-        class="w-24 h-10 text-sm bg-neutral-300 rounded-xl hover:bg-neutral-400 transition-all cursor-pointer"
+        class="w-24 h-10 text-sm border rounded-xl border-neutral-300 text-neutral-700 hover:bg-neutral-100 transition-colors cursor-pointer"
       >
         Cancelar
       </button>
       <button
         @click="emit('confirm')"
-        class="w-24 h-10 text-sm bg-red-800 text-white rounded-xl hover:bg-red-900 transition-all cursor-pointer"
+        class="w-24 h-10 text-sm bg-red-800 text-white rounded-xl hover:bg-red-900 transition-colors cursor-pointer"
       >
         Sim, excluir
       </button>

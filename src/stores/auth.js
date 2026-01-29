@@ -57,6 +57,7 @@ export const useAuth = defineStore('auth', () => {
     localStorage.removeItem('access')
     localStorage.removeItem('refresh')
     user.value = null
+    router.push('/login')
   }
 
   return {
