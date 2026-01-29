@@ -77,8 +77,8 @@ onMounted(() => {
       <section class="w-full grid grid-cols-2 gap-4">
 
         <div class="flex flex-col gap-1 col-span-1 w-full">
-          <label for="Establishment">Estabelecimento</label>
-          <select v-model="model.Establishment" name="establishment" id="establishment"
+          <label for="establishment">Estabelecimento</label>
+          <select v-model="model.establishment" name="establishment" id="establishment"
                   class="border border-neutral-300 rounded-xl p-2 w-full h-12">
             <option v-for="establishment in establishmentStore.establishments"
                     :key="establishment.id"
