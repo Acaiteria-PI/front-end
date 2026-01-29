@@ -1,6 +1,5 @@
 <script setup>
 import {PencilLine, Trash} from 'lucide-vue-next'
-import {useStockStore} from '@/stores/stock.js'
 import {useModalStore} from '@/stores/modal.js'
 
 const props = defineProps({
@@ -19,7 +18,6 @@ const props = defineProps({
   }
 })
 
-const stockStore = useStockStore()
 const modalStore = useModalStore()
 
 const formatField = (product, value) => {
