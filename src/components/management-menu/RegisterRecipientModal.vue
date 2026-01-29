@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, reactive } from 'vue'
 import { X } from 'lucide-vue-next'
+import MoneyInput from '@/components/MoneyInput.vue'
 import { useModalStore } from '@/stores/modal.js'
 import { useRecipientStore } from '@/stores/recipient.js'
 import { useIngredientStore } from '@/stores/ingredient.js'
@@ -18,7 +19,7 @@ defineProps({
 
 defineEmits(['createRecipient', 'editRecipient'])
 
-const fields = reactive([
+const fieldsBeforePrice = reactive([
   {
     id: 'title',
     name: 'Título',
@@ -32,14 +33,10 @@ const fields = reactive([
     placeholder: '400',
     type: 'text',
     cols: '1'
-  },
-  {
-    id: 'price',
-    name: 'Preço',
-    placeholder: 'R$20,00',
-    type: 'text',
-    cols: '1'
-  },
+  }
+])
+
+const fieldsAfterPrice = reactive([
   {
     id: 'stock',
     name: 'Estoque',
@@ -78,7 +75,25 @@ onMounted(() => {
           </select>
         </div>
 
-        <div v-for="field in fields" :key="field.id"
+        <div v-for="field in fieldsBeforePrice" :key="field.id"
+             class="flex flex-col gap-1 align-center w-full"
+             :class="{ 'col-span-2' : field.cols === '2', 'col-span-1': field.cols === '1' }">
+          <label :for="field.id">{{ field.name }}</label>
+          <input
+            :id="field.id"
+            :type="field.type"
+            :placeholder="field.placeholder"
+            v-model="model[field.id]"
+            class="border border-neutral-300 rounded-xl p-2 w-full h-12"
+          />
+        </div>
+
+        <div class="flex flex-col gap-1 align-center w-full col-span-1">
+          <label for="price">Preço</label>
+          <MoneyInput v-model="model.price" />
+        </div>
+
+        <div v-for="field in fieldsAfterPrice" :key="field.id"
              class="flex flex-col gap-1 align-center w-full"
              :class="{ 'col-span-2' : field.cols === '2', 'col-span-1': field.cols === '1' }">
           <label :for="field.id">{{ field.name }}</label>
