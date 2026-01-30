@@ -7,7 +7,10 @@ import StockGraph from '@/components/dashboard/StockGraph.vue'
 import { useOrderItemStore } from '@/stores/orderItem.js'
 import { useOrderStore } from '@/stores/order.js'
 import { PackageX, ShoppingBag, BanknoteArrowUp } from 'lucide-vue-next'
+import { useLoading } from '@/stores/loading.js'
+import 'vue-loading-overlay/dist/css/index.css'
 
+const loadingStore = useLoading()
 const orderItemStore = useOrderItemStore()
 const stockStore = useStockStore()
 const orderStore = useOrderStore()
@@ -59,6 +62,18 @@ const stats = reactive([
     changePositive: true
   }
 ])
+
+onMounted(async () => {
+  if (orderStore.orders.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await orderStore.fetchOrders()
+  } catch (error) {
+    console.error('Error fetching orders:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
+})
 </script>
 
 <template>

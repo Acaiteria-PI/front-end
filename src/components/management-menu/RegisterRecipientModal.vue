@@ -5,10 +5,13 @@ import MoneyInput from '@/components/MoneyInput.vue'
 import { useModalStore } from '@/stores/modal.js'
 import { useRecipientStore } from '@/stores/recipient.js'
 import { useIngredientStore } from '@/stores/ingredient.js'
-
+import { useLoading } from '@/stores/loading.js'
+import 'vue-loading-overlay/dist/css/index.css'
 const ingredientStore = useIngredientStore()
 const recipientStore = useRecipientStore()
 const modalStore = useModalStore()
+
+const loadingStore = useLoading()
 
 defineProps({
   title: { type: String, required: true },
@@ -46,9 +49,16 @@ const fieldsAfterPrice = reactive([
   }
 ])
 
-onMounted(() => {
-  recipientStore.fetchRecipients()
-  ingredientStore.fetchIngredients()
+onMounted(async() => {
+  if (ingredientStore.ingredients.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await ingredientStore.fetchIngredients()
+  } catch (error) {
+    console.error('Error fetching ingredients:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 })
 </script>
 

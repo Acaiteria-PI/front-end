@@ -2,10 +2,11 @@
 import { onMounted, reactive } from 'vue'
 import { X } from 'lucide-vue-next'
 import { useModalStore } from '@/stores/modal.js'
-import { useEmployeeStore } from '@/stores/employee.js'
 import { useEstablishmentStore } from '@/stores/establishment.js'
+import { useLoading } from '@/stores/loading.js'
+import 'vue-loading-overlay/dist/css/index.css'
 
-const employeeStore = useEmployeeStore()
+const loadingStore = useLoading()
 const establishmentStore = useEstablishmentStore()
 const modalStore = useModalStore()
 
@@ -56,9 +57,16 @@ const fields = reactive([
   }
 ])
 
-onMounted(() => {
-  employeeStore.fetchEmployees()
-  establishmentStore.fetchEstablishments()
+onMounted(async() => {
+  if (establishmentStore.establishments.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await establishmentStore.fetchEstablishments()
+  } catch (error) {
+    console.error('Error fetching establishments:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 })
 </script>
 

@@ -4,7 +4,10 @@ import { X } from 'lucide-vue-next'
 import { useIngredientStore } from '@/stores/ingredient.js'
 import { useModalStore } from '@/stores/modal.js'
 import MoneyInput from '@/components/MoneyInput.vue'
+import { useLoading } from '@/stores/loading.js'
+import 'vue-loading-overlay/dist/css/index.css'
 
+const loadingStore = useLoading()
 const ingredientStore = useIngredientStore()
 const modalStore = useModalStore()
 
@@ -48,8 +51,16 @@ const fields = reactive([
   }
 ])
 
-onMounted(() => {
-  ingredientStore.fetchIngredients()
+onMounted(async() => {
+  if (ingredientStore.ingredients.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await ingredientStore.fetchIngredients()
+  } catch (error) {
+    console.error('Error fetching ingredients:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 })
 </script>
 

@@ -36,6 +36,7 @@ const chartOptions = {
 }
 
 onMounted(async () => {
+  if (stockStore.lowStockItems.length > 0) return
   try {
     loadingStore.isLoading = true
     await stockStore.fetchLowStock()
