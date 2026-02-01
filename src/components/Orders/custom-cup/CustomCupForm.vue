@@ -20,7 +20,6 @@ onMounted(async () => {
   const promises = []
   if (recipientStore.recipients.length === 0) promises.push(recipientStore.fetchRecipients())
   if (ingredientStore.ingredients.length === 0) promises.push(ingredientStore.fetchIngredients())
-  if (customCupStore.customCups.length === 0) promises.push(customCupStore.customCups)
 
   if (promises.length === 0) return
 
