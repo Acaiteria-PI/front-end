@@ -5,6 +5,7 @@ import { Chart, registerables } from 'chart.js'
 import { useStockStore } from '@/stores/stock.js'
 import { useLoading } from '@/stores/loading.js'
 import 'vue-loading-overlay/dist/css/index.css'
+import { lowStockThresholdGrams, mediumStockThresholdGrams } from '@/constants/lowStockTreshold.js'
 
 Chart.register(...registerables)
 
@@ -49,8 +50,8 @@ onMounted(async () => {
   chartData.value.data.labels = stockStore.lowStockItems.map(item => `${item.ingredient_data.name} (${item.ingredient_data.unit_of_measure}) - Lote ${item.batch}`)
   chartData.value.data.datasets[0].data = stockStore.lowStockItems.map(item => item.quantity)
   chartData.value.data.datasets[0].backgroundColor = stockStore.lowStockItems.map(item => {
-    if (item.quantity < 700) return '#ef4444'
-    if (item.quantity < 1000 && item.quantity >= 700) return '#f59e0b'
+    if (item.quantity < lowStockThresholdGrams) return '#ef4444'
+    if (item.quantity < mediumStockThresholdGrams && item.quantity >= lowStockThresholdGrams) return '#f59e0b'
     return '#10b981'
   })
 })
