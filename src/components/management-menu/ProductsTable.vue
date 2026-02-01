@@ -30,9 +30,9 @@ const formatField = (product, value) => {
     hour: '2-digit',
     minute: '2-digit'
   });
-  else if (value === 'price') return `R$ ${product.price.replace('.', ',')}`
-  else if (value === 'batch_price') return `R$ ${product.batch_price.replace('.', ',')}`
-  else if (value === 'quantity') return product.quantity.replace('.', ',')
+  else if (value === 'price') return `R$ ${parseFloat(product.price).toFixed(2).replace('.', ',')}`
+  else if (value === 'batch_price') return `R$ ${parseFloat(product.batch_price).toFixed(2).replace('.', ',')}`
+  else if (value === 'quantity') return parseFloat(product.quantity).toFixed(2).replace('.', ',')
   else if (value === 'establishment_data') return product.establishment_data?.name || 'N/A'
   else if (value === 'is_management') return product.is_management ? 'Sim' : 'Não'
   else if (value === 'responsible_person_data') return product.responsible_person_data?.name || 'N/A'
