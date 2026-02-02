@@ -6,13 +6,12 @@ import { Clock, Package, ShoppingBag, User, UserCheck } from 'lucide-vue-next'
 import Loading from 'vue-loading-overlay'
 import { useLoading } from '@/stores/loading.js'
 import 'vue-loading-overlay/dist/css/index.css'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 
 const loadingStore = useLoading()
 
 const router = useRouter()
 const orderStore = useOrderStore()
-
 const orders = computed(() => orderStore.orders)
 
 const getStatusClass = (status) => {
@@ -71,6 +70,16 @@ const handleFinishOrder = (orderId) => {
   })
 }
 
+onMounted(async () => {
+  try {
+    if (orderStore.orders.length > 0) return
+
+    await orderStore.fetchOrders()
+    
+  } catch (error) {
+    console.error('Error fetching orders:', error)
+  }
+})
 </script>
 
 <template>
