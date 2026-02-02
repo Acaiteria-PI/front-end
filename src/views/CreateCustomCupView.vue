@@ -38,7 +38,7 @@ const handleSubmit = async () => { //COMENTÁRIOS FEITOS PRA AJUDAR NA COMPREENS
       customer: orderStore.newOrder.customer
     }
     await orderStore.createOrder(orderData)
-    const createdOrder = orderStore.orders[orderStore.orders.length - 1]
+    const createdOrder = orderStore.orders[0]
 
     const orderItemData = {
       type: 'CUSTOM_CUP',

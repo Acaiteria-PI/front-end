@@ -9,7 +9,7 @@ const comboApi = new ComboApi()
 export const useComboStore = defineStore('combo', () => {
   const loadingStore = useLoading()
   const modalStore = useModalStore()
-  
+
   const combos = ref([])
   const newCombo = ref({
     id: null,

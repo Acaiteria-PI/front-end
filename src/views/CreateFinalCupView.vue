@@ -33,7 +33,7 @@ const handleSubmit = async () => {
       customer: orderStore.newOrder.customer
     }
     await orderStore.createOrder(orderData)
-    const createdOrder = orderStore.orders[orderStore.orders.length - 1]
+    const createdOrder = orderStore.orders[0]
 
     const orderItemData = {
       type: 'FINAL_CUP',
@@ -44,6 +44,7 @@ const handleSubmit = async () => {
     }
     await orderItemStore.createOrderItem(orderItemData)
   } else {
+    console.log('Criando pedido para o id: ' + routeId)
     const orderItemData = {
       type: 'FINAL_CUP',
       final_cup: selectedCup.value,
