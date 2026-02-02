@@ -1,15 +1,16 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useAuth } from '@/stores/auth.js'
 import { ShoppingBag } from 'lucide-vue-next'
 import { useOrderStore } from '@/stores/order.js'
+import { useLoading } from '@/stores/loading.js'
 
 import ProfileDropdown from './ProfileDropdown.vue'
 import ConfirmLogout from './ConfirmLogout.vue'
 
 const orderStore = useOrderStore()
 const authStore = useAuth()
-
+const loadingStore = useLoading()
 const showLogoutConfirm = ref(false)
 
 const openLogout = () => {
@@ -19,6 +20,17 @@ const openLogout = () => {
 const closeLogout = () => {
   showLogoutConfirm.value = false
 }
+
+onMounted(async () => {
+  try {
+    loadingStore.isLoading = true
+    if (orderStore.orders.length === 0) await orderStore.fetchOrders()
+  } catch (error) {
+    console.error('Error fetching orders:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
+})
 </script>
 
 <template>
