@@ -22,7 +22,7 @@ const modalStore = useModalStore()
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-4 text-sm text-gray-600">
         <span>{{ product.recipient_data.quantity_ml }}ml</span>
-        <span class="font-medium text-gray-900 text-base">R${{ product.price.replace('.', ',') }}</span>
+        <span class="font-medium text-gray-900 text-base">R${{ parseFloat(product.price).toFixed(2).replace('.', ',') }}</span>
         <span>{{ finalCupStore.getIngredientsNames(product) }}</span>
       </div>
 
