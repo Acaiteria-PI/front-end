@@ -7,9 +7,11 @@ import Loading from 'vue-loading-overlay'
 import { useLoading } from '@/stores/loading.js'
 import 'vue-loading-overlay/dist/css/index.css'
 import { computed, onMounted } from 'vue'
+import ConfirmDeleteModal from '@/components/management-menu/ConfirmDeleteModal.vue'
+import { useModalStore } from '@/stores/modal.js'
 
 const loadingStore = useLoading()
-
+const modalStore = useModalStore()
 const router = useRouter()
 const orderStore = useOrderStore()
 const orders = computed(() => orderStore.orders)
@@ -54,9 +56,9 @@ const handleAddOrderItem = (orderId) => {
 }
 
 const handleCancelOrder = (order) => {
+  if (!order) return
   if (order.status !== 'CANCELED') {
     order.status = 'CANCELED'
-
     orderStore.updateOrder(order)
   }
 }
@@ -176,8 +178,8 @@ onMounted(async () => {
           <!-- Footer do Pedido (Ações) -->
           <div class="px-6 py-4 bg-white border-t border-gray-100">
             <div class="flex gap-3 justify-end">
-              <button
-                @click="handleCancelOrder(order)"
+              <button 
+                @click="modalStore.openConfirmDeleteModal(order.id, 'order')" 
                 class="cursor-pointer px-4 py-2 text-sm text-gray-700 border border-red-500 rounded-lg hover:bg-red-800 hover:text-white transition"
               >
                 Cancelar pedido
@@ -197,6 +199,13 @@ onMounted(async () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div v-if="modalStore.confirmDeleteModal === true && modalStore.modalContext === 'order'">
+        <ConfirmDeleteModal
+          @confirm="handleCancelOrder(orderStore.orders.find(o => o.id === modalStore.itemToDelete))"
+          @cancel="modalStore.closeConfirmDeleteModal"
+        />
       </div>
 
       <!-- Empty State -->
