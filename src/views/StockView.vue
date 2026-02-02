@@ -69,12 +69,11 @@ const headers = [
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
 
-    <div v-if="modalStore.confirmDeleteModal === true"
-         class="fixed inset-0 flex items-center justify-center">
-      <ConfirmDeleteModal @confirm="stockStore.deleteStockItem(modalStore.itemToDelete)"
-                          @cancel="modalStore.closeConfirmDeleteModal"
-                          class="absolute inset-0 m-auto z-50" />
-      <div class="fixed inset-0 bg-black/50 z-40"></div>
+    <div v-if="modalStore.confirmDeleteModal === true && modalStore.modalContext === 'stock'">
+      <ConfirmDeleteModal
+        @confirm="stockStore.deleteStockItem(modalStore.itemToDelete)"
+        @cancel="modalStore.closeConfirmDeleteModal"
+      />
     </div>
   </div>
 </template>

@@ -148,16 +148,15 @@ onMounted(async() => {
             orderItem.total_price.replace('.', ',')
           }}</p>
       </div>
-      <div @click="modalStore.openConfirmDeleteModal(orderItem.id)" class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
+      <div @click="modalStore.openConfirmDeleteModal(orderItem.id, 'orderItem')" class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
         <Trash size="20" />
       </div>
 
-      <div v-if="modalStore.confirmDeleteModal === true"
-           class="fixed inset-0 flex items-center justify-center">
-        <ConfirmDeleteModal @confirm="orderItemStore.deleteOrderItem(modalStore.itemToDelete)"
-                            @cancel="modalStore.closeConfirmDeleteModal"
-                            class="absolute inset-0 m-auto z-50" />
-        <div class="fixed inset-0 bg-black/20 z-40"></div>
+      <div v-if="modalStore.confirmDeleteModal === true && modalStore.modalContext === 'orderItem'">
+        <ConfirmDeleteModal
+          @confirm="orderItemStore.deleteOrderItem(modalStore.itemToDelete)"
+          @cancel="modalStore.closeConfirmDeleteModal"
+        />
       </div>
 
     </div>
