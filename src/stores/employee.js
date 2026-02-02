@@ -18,7 +18,7 @@ export const useEmployeeStore = defineStore('employee', () => {
     registration: null,
     password: '',
     password_confirmation: '',
-    Establishment: null,
+    establishment: null,
     is_management: false,
     establishment_data: null
   })
@@ -48,7 +48,7 @@ export const useEmployeeStore = defineStore('employee', () => {
           registration: null,
           password: '',
           password_confirmation: '',
-          Establishment: null,
+          establishment: null,
           is_management: false,
           establishment_data: null
         }

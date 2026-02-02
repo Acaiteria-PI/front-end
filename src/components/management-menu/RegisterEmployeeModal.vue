@@ -2,10 +2,11 @@
 import { onMounted, reactive } from 'vue'
 import { X } from 'lucide-vue-next'
 import { useModalStore } from '@/stores/modal.js'
-import { useEmployeeStore } from '@/stores/employee.js'
 import { useEstablishmentStore } from '@/stores/establishment.js'
+import { useLoading } from '@/stores/loading.js'
+import 'vue-loading-overlay/dist/css/index.css'
 
-const employeeStore = useEmployeeStore()
+const loadingStore = useLoading()
 const establishmentStore = useEstablishmentStore()
 const modalStore = useModalStore()
 
@@ -56,9 +57,16 @@ const fields = reactive([
   }
 ])
 
-onMounted(() => {
-  employeeStore.fetchEmployees()
-  establishmentStore.fetchEstablishments()
+onMounted(async() => {
+  if (establishmentStore.establishments.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await establishmentStore.fetchEstablishments()
+  } catch (error) {
+    console.error('Error fetching establishments:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 })
 </script>
 
@@ -77,8 +85,8 @@ onMounted(() => {
       <section class="w-full grid grid-cols-2 gap-4">
 
         <div class="flex flex-col gap-1 col-span-1 w-full">
-          <label for="Establishment">Estabelecimento</label>
-          <select v-model="model.Establishment" name="establishment" id="establishment"
+          <label for="establishment">Estabelecimento</label>
+          <select v-model="model.establishment" name="establishment" id="establishment"
                   class="border border-neutral-300 rounded-xl p-2 w-full h-12">
             <option v-for="establishment in establishmentStore.establishments"
                     :key="establishment.id"

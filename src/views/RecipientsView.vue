@@ -16,8 +16,16 @@ const recipientStore = useRecipientStore()
 const modalStore = useModalStore()
 const loadingStore = useLoading()
 
-onMounted(() => {
-  recipientStore.fetchRecipients()
+onMounted(async () => {
+  if (recipientStore.recipients.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await recipientStore.fetchRecipients()
+  } catch (error) {
+    console.error('Error fetching recipients:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 })
 
 const headers = [

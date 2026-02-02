@@ -40,10 +40,6 @@ const fields = reactive([
     cols: '1'
   }
 ])
-
-onMounted(() => {
-  ingredientStore.fetchIngredients()
-})
 </script>
 
 <template>

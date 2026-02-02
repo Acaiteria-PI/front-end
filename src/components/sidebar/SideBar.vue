@@ -30,10 +30,6 @@ const enterTab = (tab) => {
   router.push({ path: tab })
   sidebarOpen.value = false 
 }
-
-onMounted(() => {
-  console.log(currentTab.value, route.path)
-})
 </script>
 
 <template>

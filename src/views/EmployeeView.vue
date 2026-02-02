@@ -16,11 +16,6 @@ const employeeStore = useEmployeeStore()
 const modalStore = useModalStore()
 const loadingStore = useLoading()
 
-onMounted(() => {
-  employeeStore.fetchEmployees()
-
-})
-
 const headers = [
   { name: 'Nome', value: 'name' },
   { name: 'Email', value: 'email' },
@@ -28,6 +23,18 @@ const headers = [
   { name: 'Estabelecimento', value: 'establishment_data' },
   { name: 'Administrador', value: 'is_management' }
 ]
+
+onMounted(async () => {
+  if (employeeStore.employees.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await employeeStore.fetchEmployees()
+  } catch (error) {
+    console.error('Error fetching employees:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
+})
 </script>
 
 <template>
