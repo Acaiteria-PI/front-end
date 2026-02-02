@@ -4,9 +4,18 @@ import {Coffee, ShoppingBag, ShoppingCart, Sparkles, Trash} from "lucide-vue-nex
 import {computed} from "vue";
 import ConfirmDeleteModal from '@/components/management-menu/ConfirmDeleteModal.vue'
 import { useModalStore } from '@/stores/modal.js'
+import { useComboStore } from '@/stores/combo.js'
+import { useFinalCupStore } from '@/stores/finalCup.js'
+import { useCustomCupStore } from '@/stores/customCup.js'
+import { useLoading } from '@/stores/loading.js'
+import { onMounted } from 'vue'
 
 const modalStore = useModalStore()
 const orderItemStore = useOrderItemStore();
+const comboStore = useComboStore();
+const finalCupStore = useFinalCupStore();
+const customCupStore = useCustomCupStore();
+const loadingStore = useLoading();
 
 const props = defineProps({
   order: {
@@ -60,6 +69,25 @@ const ingredientsNames = computed(() => {
 
   return customCup.value?.ingredient_data?.map(ingredient => ingredient.name)?.join(', ')
 })
+
+onMounted(async() => {
+  try {
+    loadingStore.isLoading = true
+    const promises = []
+
+    if (finalCupStore.finalCups.length === 0) promises.push(finalCupStore.fetchFinalCups())
+    if (customCupStore.customCups.length === 0) promises.push(customCupStore.fetchCustomCups())
+    if (comboStore.combos.length === 0) promises.push(comboStore.fetchCombos())
+
+    if (promises.length === 0) return
+
+    await Promise.all(promises)
+  } catch (error) {
+    console.error('Error fetching data for created order item:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
+})
 </script>
 
 <template>
@@ -74,7 +102,7 @@ const ingredientsNames = computed(() => {
             :size="18"
             :class="getItemIconColor(orderItem.type)"
           />
-          <span class="font-medium text-gray-800">{{ orderItem.type }}</span>
+          <span class="font-medium text-gray-800">{{ orderItem.type || '' }}</span>
         </div>
 
         <!-- Detalhes do Item (CUSTOM CUP) -->
@@ -83,14 +111,14 @@ const ingredientsNames = computed(() => {
             class="text-sm"
           >
             <span class="text-gray-500">Recipiente:</span>
-            <span class="text-gray-700 ml-1">{{ recipientName }}</span>
+            <span class="text-gray-700 ml-1">{{ recipientName || '' }}</span>
           </div>
 
           <div
             class="text-sm"
           >
             <span class="text-gray-500">Ingredientes:</span>
-            <span class="text-gray-700 ml-1">{{ ingredientsNames }}</span>
+            <span class="text-gray-700 ml-1">{{ ingredientsNames || '' }}</span>
           </div>
         </div>
 
@@ -100,7 +128,7 @@ const ingredientsNames = computed(() => {
             class="text-sm"
           >
             <span class="text-gray-500">Nome:</span>
-            <span class="text-gray-700 ml-1">{{ finalCup.name }}</span>
+            <span class="text-gray-700 ml-1">{{ finalCup?.name || '' }}</span>
           </div>
         </div>
 
@@ -110,7 +138,7 @@ const ingredientsNames = computed(() => {
             class="text-sm"
           >
             <span class="text-gray-500">Nome:</span>
-            <span class="text-gray-700 ml-1">{{ combo.name }}</span>
+            <span class="text-gray-700 ml-1">{{ combo?.name || '' }}</span>
           </div>
         </div>
       </div>
