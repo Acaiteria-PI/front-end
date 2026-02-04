@@ -9,12 +9,8 @@ import { useOrderStore } from '@/stores/order.js'
 import { useOrderItemStore } from '@/stores/orderItem.js'
 import OrderSummary from '@/components/Orders/custom-cup/CustomCupOrderSummary.vue'
 import SubmitButton from '@/components/SubmitButton.vue'
-import { useLoading } from '@/stores/loading.js'
 import 'vue-loading-overlay/dist/css/index.css'
-import { useIngredientStore } from '@/stores/ingredient'
 
-const ingredientStore = useIngredientStore()
-const loadingStore = useLoading()
 const orderItemStore = useOrderItemStore()
 const orderStore = useOrderStore()
 const customCupStore = useCustomCupStore()
@@ -28,7 +24,7 @@ const goBack = () => {
   router.push('/orders/create')
 }
 
-const handleSubmit = async () => { //COMENTÁRIOS FEITOS PRA AJUDAR NA COMPREENSÃO (NÃO É CHATGPT)
+const handleSubmit = async () => { //COMENTÁRIOS FEITOS PRA AJUDAR NA COMPREENSÃO
   await customCupStore.createCustomCup(customCupStore.newCustomCup) // Cria o copo pela função da store
   const createdCustomCup = customCupStore.customCups[customCupStore.customCups.length - 1] // Armazena o copo criado (o último do array)
 
