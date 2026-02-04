@@ -4,9 +4,10 @@ import OrderApi from "@/services/orderApi";
 import {useModalStore} from "@/stores/modal.js";
 import {useLoading} from "@/stores/loading.js";
 import {useOrderItemStore} from "@/stores/orderItem.js";
+import OrderItemApi from "@/services/orderItemApi.js";
 
 const orderApi = new OrderApi()
-
+const orderItemApi = new OrderItemApi()
 export const useOrderStore = defineStore('order', () => {
     const modalStore = useModalStore()
     const loadingStore = useLoading()
@@ -25,10 +26,13 @@ export const useOrderStore = defineStore('order', () => {
     })
 
     const fetchOrders = async () => {
-      loadingStore.isLoading = true
-      const data = await orderApi.fetchOrders()
-      orders.value = Array.isArray(data.results) ? [...data.results] : [...data]
-      loadingStore.isLoading = false
+      const [ordersData, orderItemsData] = await Promise.all([
+        orderApi.fetchOrders(),
+        orderItemApi.fetchOrderItems()
+      ])
+
+      orders.value = Array.isArray(ordersData.results) ? [...ordersData.results] : [...ordersData]
+      orderItemStore.orderItems = Array.isArray(orderItemsData.results) ? [...orderItemsData.results] : [...orderItemsData]
     }
 
     const getOrderItems = (order) => {
@@ -75,6 +79,15 @@ export const useOrderStore = defineStore('order', () => {
       }
     }
 
+    const partialUpdateOrder = async (order, updatedData) => {
+      try {
+        await orderApi.partialUpdateOrder(order, updatedData)
+        await fetchOrders()
+      } catch (error) {
+        console.error('Error partially updating order', error)
+      }
+    }
+
     const deleteOrder = async (id) => {
       try {
         loadingStore.isLoading = true
@@ -98,7 +111,8 @@ export const useOrderStore = defineStore('order', () => {
       createOrder,
       updateOrder,
       deleteOrder,
-      getOrderItems
+      getOrderItems,
+      partialUpdateOrder
     }
   }
 )

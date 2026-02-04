@@ -97,9 +97,9 @@ const router = createRouter({
       component: () => import('@/views/PaymentMethodView.vue')
     },
     {
-      path: '/orders/payment-method/pix/:orderId',
-      name: 'pix-payment',
-      component: () => import('@/views/PixPaymentView.vue')
+      path: '/orders/success/:orderId',
+      name: 'order-success',
+      component: () => import('@/views/OrderSuccessView.vue')
     }
   ]
 })

@@ -16,6 +16,11 @@ export default class classOrderApi {
     return data
   }
 
+  async partialUpdateOrder(order, updatedData) {
+    const { data } = await API.patch(`api/orders/${order.id}/`, updatedData)
+    return data
+  }
+
   async deleteOrder(id) {
     await API.delete(`api/orders/${id}/`)
   }

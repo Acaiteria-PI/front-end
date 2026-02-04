@@ -42,6 +42,7 @@ export const useSupplierStore = defineStore('supplier', () => {
         contact_data: null,
         address_data: null,
       }
+      await fetchSuppliers()
     } catch (err) {
       console.error('Error creating supplier', err)
     }

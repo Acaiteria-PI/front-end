@@ -47,10 +47,6 @@ onMounted(async () => {
       <p class="text-gray-500 text-lg">Nenhum combo encontrado.</p>
     </div>
 
-    <section v-else class="w-full h-100 flex flex-col items-center justify-center mt-8 rounded-lg">
-      <p class="text-gray-600">Nenhum combo cadastrado.</p>
-    </section>
-
     <div v-if="modalStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
       <RegisterComboModal
@@ -64,12 +60,11 @@ onMounted(async () => {
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
 
-    <div v-if="modalStore.confirmDeleteModal === true"
-         class="fixed inset-0 flex items-center justify-center">
-      <ConfirmDeleteModal @confirm="comboStore.deleteCombo(modalStore.itemToDelete)"
-                          @cancel="modalStore.closeConfirmDeleteModal"
-                          class="absolute inset-0 m-auto z-50" />
-      <div class="fixed inset-0 bg-black/50 z-40"></div>
+    <div v-if="modalStore.confirmDeleteModal === true && modalStore.modalContext === 'combo'">
+      <ConfirmDeleteModal
+        @confirm="comboStore.deleteCombo(modalStore.itemToDelete)"
+        @cancel="modalStore.closeConfirmDeleteModal"
+      />
     </div>
   </main>
 </template>

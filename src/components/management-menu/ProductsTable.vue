@@ -15,6 +15,10 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: true
+  },
+  deleteContext: {
+    type: String,
+    required: true
   }
 })
 
@@ -44,8 +48,7 @@ const formatField = (product, value) => {
 <template>
 
   <div class="mt-6">
-
-
+    <!-- MOBILE TABLE -->
     <div class="md:hidden space-y-4">
       <div
         v-for="product in products"
@@ -68,14 +71,14 @@ const formatField = (product, value) => {
             <PencilLine @click="modalStore.openCreateModal('edit', product)" :size="20"/>
           </div>
           <div v-if="props.canDelete === true" class="cursor-pointer hover:bg-gray-200 rounded-lg p-1 transition-all">
-            <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id)"/>
+            <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id, props.deleteContext)"/>
           </div>
         </div>
       </div>
 
     </div>
 
-
+    <!-- DESKTOP TABLE -->
     <div class="w-full overflow-x-auto hidden md:block">
       <table
         class="border border-neutral-300 rounded-xl border-separate border-spacing-0 table-fixed w-full min-w-[600px]">
@@ -112,7 +115,7 @@ const formatField = (product, value) => {
                 <PencilLine @click="modalStore.openCreateModal('edit', product)" :size="20"/>
               </div>
               <div v-if="props.canDelete === true" class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
-                <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id)"/>
+                <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id, props.deleteContext)"/>
               </div>
             </div>
           </td>
