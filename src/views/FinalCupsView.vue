@@ -45,6 +45,9 @@ onMounted(async () => {
         :key="finalCup.id"
       />
     </section>
+    <div v-else class="w-full h-64 flex flex-col items-center justify-center mt-8">
+      <p class="text-gray-500 text-lg">Nenhum produto encontrado.</p>
+    </div>
 
     <section v-else class="w-full h-100 flex flex-col items-center justify-center mt-8 rounded-lg">
       <p class="text-gray-600">Nenhum produto cadastrado.</p>

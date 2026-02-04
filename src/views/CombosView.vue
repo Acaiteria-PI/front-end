@@ -43,6 +43,9 @@ onMounted(async () => {
       <ComboCard :product="combo" v-for="combo in comboStore.combos"
                     :key="combo.id" />
     </section>
+    <div v-else class="w-full h-64 flex flex-col items-center justify-center mt-8">
+      <p class="text-gray-500 text-lg">Nenhum combo encontrado.</p>
+    </div>
 
     <section v-else class="w-full h-100 flex flex-col items-center justify-center mt-8 rounded-lg">
       <p class="text-gray-600">Nenhum combo cadastrado.</p>

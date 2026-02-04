@@ -48,7 +48,13 @@ const headers = [
         <NewProductBtn title="+ Novo recipiente" @click="modalStore.openCreateModal('create')" />
       </div>
     </section>
-    <ProductsTable class="w-full mt-8" :headers="headers" :products="recipientStore.recipients" />
+    <ProductsTable v-if="recipientStore.recipients.length > 0"
+                   class="w-full mt-8"
+                   :headers="headers"
+                   :products="recipientStore.recipients" />
+    <div v-else class="w-full h-64 flex flex-col items-center justify-center mt-8">
+      <p class="text-gray-500 text-lg">Nenhum recipiente encontrado.</p>
+    </div>
 
     <div v-if="modalStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
