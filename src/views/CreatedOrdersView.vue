@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router'
 import CreatedOrderItem from '@/components/Orders/CreatedOrderItem.vue'
 import { useOrderStore } from '@/stores/order.js'
-import { Clock, Package, ShoppingBag, User, UserCheck } from 'lucide-vue-next'
+import { Clock, Package, ShoppingBag, User, UserCheck, BadgeCheck } from 'lucide-vue-next'
 import Loading from 'vue-loading-overlay'
 import { useLoading } from '@/stores/loading.js'
 import 'vue-loading-overlay/dist/css/index.css'
@@ -21,7 +21,7 @@ const getStatusClass = (status) => {
     PENDING: 'bg-yellow-100 text-yellow-700',
     IN_PROGRESS: 'bg-blue-100 text-blue-700',
     COMPLETED: 'bg-green-100 text-green-700',
-    CANCELED: 'bg-red-100 text-red-700'
+    CANCELED: 'bg-red-100 text-red-700',
   }
   return classes[status] || 'bg-gray-100 text-gray-700'
 }
@@ -32,7 +32,7 @@ const formatDate = (date) => {
     month: '2-digit',
     year: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   })
 }
 
@@ -50,8 +50,8 @@ const handleAddOrderItem = (orderId) => {
   router.push({
     name: 'create-order',
     params: {
-      orderId: orderId
-    }
+      orderId: orderId,
+    },
   })
 }
 
@@ -67,8 +67,8 @@ const handleFinishOrder = (orderId) => {
   router.push({
     name: 'payment-method',
     params: {
-      orderId: orderId
-    }
+      orderId: orderId,
+    },
   })
 }
 
@@ -77,7 +77,6 @@ onMounted(async () => {
     if (orderStore.orders.length > 0) return
 
     await orderStore.fetchOrders()
-    
   } catch (error) {
     console.error('Error fetching orders:', error)
   }
@@ -85,8 +84,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <loading v-model:active="loadingStore.isLoading"
-           :is-full-page="loadingStore.fullPage" />
+  <loading v-model:active="loadingStore.isLoading" :is-full-page="loadingStore.fullPage" />
   <div class="min-h-full bg-gray-50 p-6">
     <div class="max-w-7xl mx-auto">
       <div class="mb-6">
@@ -115,8 +113,10 @@ onMounted(async () => {
                   <span class="text-sm text-gray-500"> Pedido #{{ order.id }} </span>
                   <span
                     :class="getPaymentStatusClass(order.is_paid)"
-                    class="px-3 py-1 rounded-full text-sm font-medium"> Pedido {{ getPaymentStatus(order.is_paid)
-                    }} </span>
+                    class="px-3 py-1 rounded-full text-sm font-medium"
+                  >
+                    Pedido {{ getPaymentStatus(order.is_paid) }}
+                  </span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
@@ -132,8 +132,9 @@ onMounted(async () => {
                     <Clock :size="16" class="text-gray-400" />
                     <div>
                       <p class="text-xs text-gray-500">Data e hora</p>
-                      <p class="text-sm font-medium text-gray-800">{{ formatDate(order.order_date)
-                        }}</p>
+                      <p class="text-sm font-medium text-gray-800">
+                        {{ formatDate(order.order_date) }}
+                      </p>
                     </div>
                   </div>
 
@@ -178,24 +179,33 @@ onMounted(async () => {
           <!-- Footer do Pedido (Ações) -->
           <div class="px-6 py-4 bg-white border-t border-gray-100">
             <div class="flex gap-3 justify-end">
-              <button 
-                @click="modalStore.openConfirmDeleteModal(order.id, 'order')" 
-                class="cursor-pointer px-4 py-2 text-sm text-gray-700 border border-red-500 rounded-lg hover:bg-red-800 hover:text-white transition"
-              >
-                Cancelar pedido
-              </button>
-              <button
-                @click="handleAddOrderItem(order.id)"
-                class="cursor-pointer px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
-              >
-                Adicionar item
-              </button>
-              <button
-                @click="handleFinishOrder(order.id)"
-                class="cursor-pointer px-4 py-2 text-sm text-white bg-rose-900 rounded-lg hover:bg-rose-950 transition"
-              >
-                Finalizar pedido
-              </button>
+              <div v-if="order.status !== 'PENDING'" class="flex items-center justify-center gap-3">
+                <div class="flex flex-row items-center gap-2">
+                  <p class="text-gray-500">Pedido finalizado</p>
+                  <BadgeCheck :size="20" color="#881337" />
+                </div>
+                <button
+                  @click="modalStore.openConfirmDeleteModal(order.id, 'order')"
+                  class="cursor-pointer px-4 py-2 text-sm text-gray-700 border border-rose-900 rounded-lg hover:bg-red-800 hover:text-white transition"
+                >
+                  Cancelar pedido
+                </button>
+              </div>
+
+              <div v-else class="flex items-center justify-center gap-3">
+                <button
+                  @click="handleAddOrderItem(order.id)"
+                  class="cursor-pointer px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+                >
+                  Adicionar item
+                </button>
+                <button
+                  @click="handleFinishOrder(order.id)"
+                  class="cursor-pointer px-4 py-2 text-sm text-white bg-rose-900 rounded-lg hover:bg-rose-950 transition"
+                >
+                  Finalizar pedido
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -203,7 +213,9 @@ onMounted(async () => {
 
       <div v-if="modalStore.confirmDeleteModal === true && modalStore.modalContext === 'order'">
         <ConfirmDeleteModal
-          @confirm="handleCancelOrder(orderStore.orders.find(o => o.id === modalStore.itemToDelete))"
+          @confirm="
+            handleCancelOrder(orderStore.orders.find((o) => o.id === modalStore.itemToDelete))
+          "
           @cancel="modalStore.closeConfirmDeleteModal"
         />
       </div>
@@ -216,13 +228,14 @@ onMounted(async () => {
         <Package :size="48" class="mx-auto text-gray-300 mb-4" />
         <h3 class="text-lg font-semibold text-gray-800 mb-2">Nenhum pedido encontrado</h3>
         <p class="text-gray-600 mb-4">Os pedidos aparecerão aqui quando forem criados</p>
-        <router-link to="/orders/create"
-                     class="cursor-pointer bg-rose-900 px-4 py-2 text-sm text-white hover:bg-rose-950 transition rounded-lg">Criar pedido
+        <router-link
+          to="/orders/create"
+          class="cursor-pointer bg-rose-900 px-4 py-2 text-sm text-white hover:bg-rose-950 transition rounded-lg"
+          >Criar pedido
         </router-link>
       </div>
     </div>
   </div>
 </template>
 
-<style>
-</style>
+<style></style>
