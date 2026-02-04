@@ -147,7 +147,9 @@ const contactFields = [
 const loadSupplierData = async () => {
   try {
     if (!isEdit.value) return
-    await supplierStore.fetchSuppliers()
+    if (supplierStore.suppliers.length === 0) {
+      await supplierStore.fetchSuppliers()
+    }
     const supplierId = String(route.params.id || '')
     const found = supplierStore.suppliers.find((s) => String(s.id) === supplierId)
     if (found) {
@@ -164,8 +166,12 @@ const loadSupplierData = async () => {
 const loadAddressData = async () => {
   try {
     if (!isEdit.value) return
-    await addressStore.fetchAddresses()
-    await supplierStore.fetchSuppliers()
+    if (addressStore.addresses.length === 0) {
+      await addressStore.fetchAddresses()
+    }
+    if (supplierStore.suppliers.length === 0) {
+      await supplierStore.fetchSuppliers()
+    }
     const supplierId = String(route.params.id || '') // Acha o id do Supplier atual
     const referentSupplier = supplierStore.suppliers.find((s) => String(s.id) === supplierId) // Acha o Supplier atual por meio do id
     const addressId = referentSupplier?.address // Acha o id do Address por meio do Supplier
@@ -185,8 +191,12 @@ const loadAddressData = async () => {
 const loadContactData = async () => {
   try {
     if (!isEdit.value) return
-    await contactStore.fetchContacts()
-    await supplierStore.fetchSuppliers()
+    if (contactStore.contacts.length === 0) {
+      await contactStore.fetchContacts()
+    }
+    if (supplierStore.suppliers.length === 0) {
+      await supplierStore.fetchSuppliers()
+    }
     const supplierId = String(route.params.id || '')
     const referentSupplier = supplierStore.suppliers.find((s) => String(s.id) === supplierId)
     const contactId = referentSupplier?.contact
@@ -211,7 +221,7 @@ const handleSubmit = async () => {
   } else {
     const createdAddress = await addressStore.createAddress(addressModel.value)
     const createdContact = await contactStore.createContact(contactModel.value)
-    
+
     supplierModel.value.address = createdAddress.id
     supplierModel.value.contact = createdContact.id
     await supplierStore.createSupplier(supplierModel.value)
