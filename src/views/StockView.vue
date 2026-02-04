@@ -32,7 +32,7 @@ const headers = [
   { name: 'Ingrediente', value: 'ingredient_data' },
   { name: 'Quantidade (g)', value: 'quantity' },
   { name: 'Lote', value: 'batch' },
-  { name: 'Fornecedor', value: 'supplier' },
+  { name: 'Fornecedor', value: 'supplier_data' },
   { name: 'Preço (lote)', value: 'batch_price' },
   { name: 'Validade', value: 'expiration_date' }
 ]
