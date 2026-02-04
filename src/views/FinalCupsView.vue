@@ -49,10 +49,6 @@ onMounted(async () => {
       <p class="text-gray-500 text-lg">Nenhum produto encontrado.</p>
     </div>
 
-    <section v-else class="w-full h-100 flex flex-col items-center justify-center mt-8 rounded-lg">
-      <p class="text-gray-600">Nenhum produto cadastrado.</p>
-    </section>
-
     <div
       v-if="modalStore.createModal === true"
       class="fixed inset-0 flex items-center justify-center"
