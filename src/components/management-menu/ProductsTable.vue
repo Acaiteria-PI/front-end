@@ -36,6 +36,7 @@ const formatField = (product, value) => {
   else if (value === 'establishment_data') return product.establishment_data?.name || 'N/A'
   else if (value === 'is_management') return product.is_management ? 'Sim' : 'Não'
   else if (value === 'responsible_person_data') return product.responsible_person_data?.name || 'N/A'
+  else if (value === 'supplier_data') return product.supplier_data?.legal_name || 'N/A'
   return product[value]
 }
 </script>
