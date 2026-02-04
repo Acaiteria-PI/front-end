@@ -14,26 +14,7 @@ import NavBar from './components/NavBar.vue'
 import MobileNavBar from '@/components/MobileNavBar.vue'
 
 const route = useRoute()
-const customCupStore = useCustomCupStore()
-const comboStore = useComboStore()
-const finalCupStore = useFinalCupStore()
-const ingredientStore = useIngredientStore()
-const orderItemStore = useOrderItemStore()
-const orderStore = useOrderStore()
-const recipientStore = useRecipientStore()
-const stockStore = useStockStore()
 const { isDesktop } = useBreakpoint(768)
-
-onMounted(async () => {
-  await stockStore.fetchStock()
-  await comboStore.fetchCombos()
-  await customCupStore.fetchCustomCups()
-  await finalCupStore.fetchFinalCups()
-  await ingredientStore.fetchIngredients()
-  await orderItemStore.fetchOrderItems()
-  await orderStore.fetchOrders()
-  await recipientStore.fetchRecipients()
-})
 </script>
 
 <template>
