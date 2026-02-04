@@ -79,6 +79,15 @@ export const useOrderStore = defineStore('order', () => {
       }
     }
 
+    const partialUpdateOrder = async (order, updatedData) => {
+      try {
+        await orderApi.partialUpdateOrder(order, updatedData)
+        await fetchOrders()
+      } catch (error) {
+        console.error('Error partially updating order', error)
+      }
+    }
+
     const deleteOrder = async (id) => {
       try {
         loadingStore.isLoading = true
@@ -102,7 +111,8 @@ export const useOrderStore = defineStore('order', () => {
       createOrder,
       updateOrder,
       deleteOrder,
-      getOrderItems
+      getOrderItems,
+      partialUpdateOrder
     }
   }
 )

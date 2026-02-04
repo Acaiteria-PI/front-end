@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Banknote, ChevronLeft, CreditCard, Smartphone, Info } from 'lucide-vue-next'
 import { useOrderStore } from '@/stores/order.js'
@@ -17,7 +17,6 @@ const order = computed(() => {
 
 const totalValue = computed(() => {
   if (!order.value?.total_amount) {
-    console.log(order.value)
     return 0
   }
   return order.value.total_amount
@@ -28,20 +27,20 @@ const received = ref(null)
 
 const paymentMethods = ref([
   {
-    id: 'dinheiro',
+    id: 'CASH',
     name: 'Dinheiro',
     description: 'Pagamento em espécie',
     icon: Banknote
   },
   {
-    id: 'cartao',
+    id: 'CARD',
     name: 'Cartão',
     description: 'Crédito ou débito',
     icon: CreditCard
   },
   {
-    id: 'pix',
-    name: 'PIX',
+    id: 'PIX',
+    name: 'Pix',
     description: 'Transferência instantânea',
     icon: Smartphone
   }
@@ -54,6 +53,11 @@ const change = computed(() => {
 
 const selectMethod = (methodId) => {
   selectedMethod.value = methodId
+}
+
+const handlePaymentMethod = async (method) => {
+  await orderStore.partialUpdateOrder(order.value, {payment_method: method, is_paid: true, status: "IN_PROGRESS"})
+  router.push({ name: 'order-success', params: { orderId: order.value.id } })
 }
 </script>
 
@@ -134,7 +138,7 @@ const selectMethod = (methodId) => {
           class="cursor-pointer flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition">
           Cancelar
         </button>
-        <button @click="confirmPayment" :disabled="!selectedMethod" :class="[
+        <button @click="handlePaymentMethod(selectedMethod)" :disabled="!selectedMethod" :class="[
           'cursor-pointer flex-1 px-6 py-3 rounded-lg font-medium transition',
           (selectedMethod)
             ? 'bg-green-600 text-white hover:bg-green-700'
