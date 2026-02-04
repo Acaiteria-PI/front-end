@@ -3,10 +3,12 @@ import { reactive, onMounted } from 'vue'
 import { X } from 'lucide-vue-next'
 import { useIngredientStore } from '@/stores/ingredient.js'
 import { useModalStore } from '@/stores/modal.js'
+import { useSupplierStore } from '@/stores/supplier.js'
 import MoneyInput from '@/components/MoneyInput.vue'
 import { useLoading } from '@/stores/loading.js'
 import 'vue-loading-overlay/dist/css/index.css'
 
+const supplierStore = useSupplierStore()
 const loadingStore = useLoading()
 const ingredientStore = useIngredientStore()
 const modalStore = useModalStore()
@@ -36,13 +38,6 @@ const fields = reactive([
     cols: '1'
   },
   {
-    id: 'supplier',
-    name: 'Fornecedor',
-    placeholder: 'Fornecedor X',
-    type: 'text',
-    cols: '2'
-  },
-  {
     id: 'quantity',
     name: 'Quantidade no lote (g)',
     placeholder: '2000',
@@ -52,10 +47,13 @@ const fields = reactive([
 ])
 
 onMounted(async() => {
-  if (ingredientStore.ingredients.length > 0) return
+  const promises = []
   try {
     loadingStore.isLoading = true
-    await ingredientStore.fetchIngredients()
+    if (supplierStore.suppliers.length === 0) promises.push(supplierStore.fetchSuppliers())
+    if (ingredientStore.ingredients.length === 0) promises.push(ingredientStore.fetchIngredients())
+
+    await Promise.all(promises)
   } catch (error) {
     console.error('Error fetching ingredients:', error)
   } finally {
@@ -83,6 +81,16 @@ onMounted(async() => {
                   class="border border-neutral-300 rounded-xl p-2 w-full h-12">
             <option v-for="ingredient in ingredientStore.ingredients" :key="ingredient.id"
                     :value="ingredient.id">{{ ingredient.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-1 col-span-2">
+          <label for="supplier">Fornecedor</label>
+          <select v-model="model.supplier" name="supplier" id="supplier"
+                  class="border border-neutral-300 rounded-xl p-2 w-full h-12">
+            <option v-for="supplier in supplierStore.suppliers" :key="supplier.id"
+                    :value="supplier.id">{{ supplier.legal_name }}
             </option>
           </select>
         </div>
