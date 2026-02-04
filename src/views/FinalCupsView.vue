@@ -38,13 +38,16 @@ onMounted(() => {
         @click="modalStore.openCreateModal('create')"
       />
     </section>
-    <section class="w-full flex flex-wrap gap-6 mt-8">
+    <section v-if="finalCupStore.finalCups.length > 0" class="w-full flex flex-wrap gap-6 mt-8">
       <FinalCupCard
         :product="finalCup"
         v-for="finalCup in finalCupStore.finalCups"
         :key="finalCup.id"
       />
     </section>
+    <div v-else class="w-full h-64 flex flex-col items-center justify-center mt-8">
+      <p class="text-gray-500 text-lg">Nenhum produto encontrado.</p>
+    </div>
 
     <div
       v-if="modalStore.createModal === true"

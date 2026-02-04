@@ -33,10 +33,13 @@ onMounted( async() => {
       <SearchBar />
       <NewProductBtn title="+ Novo combo" @click="modalStore.openCreateModal('create')" />
     </section>
-    <section class="w-full flex flex-wrap gap-6 mt-8">
+    <section v-if="comboStore.combos.length > 0" class="w-full flex flex-wrap gap-6 mt-8">
       <ComboCard :product="combo" v-for="combo in comboStore.combos"
                     :key="combo.id" />
     </section>
+    <div v-else class="w-full h-64 flex flex-col items-center justify-center mt-8">
+      <p class="text-gray-500 text-lg">Nenhum combo encontrado.</p>
+    </div>
 
     <div v-if="modalStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">

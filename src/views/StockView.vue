@@ -41,7 +41,13 @@ const headers = [
         <NewProductBtn title="Registrar estoque" @click="modalStore.openCreateModal('create')" />
       </div>
     </section>
-    <ProductsTable class="w-full mt-8" :headers="headers" :products="stockStore.stockItems" />
+    <ProductsTable v-if="stockStore.stockItems.length > 0"
+                   class="w-full mt-8"
+                   :headers="headers"
+                   :products="stockStore.stockItems" />
+    <div v-else class="w-full h-64 flex flex-col items-center justify-center mt-8">
+      <p class="text-gray-500 text-lg">Nenhum item de estoque encontrado.</p>
+    </div>
 
     <div v-if="modalStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
