@@ -16,8 +16,16 @@ const recipientStore = useRecipientStore()
 const modalStore = useModalStore()
 const loadingStore = useLoading()
 
-onMounted(() => {
-  recipientStore.fetchRecipients()
+onMounted(async () => {
+  if (recipientStore.recipients.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await recipientStore.fetchRecipients()
+  } catch (error) {
+    console.error('Error fetching recipients:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 })
 
 const headers = [
@@ -40,7 +48,13 @@ const headers = [
         <NewProductBtn title="+ Novo recipiente" @click="modalStore.openCreateModal('create')" />
       </div>
     </section>
-    <ProductsTable class="w-full mt-8" :headers="headers" :products="recipientStore.recipients" />
+    <ProductsTable v-if="recipientStore.recipients.length > 0"
+                   class="w-full mt-8"
+                   :headers="headers"
+                   :products="recipientStore.recipients" />
+    <div v-else class="w-full h-64 flex flex-col items-center justify-center mt-8">
+      <p class="text-gray-500 text-lg">Nenhum recipiente encontrado.</p>
+    </div>
 
     <div v-if="modalStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
@@ -55,12 +69,11 @@ const headers = [
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
 
-    <div v-if="modalStore.confirmDeleteModal === true"
-         class="fixed inset-0 flex items-center justify-center">
-      <ConfirmDeleteModal @confirm="recipientStore.deleteRecipient(modalStore.itemToDelete)"
-                          @cancel="modalStore.closeConfirmDeleteModal"
-                          class="absolute inset-0 m-auto z-50" />
-      <div class="fixed inset-0 bg-black/50 z-40"></div>
+    <div v-if="modalStore.confirmDeleteModal === true && modalStore.modalContext === 'recipient'">
+      <ConfirmDeleteModal
+        @confirm="recipientStore.deleteRecipient(modalStore.itemToDelete)"
+        @cancel="modalStore.closeConfirmDeleteModal"
+      />
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ChevronLeft, Coffee } from 'lucide-vue-next'
 import FinalCupSelectionCard from '@/components/Orders/final-cup/FinalCupSelectionCard.vue'
@@ -8,11 +8,15 @@ import OrderForm from '@/components/Orders/OrderForm.vue'
 import { useFinalCupStore } from '@/stores/finalCup.js'
 import { useOrderStore } from '@/stores/order.js'
 import { useOrderItemStore } from '@/stores/orderItem.js'
+import { useLoading } from '@/stores/loading.js'
+import 'vue-loading-overlay/dist/css/index.css'
 
+
+const loadingStore = useLoading()
+const finalCupStore = useFinalCupStore()
 const route = useRoute()
 const router = useRouter()
 const selectedCup = ref(null)
-const finalCupStore = useFinalCupStore()
 const orderStore = useOrderStore()
 const orderItemStore = useOrderItemStore()
 
@@ -54,6 +58,18 @@ const handleSubmit = async () => {
   await router.push('/orders')
   await orderStore.fetchOrders()
 }
+
+onMounted(async () => {
+  if (finalCupStore.finalCups.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await finalCupStore.fetchFinalCups()
+  } catch (error) {
+    console.error('Error fetching final cups:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
+})
 </script>
 
 <template>

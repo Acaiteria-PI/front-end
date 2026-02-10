@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted } from 'vue'
 import { ChevronLeft } from 'lucide-vue-next'
 import { useRouter, useRoute } from 'vue-router'
 import CustomCupForm from '@/components/Orders/custom-cup/CustomCupForm.vue'
@@ -8,6 +9,7 @@ import { useOrderStore } from '@/stores/order.js'
 import { useOrderItemStore } from '@/stores/orderItem.js'
 import OrderSummary from '@/components/Orders/custom-cup/CustomCupOrderSummary.vue'
 import SubmitButton from '@/components/SubmitButton.vue'
+import 'vue-loading-overlay/dist/css/index.css'
 
 const orderItemStore = useOrderItemStore()
 const orderStore = useOrderStore()
@@ -22,7 +24,7 @@ const goBack = () => {
   router.push('/orders/create')
 }
 
-const handleSubmit = async () => { //COMENTÁRIOS FEITOS PRA AJUDAR NA COMPREENSÃO (NÃO É CHATGPT)
+const handleSubmit = async () => { //COMENTÁRIOS FEITOS PRA AJUDAR NA COMPREENSÃO
   await customCupStore.createCustomCup(customCupStore.newCustomCup) // Cria o copo pela função da store
   const createdCustomCup = customCupStore.customCups[customCupStore.customCups.length - 1] // Armazena o copo criado (o último do array)
 
@@ -56,24 +58,21 @@ const handleSubmit = async () => { //COMENTÁRIOS FEITOS PRA AJUDAR NA COMPREENS
   await router.push('/orders')
   await orderStore.fetchOrders()
 }
-
 </script>
 
 <template>
   <div class="min-h-combo bg-gray-50 p-6">
     <div class="max-w-4xl mx-auto">
       <div class="mb-6">
-        <button @click="goBack"
-                class="cursor-pointer flex items-center text-gray-600 hover:text-gray-800 mb-4">
+        <button
+          @click="goBack"
+          class="cursor-pointer flex items-center text-gray-600 hover:text-gray-800 mb-4"
+        >
           <ChevronLeft :size="24" />
           <span class="ml-1">Voltar</span>
         </button>
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">
-          Copo Customizado
-        </h1>
-        <p class="text-gray-600">
-          Preencha as informações do pedido
-        </p>
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Copo Customizado</h1>
+        <p class="text-gray-600">Preencha as informações do pedido</p>
       </div>
 
       <div class="space-y-6">

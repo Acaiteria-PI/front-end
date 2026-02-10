@@ -16,11 +16,6 @@ const employeeStore = useEmployeeStore()
 const modalStore = useModalStore()
 const loadingStore = useLoading()
 
-onMounted(() => {
-  employeeStore.fetchEmployees()
-
-})
-
 const headers = [
   { name: 'Nome', value: 'name' },
   { name: 'Email', value: 'email' },
@@ -28,6 +23,18 @@ const headers = [
   { name: 'Estabelecimento', value: 'establishment_data' },
   { name: 'Administrador', value: 'is_management' }
 ]
+
+onMounted(async () => {
+  if (employeeStore.employees.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await employeeStore.fetchEmployees()
+  } catch (error) {
+    console.error('Error fetching employees:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
+})
 </script>
 
 <template>
@@ -41,7 +48,13 @@ const headers = [
         <NewProductBtn title="+ Novo funcionário" @click="modalStore.openCreateModal('create')" />
       </div>
     </section>
-    <ProductsTable class="w-full mt-8" :headers="headers" :products="employeeStore.employees" />
+    <ProductsTable v-if="employeeStore.employees.length > 0"
+                   class="w-full mt-8"
+                   :headers="headers"
+                   :products="employeeStore.employees" />
+    <div v-else class="w-full h-64 flex flex-col items-center justify-center mt-8">
+      <p class="text-gray-500 text-lg">Nenhum funcionário encontrado.</p>
+    </div>
 
     <div v-if="modalStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
@@ -56,12 +69,11 @@ const headers = [
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
 
-    <div v-if="modalStore.confirmDeleteModal === true"
-         class="fixed inset-0 flex items-center justify-center">
-      <ConfirmDeleteModal @confirm="employeeStore.deleteEmployee(modalStore.itemToDelete)"
-                          @cancel="modalStore.closeConfirmDeleteModal"
-                          class="absolute inset-0 m-auto z-50" />
-      <div class="fixed inset-0 bg-black/50 z-40"></div>
+    <div v-if="modalStore.confirmDeleteModal === true && modalStore.modalContext === 'employee'">
+      <ConfirmDeleteModal
+        @confirm="employeeStore.deleteEmployee(modalStore.itemToDelete)"
+        @cancel="modalStore.closeConfirmDeleteModal"
+      />
     </div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { ChefHat, Gift, GlassWater, LogOut, Package, Tag, Users, Menu } from 'lucide-vue-next'
+import { ref, computed } from 'vue'
+import { ChefHat, Gift, GlassWater, LogOut, Package, Tag, Users, Menu, Container, BanknoteArrowUp } from 'lucide-vue-next'
 import SideBarItem from './SideBarItem.vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -19,7 +19,8 @@ const tabs = [
   { name: 'Estoque', icon: Package, route: '/management-menu/stock' },
   { name: 'Produtos', icon: Tag, route: '/management-menu/products' },
   { name: 'Recipientes', icon: GlassWater, route: '/management-menu/recipients' },
-  { name: 'Combos', icon: Gift, route: '/management-menu/combos' }
+  { name: 'Combos', icon: Gift, route: '/management-menu/combos' },
+  { name: 'Financeiro', icon: BanknoteArrowUp, route: '/management-menu/finance' }
 ]
 
 const currentTab = computed(() => {
@@ -30,10 +31,6 @@ const enterTab = (tab) => {
   router.push({ path: tab })
   sidebarOpen.value = false 
 }
-
-onMounted(() => {
-  console.log(currentTab.value, route.path)
-})
 </script>
 
 <template>
@@ -67,7 +64,14 @@ onMounted(() => {
     </ul>
 
     <p class="text-sm text-neutral-500 ml-6">Equipe</p>
-    <div class="ml-4">
+    <ul class="ml-4 flex flex-col gap-4">
+      <SideBarItem
+        name="Fornecedores"
+        :icon="Container"
+        route="/management-menu/suppliers"
+        @click="enterTab('/management-menu/suppliers')"
+        :currentTab="currentTab"
+      />
       <SideBarItem
         name="Funcionários"
         :icon="Users"
@@ -75,7 +79,7 @@ onMounted(() => {
         @click="enterTab('/management-menu/employees')"
         :currentTab="currentTab"
       />
-    </div>
+    </ul>
 
     <div
       class="logout mt-auto mb-6 w-fit py-2 px-2 ml-4 rounded-xl hover:bg-neutral-300 transition-colors"

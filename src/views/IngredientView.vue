@@ -1,5 +1,5 @@
 <script setup>
-import {ref, watch} from 'vue'
+import {onMounted, ref, watch} from 'vue'
 import ProductsTable from '@/components/management-menu/ProductsTable.vue'
 import SectionTitle from '@/components/management-menu/SectionTitle.vue'
 import SearchBar from '@/components/management-menu/SearchBar.vue'
@@ -8,7 +8,10 @@ import ConfirmDeleteModal from '@/components/management-menu/ConfirmDeleteModal.
 import NewProductBtn from '@/components/management-menu/NewProductBtn.vue'
 import {useIngredientStore} from '@/stores/ingredient.js'
 import {useModalStore} from '@/stores/modal.js'
+import 'vue-loading-overlay/dist/css/index.css'
+import { useLoading } from '@/stores/loading.js'
 
+const loadingStore = useLoading()
 const ingredientStore = useIngredientStore()
 const modalStore = useModalStore()
 
@@ -28,6 +31,19 @@ watch(termo, (value) => {
   ingredientStore.fetchIngredients(value)
   }, 400)
   })
+
+onMounted(async () => {
+  if (ingredientStore.ingredients.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    console.log('Fetching ingredients on mount', ingredientStore.ingredients.length)
+    await ingredientStore.fetchIngredients()
+  } catch (error) {
+    console.error('Error fetching ingredients:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
+})
 </script>
 
 <template>
@@ -39,7 +55,13 @@ watch(termo, (value) => {
         <NewProductBtn title="+ Novo ingrediente" @click="modalStore.openCreateModal('create')" />
       </div>
     </section>
-    <ProductsTable class="w-full mt-8" :headers="headers" :products="ingredientStore.ingredients" />
+    <ProductsTable v-if="ingredientStore.ingredients.length > 0"
+                   class="w-full mt-8"
+                   :headers="headers"
+                   :products="ingredientStore.ingredients" />
+    <div v-else class="w-full h-64 flex flex-col items-center justify-center mt-8">
+      <p class="text-gray-500 text-lg">Nenhum ingrediente encontrado.</p>
+    </div>
 
     <div v-if="modalStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
@@ -54,12 +76,11 @@ watch(termo, (value) => {
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
 
-    <div v-if="modalStore.confirmDeleteModal === true"
-         class="fixed inset-0 flex items-center justify-center">
-      <ConfirmDeleteModal @confirm="ingredientStore.deleteIngredient(modalStore.itemToDelete)"
-                          @cancel="modalStore.closeConfirmDeleteModal"
-                          class="absolute inset-0 m-auto z-50" />
-      <div class="fixed inset-0 bg-black/50 z-40"></div>
+    <div v-if="modalStore.confirmDeleteModal === true && modalStore.modalContext === 'ingredient'">
+      <ConfirmDeleteModal
+        @confirm="ingredientStore.deleteIngredient(modalStore.itemToDelete)"
+        @cancel="modalStore.closeConfirmDeleteModal"
+      />
     </div>
   </div>
 </template>

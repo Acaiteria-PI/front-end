@@ -45,9 +45,29 @@ const router = createRouter({
           component: () => import('@/views/CombosView.vue')
         },
         {
+          path: 'finance',
+          name: 'finance',
+          component: () => import('@/views/FinanceView.vue')
+        },
+        {
           path: 'employees',
           name: 'employees',
           component: () => import('@/views/EmployeeView.vue')
+        },
+        {
+          path: 'suppliers',
+          name: 'suppliers',
+          component: () => import('@/views/SuppliersView.vue')
+        },
+        {
+          path: 'suppliers/new',
+          name: 'supplier-create',
+          component: () => import('@/views/RegisterSupplierView.vue')
+        },
+        {
+          path: 'suppliers/:id/edit',
+          name: 'supplier-edit',
+          component: () => import('@/views/RegisterSupplierView.vue')
         }
       ]
     },
@@ -82,9 +102,9 @@ const router = createRouter({
       component: () => import('@/views/PaymentMethodView.vue')
     },
     {
-      path: '/orders/payment-method/pix/:orderId',
-      name: 'pix-payment',
-      component: () => import('@/views/PixPaymentView.vue')
+      path: '/orders/success/:orderId',
+      name: 'order-success',
+      component: () => import('@/views/OrderSuccessView.vue')
     }
   ]
 })

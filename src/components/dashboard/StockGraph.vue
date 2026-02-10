@@ -3,23 +3,29 @@ import { ref, onMounted } from 'vue'
 import { BarChart } from 'vue-chart-3'
 import { Chart, registerables } from 'chart.js'
 import { useStockStore } from '@/stores/stock.js'
+import { useLoading } from '@/stores/loading.js'
+import 'vue-loading-overlay/dist/css/index.css'
+import { lowStockThresholdGrams, mediumStockThresholdGrams } from '@/constants/lowStockTreshold.js'
 
 Chart.register(...registerables)
 
 const stockStore = useStockStore()
+const loadingStore = useLoading()
 
 const chartData = ref({
   type: 'bar',
   data: {
     labels: [],
-    datasets: [{
-      label: 'Qtd em estoque',
-      data: [],
-      backgroundColor: '',
-      borderRadius: 8,
-      barThickness: 40
-    }]
-  }
+    datasets: [
+      {
+        label: 'Qtd em estoque (g)',
+        data: [],
+        backgroundColor: '',
+        borderRadius: 8,
+        barThickness: 40,
+      },
+    ],
+  },
 })
 const chartOptions = {
   indexAxis: 'y',
@@ -27,21 +33,43 @@ const chartOptions = {
   maintainAspectRatio: false,
   plugins: {
     legend: {
-      display: true
-    }
-  }
+      display: true,
+    },
+  },
 }
 
-
 onMounted(async () => {
-  await stockStore.fetchLowStock()
-  chartData.value.data.labels = stockStore.lowStockItems.map(item => `${item.ingredient_data.name} (${item.ingredient_data.unit_of_measure}) - Lote ${item.batch}`)
-  chartData.value.data.datasets[0].data = stockStore.lowStockItems.map(item => item.quantity)
-  chartData.value.data.datasets[0].backgroundColor = stockStore.lowStockItems.map(item => {
-    if (item.quantity < 11) return '#ef4444'
-    if (item.quantity < 13) return '#f59e0b'
-    return '#10b981'
-  })
+  try {
+    if (stockStore.lowStockItems.length === 0) {
+      loadingStore.isLoading = true
+      await stockStore.fetchLowStock()
+    }
+
+    const labels = []
+    const data = []
+    const colors = []
+
+    for (const item of stockStore.lowStockItems) {
+      labels.push(
+        `${item.ingredient_data.name} (${item.ingredient_data.unit_of_measure}) - Lote ${item.batch}`,
+      )
+
+      data.push(item.quantity)
+
+      if (item.quantity < lowStockThresholdGrams) colors.push('#ef4444')
+      else if (item.quantity < mediumStockThresholdGrams && item.quantity >= lowStockThresholdGrams)
+        colors.push('#f59e0b')
+      else colors.push('#10b981')
+
+      chartData.value.data.labels = labels
+      chartData.value.data.datasets[0].data = data
+      chartData.value.data.datasets[0].backgroundColor = colors
+    }
+  } catch (error) {
+    console.error('Error fetching low stock items:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 })
 </script>
 
@@ -54,5 +82,4 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

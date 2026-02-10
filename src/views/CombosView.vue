@@ -17,10 +17,16 @@ const comboStore = useComboStore()
 const loadingStore = useLoading()
 const modalStore = useModalStore()
 
-onMounted( async() => {
-  loadingStore.isLoading = true
-  await comboStore.fetchCombos()
-  loadingStore.isLoading = false
+onMounted(async () => {
+  if (comboStore.combos.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await comboStore.fetchCombos()
+  } catch (error) {
+    console.error('Error fetching combos:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 })
 </script>
 
@@ -33,10 +39,13 @@ onMounted( async() => {
       <SearchBar />
       <NewProductBtn title="+ Novo combo" @click="modalStore.openCreateModal('create')" />
     </section>
-    <section class="w-full flex flex-wrap gap-6 mt-8">
+    <section v-if="comboStore.combos.length > 0" class="w-full flex flex-wrap gap-6 mt-8">
       <ComboCard :product="combo" v-for="combo in comboStore.combos"
                     :key="combo.id" />
     </section>
+    <div v-else class="w-full h-64 flex flex-col items-center justify-center mt-8">
+      <p class="text-gray-500 text-lg">Nenhum combo encontrado.</p>
+    </div>
 
     <div v-if="modalStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
@@ -51,12 +60,11 @@ onMounted( async() => {
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
 
-    <div v-if="modalStore.confirmDeleteModal === true"
-         class="fixed inset-0 flex items-center justify-center">
-      <ConfirmDeleteModal @confirm="comboStore.deleteCombo(modalStore.itemToDelete)"
-                          @cancel="modalStore.closeConfirmDeleteModal"
-                          class="absolute inset-0 m-auto z-50" />
-      <div class="fixed inset-0 bg-black/50 z-40"></div>
+    <div v-if="modalStore.confirmDeleteModal === true && modalStore.modalContext === 'combo'">
+      <ConfirmDeleteModal
+        @confirm="comboStore.deleteCombo(modalStore.itemToDelete)"
+        @cancel="modalStore.closeConfirmDeleteModal"
+      />
     </div>
   </main>
 </template>

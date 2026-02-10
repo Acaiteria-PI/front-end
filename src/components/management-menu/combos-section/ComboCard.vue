@@ -21,7 +21,7 @@ const modalStore = useModalStore()
 
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-4 text-sm text-gray-600">
-        <span class="font-medium text-gray-900 text-base">R${{ product.price.replace('.', ',') }}</span>
+        <span class="font-medium text-gray-900 text-base">R${{ parseFloat(product.price).toFixed(2).replace('.', ',') }}</span>
         <span>{{ comboStore.getFinalCupsNames(product) }}</span>
       </div>
 
@@ -30,7 +30,7 @@ const modalStore = useModalStore()
           <PencilLine :size="20" @click="modalStore.openCreateModal('edit', product)" />
         </div>
         <div class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
-          <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id)" />
+          <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id, 'combo')" />
         </div>
       </div>
     </div>

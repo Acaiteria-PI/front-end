@@ -1,6 +1,5 @@
 <script setup>
 import {PencilLine, Trash} from 'lucide-vue-next'
-import {useStockStore} from '@/stores/stock.js'
 import {useModalStore} from '@/stores/modal.js'
 
 const props = defineProps({
@@ -16,10 +15,13 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: true
+  },
+  deleteContext: {
+    type: String,
+    required: true
   }
 })
 
-const stockStore = useStockStore()
 const modalStore = useModalStore()
 
 const formatField = (product, value) => {
@@ -32,12 +34,13 @@ const formatField = (product, value) => {
     hour: '2-digit',
     minute: '2-digit'
   });
-  else if (value === 'price') return `R$ ${product.price.replace('.', ',')}`
-  else if (value === 'batch_price') return `R$ ${product.batch_price.replace('.', ',')}`
-  else if (value === 'quantity') return product.quantity.replace('.', ',')
+  else if (value === 'price') return `R$ ${parseFloat(product.price).toFixed(2).replace('.', ',')}`
+  else if (value === 'batch_price') return `R$ ${parseFloat(product.batch_price).toFixed(2).replace('.', ',')}`
+  else if (value === 'quantity') return parseFloat(product.quantity).toFixed(2).replace('.', ',')
   else if (value === 'establishment_data') return product.establishment_data?.name || 'N/A'
   else if (value === 'is_management') return product.is_management ? 'Sim' : 'Não'
   else if (value === 'responsible_person_data') return product.responsible_person_data?.name || 'N/A'
+  else if (value === 'supplier_data') return product.supplier_data?.legal_name || 'N/A'
   return product[value]
 }
 </script>
@@ -45,8 +48,7 @@ const formatField = (product, value) => {
 <template>
 
   <div class="mt-6">
-
-
+    <!-- MOBILE TABLE -->
     <div class="md:hidden space-y-4">
       <div
         v-for="product in products"
@@ -69,14 +71,14 @@ const formatField = (product, value) => {
             <PencilLine @click="modalStore.openCreateModal('edit', product)" :size="20"/>
           </div>
           <div v-if="props.canDelete === true" class="cursor-pointer hover:bg-gray-200 rounded-lg p-1 transition-all">
-            <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id)"/>
+            <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id, props.deleteContext)"/>
           </div>
         </div>
       </div>
 
     </div>
 
-
+    <!-- DESKTOP TABLE -->
     <div class="w-full overflow-x-auto hidden md:block">
       <table
         class="border border-neutral-300 rounded-xl border-separate border-spacing-0 table-fixed w-full min-w-[600px]">
@@ -113,7 +115,7 @@ const formatField = (product, value) => {
                 <PencilLine @click="modalStore.openCreateModal('edit', product)" :size="20"/>
               </div>
               <div v-if="props.canDelete === true" class="cursor-pointer hover:bg-gray-300 rounded-lg p-1 transition-all">
-                <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id)"/>
+                <Trash :size="20" @click="modalStore.openConfirmDeleteModal(product.id, props.deleteContext)"/>
               </div>
             </div>
           </td>

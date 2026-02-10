@@ -8,23 +8,31 @@ import RegisterStockModal from '@/components/management-menu/RegisterStockModal.
 import ConfirmDeleteModal from '@/components/management-menu/ConfirmDeleteModal.vue'
 import 'vue-loading-overlay/dist/css/index.css'
 import Loading from 'vue-loading-overlay'
-import { useStockStore } from '@/stores/stock'
 import { useLoading } from '@/stores/loading.js'
+import { useStockStore } from '@/stores/stock'
 import { useModalStore } from '@/stores/modal.js'
 
 const stockStore = useStockStore()
 const loadingStore = useLoading()
 const modalStore = useModalStore()
 
-onMounted(() => {
-  stockStore.fetchStock()
+onMounted(async () => {
+  if (stockStore.stockItems.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await stockStore.fetchStock()
+  } catch (error) {
+    console.error('Error fetching stock:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
 })
 
 const headers = [
   { name: 'Ingrediente', value: 'ingredient_data' },
   { name: 'Quantidade (g)', value: 'quantity' },
   { name: 'Lote', value: 'batch' },
-  { name: 'Fornecedor', value: 'supplier' },
+  { name: 'Fornecedor', value: 'supplier_data' },
   { name: 'Preço (lote)', value: 'batch_price' },
   { name: 'Validade', value: 'expiration_date' }
 ]
@@ -41,7 +49,13 @@ const headers = [
         <NewProductBtn title="Registrar estoque" @click="modalStore.openCreateModal('create')" />
       </div>
     </section>
-    <ProductsTable class="w-full mt-8" :headers="headers" :products="stockStore.stockItems" />
+    <ProductsTable v-if="stockStore.stockItems.length > 0"
+                   class="w-full mt-8"
+                   :headers="headers"
+                   :products="stockStore.stockItems" />
+    <div v-else class="w-full h-64 flex flex-col items-center justify-center mt-8">
+      <p class="text-gray-500 text-lg">Nenhum item de estoque encontrado.</p>
+    </div>
 
     <div v-if="modalStore.createModal === true"
          class="fixed inset-0 flex items-center justify-center">
@@ -55,12 +69,11 @@ const headers = [
       <div class="fixed inset-0 bg-black/50 z-40"></div>
     </div>
 
-    <div v-if="modalStore.confirmDeleteModal === true"
-         class="fixed inset-0 flex items-center justify-center">
-      <ConfirmDeleteModal @confirm="stockStore.deleteStockItem(modalStore.itemToDelete)"
-                          @cancel="modalStore.closeConfirmDeleteModal"
-                          class="absolute inset-0 m-auto z-50" />
-      <div class="fixed inset-0 bg-black/50 z-40"></div>
+    <div v-if="modalStore.confirmDeleteModal === true && modalStore.modalContext === 'stock'">
+      <ConfirmDeleteModal
+        @confirm="stockStore.deleteStockItem(modalStore.itemToDelete)"
+        @cancel="modalStore.closeConfirmDeleteModal"
+      />
     </div>
   </div>
 </template>

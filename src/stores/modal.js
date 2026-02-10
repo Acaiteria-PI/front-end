@@ -7,6 +7,7 @@ export const useModalStore = defineStore('modal', () => {
   const createModal = ref(false)
   const confirmDeleteModal = ref(false)
   const modalMode = ref()
+  const modalContext = ref('')
 
   const openCreateModal = (mode, item) => {
     modalMode.value = mode || 'create'
@@ -18,13 +19,15 @@ export const useModalStore = defineStore('modal', () => {
     createModal.value = false
   }
 
-  const openConfirmDeleteModal = (id) => {
+  const openConfirmDeleteModal = (id, context) => {
     itemToDelete.value = id
+    modalContext.value = context
     confirmDeleteModal.value = true
   }
 
   const closeConfirmDeleteModal = () => {
     confirmDeleteModal.value = false
+    modalContext.value = ''
   }
 
 watch(
@@ -45,5 +48,6 @@ watch(
     openConfirmDeleteModal,
     closeConfirmDeleteModal,
     modalMode,
+    modalContext
   }
 })

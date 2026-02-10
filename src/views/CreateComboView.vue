@@ -1,15 +1,18 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ChevronLeft, Coffee } from 'lucide-vue-next'
-
 import ComboSelectionCard from '@/components/Orders/combo/ComboSelectionCard.vue'
 import ComboOrderSummary from '@/components/Orders/combo/ComboOrderSummary.vue'
 import OrderForm from '@/components/Orders/OrderForm.vue'
 import { useOrderStore } from '@/stores/order.js'
 import { useOrderItemStore } from '@/stores/orderItem.js'
 import { useComboStore } from '@/stores/combo.js'
+import { useLoading } from '@/stores/loading.js'
+import 'vue-loading-overlay/dist/css/index.css'
 
+
+const loadingStore = useLoading()
 const route = useRoute()
 const router = useRouter()
 const selectedCombo = ref(null)
@@ -54,6 +57,18 @@ const handleSubmit = async () => {
   await router.push('/orders')
   await orderStore.fetchOrders()
 }
+
+onMounted(async () => {
+  if (comboStore.combos.length > 0) return
+  try {
+    loadingStore.isLoading = true
+    await comboStore.fetchCombos()
+  } catch (error) {
+    console.error('Error fetching combos:', error)
+  } finally {
+    loadingStore.isLoading = false
+  }
+})
 </script>
 
 <template>
