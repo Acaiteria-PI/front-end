@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { ChefHat, Gift, GlassWater, LogOut, Package, Tag, Users, Menu, Container } from 'lucide-vue-next'
+import { ref, computed } from 'vue'
+import { ChefHat, Gift, GlassWater, LogOut, Package, Tag, Users, Menu, Container, BanknoteArrowUp } from 'lucide-vue-next'
 import SideBarItem from './SideBarItem.vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -19,7 +19,8 @@ const tabs = [
   { name: 'Estoque', icon: Package, route: '/management-menu/stock' },
   { name: 'Produtos', icon: Tag, route: '/management-menu/products' },
   { name: 'Recipientes', icon: GlassWater, route: '/management-menu/recipients' },
-  { name: 'Combos', icon: Gift, route: '/management-menu/combos' }
+  { name: 'Combos', icon: Gift, route: '/management-menu/combos' },
+  { name: 'Financeiro', icon: BanknoteArrowUp, route: '/management-menu/finance' }
 ]
 
 const currentTab = computed(() => {
