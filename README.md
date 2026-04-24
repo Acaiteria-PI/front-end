@@ -97,8 +97,8 @@ import SomeComponent from '@/components/SomeComponent.vue'
 
 | Documento                                   | Conteúdo                                                          |
 | ------------------------------------------- | ----------------------------------------------------------------- |
-| [Guia do Usuário](./client-guide.md)        | Guia não técnico explicando cada funcionalidade passo a passo     |
-| [Arquitetura](./architecture.md)            | Estrutura de pastas, roteamento, padrões de design, composables   |
-| [Autenticação](./authentication.md)         | Fluxo JWT, refresh de token, guards de rota, ciclo login/logout   |
-| [API & Estado](./api-and-state.md)          | Todos os serviços de API e stores Pinia documentados lado a lado  |
-| [Componentes](./components.md)              | Catálogo completo de componentes com props, eventos e uso         |
+| [Guia do Usuário](./docs/portuguese/client-guide.md)        | Guia não técnico explicando cada funcionalidade passo a passo     |
+| [Arquitetura](./docs/portuguese/architecture.md)            | Estrutura de pastas, roteamento, padrões de design, composables   |
+| [Autenticação](./docs/portuguese/authentication.md)         | Fluxo JWT, refresh de token, guards de rota, ciclo login/logout   |
+| [API & Estado](./docs/portuguese/api-and-state.md)          | Todos os serviços de API e stores Pinia documentados lado a lado  |
+| [Componentes](./docs/portuguese/components.md)              | Catálogo completo de componentes com props, eventos e uso         |
